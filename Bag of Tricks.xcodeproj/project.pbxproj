@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866921DD0B5400B9A313 /* MainViewController.swift */; };
+		F3A9866C21DD0C9700B9A313 /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */; };
+		F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866D21DD10F900B9A313 /* Settings.swift */; };
 		F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0508621DD03350087C1F7 /* AppDelegate.swift */; };
 		F3E0508921DD03350087C1F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0508821DD03350087C1F7 /* ViewController.swift */; };
 		F3E0508C21DD03350087C1F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508A21DD03350087C1F7 /* Main.storyboard */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F3A9866921DD0B5400B9A313 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
+		F3A9866D21DD10F900B9A313 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F3E0508321DD03350087C1F7 /* Bag of Tricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bag of Tricks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3E0508621DD03350087C1F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3E0508821DD03350087C1F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +95,8 @@
 			children = (
 				F3E0508621DD03350087C1F7 /* AppDelegate.swift */,
 				F3E0508821DD03350087C1F7 /* ViewController.swift */,
+				F3A9866921DD0B5400B9A313 /* MainViewController.swift */,
+				F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -102,6 +110,7 @@
 				F3E0509E21DD03B30087C1F7 /* Opponent.swift */,
 				F3E050A221DD03B30087C1F7 /* Player.swift */,
 				F3E0509D21DD03B30087C1F7 /* Trick.swift */,
+				F3A9866D21DD10F900B9A313 /* Settings.swift */,
 			);
 			name = Model;
 			path = "New Group";
@@ -183,8 +192,11 @@
 				F3E050A721DD03B30087C1F7 /* DeckOfCards.swift in Sources */,
 				F3E050A521DD03B30087C1F7 /* Card.swift in Sources */,
 				F3E050A821DD03B30087C1F7 /* Player.swift in Sources */,
+				F3A9866C21DD0C9700B9A313 /* PreferenceViewController.swift in Sources */,
 				F3E050A321DD03B30087C1F7 /* Trick.swift in Sources */,
+				F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */,
 				F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */,
+				F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */,
 				F3E050A621DD03B30087C1F7 /* BagOfTricks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
