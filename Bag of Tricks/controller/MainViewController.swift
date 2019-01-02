@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UpdateSettings {
+class MainViewController: UIViewController {
     
     func updateSettings(theseSettings: Settings) {
         var settings = theseSettings
@@ -43,7 +43,13 @@ class MainViewController: UIViewController, UpdateSettings {
             
             let destination = segue.destination as! PreferenceViewController
             
-            destination.delete(self)
+//            destination.delegate = self
+        }
+        
+        else if segue.identifier == "goToRules" {
+            print("going to the rules")
+            
+            let destination = segue.destination as! RuleViewController
         }
     }
     
@@ -53,10 +59,11 @@ class MainViewController: UIViewController, UpdateSettings {
         }
         else if sender.tag == 2 {
             // rules button pressed
+            performSegue(withIdentifier: "goToRules", sender: self)
         }
         else if sender.tag == 3 {
             // preferences button pressed
-            performSegue(withIdentifier: "goToPreferenes", sender: self)
+            performSegue(withIdentifier: "goToSettings", sender: self)
         }
     }
     

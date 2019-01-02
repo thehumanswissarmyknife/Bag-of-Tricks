@@ -14,8 +14,7 @@ protocol UpdateSettings {
 
 class PreferenceViewController: UIViewController {
     
-    var delegate : UpdateSettings?
-    
+   
     var mySettings = Settings()
 
     override func viewDidLoad() {
@@ -26,9 +25,6 @@ class PreferenceViewController: UIViewController {
     
     @IBAction func buttonPressed(_ sender: UIButton) {
 
-        if (delegate != nil) {
-            delegate?.updateSettings(theseSettings: mySettings)
-        }
         self.dismiss(animated: true, completion: nil)
     }
     
