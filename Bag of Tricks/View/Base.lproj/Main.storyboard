@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fc7-Kb-hQI">
     <device id="ipad11_0rounded" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -166,6 +166,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kR2-OK-jHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="792.964824120603" y="661.87050359712237"/>
+        </scene>
+        <!--Game View Controller-->
+        <scene sceneID="yhl-js-mgk">
+            <objects>
+                <viewController id="fc7-Kb-hQI" customClass="GameViewController" customModule="Bag_of_Tricks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CXl-mE-ZoZ">
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX">
+                                <rect key="frame" x="0.0" y="590" width="1194" height="244"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OS1-CC-c6L">
+                                        <rect key="frame" x="8" y="8" width="1178" height="220"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.088409516338748842" green="0.26333792098445596" blue="0.065433664379814391" alpha="0.21908010563380281" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="my Cards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dow-7e-QnY">
+                                <rect key="frame" x="514" y="533" width="167" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="41"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="KpK-VM-dfX" secondAttribute="bottom" id="8sW-bb-ayR"/>
+                            <constraint firstItem="KpK-VM-dfX" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="LQH-D1-LV0"/>
+                            <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="566" id="Nep-eb-ue3"/>
+                            <constraint firstItem="KpK-VM-dfX" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="TKh-ac-EUY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="TjU-yO-tFX"/>
+                    </view>
+                    <connections>
+                        <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DpY-fD-3YL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="792.964824120603" y="1380.5755395683454"/>
         </scene>
     </scenes>
     <resources>
