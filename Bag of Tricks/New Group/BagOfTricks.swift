@@ -13,6 +13,7 @@ class BagOfTricks {
     var tricksPlayed : Int = 0
     var players : [Player]
     let trump : String
+    var floppedTrumpCard : Card?
     let cardDeck : DeckOfCards
     
     init (theseManyTricks : Int, thisTrump : String, thesePlayers : [Player]) {
@@ -66,8 +67,7 @@ class BagOfTricks {
         
         for _ in 0..<players.count {
             if thisWinningPlayer !== players[0] {
-                players.append(players[0])
-                players.removeFirst()
+                players.append(players.removeFirst())
             }
             else {
                 break
@@ -115,6 +115,7 @@ class BagOfTricks {
             }
         }
         
+        floppedTrumpCard = cardDeck.dealCard()
         tricksPlayed += 1
         
         // print the delat cards to the console

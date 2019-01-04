@@ -130,24 +130,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rules" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hga-My-lJg">
-                                <rect key="frame" x="529" y="68" width="137" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="62"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1. The game is played in rounds: 20 for 3 players, 15 for 4, 12 for 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gr4-bG-XuE">
                                 <rect key="frame" x="78" y="152" width="1005" height="549"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTe-W3-b8U">
-                                <rect key="frame" x="510" y="709" width="140" height="54"/>
+                                <rect key="frame" x="529" y="709" width="137" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="36"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
                                 <state key="normal" title="Go back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -155,6 +148,13 @@
                                     <action selector="buttonPressed:" destination="NWI-xm-jrp" eventType="touchUpInside" id="WnK-th-t0U"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rules" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hga-My-lJg">
+                                <rect key="frame" x="539" y="24" width="117" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="50"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="bfp-cN-o9k"/>
@@ -175,37 +175,204 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k3F-D8-MJV" userLabel="parkingLot">
+                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Bl-2Q-2xb" userLabel="modalView">
+                                        <rect key="frame" x="0.0" y="57" width="1194" height="531"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="NameBG" translatesAutoresizingMaskIntoConstraints="NO" id="hbk-7x-Cqx">
+                                                <rect key="frame" x="275" y="157" width="644" height="172"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WN6-qQ-rcr">
+                                                <rect key="frame" x="464" y="324" width="267" height="62"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
+                                                <state key="normal" title="PLAY GAME" backgroundImage="btnPlayGame">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="btnPlayGamePressed:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="75H-kq-ODI"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NAME:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="om0-B6-Ue9">
+                                                <rect key="frame" x="315" y="185" width="110" height="39"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PLAYERS:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ge1-OU-JJ1">
+                                                <rect key="frame" x="315" y="246" width="149" height="39"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Jr-0f-W6I">
+                                                <rect key="frame" x="500" y="250" width="41" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
+                                                <state key="normal" title="3">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S8J-tP-iYm">
+                                                <rect key="frame" x="444" y="181" width="377" height="43"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" textContentType="name"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.71313804098481903" green="0.53838891530425781" blue="0.92302865932642486" alpha="0.77627090669014087" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BackGround" translatesAutoresizingMaskIntoConstraints="NO" id="pll-UQ-YrW">
+                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdC-du-8nJ" userLabel="TrumpImage">
+                                <rect key="frame" x="102" y="551" width="188" height="278"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX">
                                 <rect key="frame" x="0.0" y="590" width="1194" height="244"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="YourCardArea" translatesAutoresizingMaskIntoConstraints="NO" id="Vrt-qV-lln">
+                                        <rect key="frame" x="0.0" y="-44" width="1194" height="288"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OS1-CC-c6L">
-                                        <rect key="frame" x="8" y="8" width="1178" height="220"/>
+                                        <rect key="frame" x="8" y="12" width="1178" height="220"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.088409516338748842" green="0.26333792098445596" blue="0.065433664379814391" alpha="0.21908010563380281" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="my Cards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dow-7e-QnY">
-                                <rect key="frame" x="514" y="533" width="167" height="49"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8b-Jm-9JS" userLabel="CardArea">
+                                <rect key="frame" x="222" y="165" width="750" height="320"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TopGraphic" translatesAutoresizingMaskIntoConstraints="NO" id="5qc-o3-ibX">
+                                <rect key="frame" x="0.0" y="0.0" width="1194" height="59"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="41"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR CARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-Pu-Oiq">
+                                <rect key="frame" x="499" y="551" width="196" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trick x / 15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkI-UU-UnW">
+                                <rect key="frame" x="444" y="12" width="307" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ezW-kp-hec">
+                                <rect key="frame" x="978" y="60" width="196" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fO0-Zw-Nah">
+                                <rect key="frame" x="731" y="60" width="196" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwr-1W-qSg">
+                                <rect key="frame" x="487" y="60" width="196" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOy-yS-Jos">
+                                <rect key="frame" x="237" y="60" width="196" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkg-mO-j4B">
+                                <rect key="frame" x="46" y="60" width="196" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgm-Jd-6Wa">
+                                <rect key="frame" x="955" y="67" width="20" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YBD-0m-LCj">
+                                <rect key="frame" x="709" y="67" width="20" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-6Q-7T7">
+                                <rect key="frame" x="465" y="67" width="20" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-vi-CwX">
+                                <rect key="frame" x="216" y="67" width="20" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DealerCard" translatesAutoresizingMaskIntoConstraints="NO" id="vag-9A-MG0">
+                                <rect key="frame" x="24" y="67" width="20" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trump" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSE-tY-DjA">
+                                <rect key="frame" x="0.0" y="551" width="103" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="v8b-Jm-9JS" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" constant="222" id="79Z-PV-htf"/>
                             <constraint firstAttribute="bottom" secondItem="KpK-VM-dfX" secondAttribute="bottom" id="8sW-bb-ayR"/>
+                            <constraint firstItem="v8b-Jm-9JS" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="141" id="K13-0Q-g8V"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="LQH-D1-LV0"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="566" id="Nep-eb-ue3"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="TKh-ac-EUY"/>
+                            <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="v8b-Jm-9JS" secondAttribute="bottom" constant="105" id="nhn-PA-FxH"/>
+                            <constraint firstItem="TjU-yO-tFX" firstAttribute="trailing" secondItem="v8b-Jm-9JS" secondAttribute="trailing" constant="222" id="u60-Lc-kGQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TjU-yO-tFX"/>
                     </view>
                     <connections>
+                        <outlet property="ivDealerCardPlayerFour" destination="bgm-Jd-6Wa" id="KDn-rZ-u5H"/>
+                        <outlet property="ivDealerCardPlayerOne" destination="LI3-vi-CwX" id="8yF-VT-Zw9"/>
+                        <outlet property="ivDealerCardPlayerThree" destination="YBD-0m-LCj" id="9pt-JW-Rj8"/>
+                        <outlet property="ivDealerCardPlayerTwo" destination="tFq-6Q-7T7" id="2VG-JO-R8t"/>
+                        <outlet property="ivDealerCardPlayerYou" destination="vag-9A-MG0" id="B2P-q2-rOf"/>
+                        <outlet property="ivTrumpCard" destination="IdC-du-8nJ" id="gCf-Bo-pGp"/>
+                        <outlet property="labelPlayerFour" destination="ezW-kp-hec" id="Nhb-m6-9BV"/>
+                        <outlet property="labelPlayerOne" destination="bOy-yS-Jos" id="tIu-fY-IVi"/>
+                        <outlet property="labelPlayerThree" destination="fO0-Zw-Nah" id="w3x-nx-7Ac"/>
+                        <outlet property="labelPlayerTwo" destination="uwr-1W-qSg" id="Rlt-nQ-tc1"/>
+                        <outlet property="labelPlayerYou" destination="rkg-mO-j4B" id="Kqs-L8-TIh"/>
+                        <outlet property="labelTricksPlayed" destination="TkI-UU-UnW" id="CpN-E7-vxb"/>
+                        <outlet property="tfName" destination="S8J-tP-iYm" id="83r-Kg-fhj"/>
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
+                        <outlet property="vModalView" destination="3Bl-2Q-2xb" id="YFw-dC-Z7c"/>
+                        <outlet property="vParkingLot" destination="k3F-D8-MJV" id="4r3-1n-Rlq"/>
+                        <outlet property="vRootView" destination="CXl-mE-ZoZ" id="aKS-bb-3Cj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DpY-fD-3YL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -214,7 +381,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BackGround" width="1366" height="1024"/>
+        <image name="DealerCard" width="18" height="26"/>
+        <image name="NameBG" width="644" height="172"/>
+        <image name="TopGraphic" width="1368" height="73"/>
+        <image name="YourCardArea" width="1368" height="352"/>
         <image name="btnPlay" width="705" height="216.27272033691406"/>
+        <image name="btnPlayGame" width="267" height="62"/>
         <image name="btnRules" width="705" height="216"/>
         <image name="btnSettings" width="705" height="216"/>
         <image name="iPad" width="2731.9091796875" height="2047.9090576171875"/>

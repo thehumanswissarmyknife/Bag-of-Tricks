@@ -8,7 +8,13 @@
 
 import Foundation
 
+protocol DisplayCardsDelegate {
+    func displayPlayerCards(theseCards : [Card])
+}
+
 class Player {
+    
+    var delegate : DisplayCardsDelegate?
     let name : String
     let level : String
     
@@ -111,8 +117,7 @@ class Player {
     
     // method called to play a card
     func playCard(thisTrump : String, theseCards : [Card]) -> Card {
-        
-        
+
         // if card array is empty:
         // else if card array see, if you have the color || if you have a 14
         // decide how many tricks are possible vs tricksPlanned - tricksWon
@@ -166,12 +171,6 @@ class Player {
             }
             
         }
-        
-        
-        
-        
-        
-        
     }
     
     func initOpponents(thesePlayers : [Player]) {
