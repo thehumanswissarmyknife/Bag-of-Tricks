@@ -32,16 +32,23 @@ class DeckOfCards {
                 shuffledCards.append(card)
             }
         }
+        
+        // shuffle those cards good!
+        shuffledCards.shuffle()
+        shuffledCards.shuffle()
+        shuffledCards.shuffle()
     }
     
     func dealCard () -> Card {
         // picks a random card, removes it from the deck and returns it
         
-        let randomNumber = Int.random(in: 0..<shuffledCards.count)
-        playedCards.append(shuffledCards[randomNumber])
-        playedCards.last?.playedByPlayer = 0
-        
-        shuffledCards.remove(at: randomNumber)
+        if shuffledCards.count > 0 {
+            playedCards.append(shuffledCards.removeFirst())
+            playedCards.last?.playedByPlayer = 10
+        }
+        else {
+            print("no cards left")
+        }
         return playedCards.last!
     }
     

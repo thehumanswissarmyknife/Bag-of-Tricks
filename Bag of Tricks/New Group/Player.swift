@@ -17,18 +17,20 @@ class Player {
     var delegate : DisplayCardsDelegate?
     let name : String
     let level : String
+    var isHuman = false
     
     var cards = [Card]()
     var playableCards = [Card]()
     var opponents = [Opponent]()
     var suite = ""
     
+    
     var cardsThatShoudlWinTheTrick = [Card]()
     
     // id: 0 < id < 10 for human players, id > 10 for computer players
     let id : Int
     
-    var Score : Int = 0
+    var score : Int = 0
     
     var tricksPlanned : Int = 0
     var tricksWon : Int = 0
@@ -44,7 +46,7 @@ class Player {
         print("player[\(name)].sortCardsToPlay")
         
 //        var tempCards = [Card]()
-        // clear the plazyable cards
+        // clear the playable cards
         playableCards.removeAll()
         for thisCard in cards {
             thisCard.canBePlayed = false
@@ -117,6 +119,8 @@ class Player {
     
     // method called to play a card
     func playCard(thisTrump : String, theseCards : [Card]) -> Card {
+        
+        print("\(name).playCard()")
 
         // if card array is empty:
         // else if card array see, if you have the color || if you have a 14
@@ -124,24 +128,40 @@ class Player {
         // play card = return the card and take it out of both
         
         sortCardsToPlay(thisTrump: thisTrump, cardsPlayed: theseCards)
-        let myTestArry = playableCards
         
-        let cardToPlay = playableCards[Int.random(in: 0..<playableCards.count)]
-        print("player[\(name)].playCard(\(cardToPlay.id))")
-        cardToPlay.playedByPlayer = id
-        cards.remove(at: 0)
+        
+        let playThisCard = playableCards.randomElement()
+        print("player[\(name)].playCard(\(playThisCard!.id))")
+        playThisCard!.playedByPlayer = id
+        
+        
+        
+        for n in 0..<cards.count {
+            var cardInN = cards[n]
+            if cards[n] === playThisCard{
+                cards.remove(at: n)
+            }
+        }
+        return playThisCard!
+        
+    }
+    
+    func playThisCard(thisCardID : String) -> Card{
+        
+        print("\(name).playThisCard(\(thisCardID))")
+        
+        var cardToPlay = cards[0]
+        
+        for n in 0..<cards.count {
+            if cards[n].id == thisCardID {
+                cardToPlay = cards[n]
+                cards.remove(at: n)
+            }
+        }
+        delegate?.displayPlayerCards(theseCards: cards)
         return cardToPlay
-        
     }
-    
-    // returns an array of nicely sorted and highlighted cards to display
-    func displayCards() -> [String]{
-        print("player[\(name)].displayCards")
-        var displayCards = [""]
-        
-        return displayCards
-    }
-    
+
     func updateOppponents (playedCards : [Card]) {
          // after a trick is played the players can see which player played which cards to see who does not have which color any more
         
@@ -178,5 +198,28 @@ class Player {
         for thisPlayer in thesePlayers {
             opponents.append(Opponent(thisId: thisPlayer.id))
         }
+    }
+    
+    func calculateTricksToWin (thisTrump : String) -> Int {
+        tricksPlanned = 0
+        var trumpCards = [Card]()
+        var wizards = [Card]()
+        var likelyWinners = [Card]()
+        
+        for thisCard in cards {
+            if thisCard.value == 14 {
+                wizards.append(thisCard)
+            }
+            else if thisCard.color == thisTrump {
+                // TODO: low trump cards should not be counted unless there are many cards in play
+                trumpCards.append(thisCard)
+            }
+            else if thisCard.value > 11 {
+                likelyWinners.append(thisCard)
+            }
+        }
+        tricksPlanned = wizards.count + trumpCards.count + likelyWinners.count
+        
+        return tricksPlanned
     }
 }
