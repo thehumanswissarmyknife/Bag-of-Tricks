@@ -10,19 +10,17 @@ import UIKit
 
 class GameViewController: UIViewController {
     
+    let CARDWIDTHINPLAYAREA =  140
+    let CARDHEIGHTINPLAYAREA = 220
+    
+    let CARDHEIGHTINHUMANAREA = 220
+    let CARDWIDTHINHUMANAREA = 140
+    
     // MARK: OUTLETS FOR THE UI
     @IBOutlet var vRootView: UIView!
     @IBOutlet weak var vParkingLot: UIView!
     @IBOutlet weak var ivTrumpCard: UIImageView!
     @IBOutlet weak var vNextTrick: UIButton!
-    
-    // MARK: - IMAGEVIEWS FOR THE CARDS OF EACH TRICK
-    // image for the dealerCard
-    @IBOutlet weak var ivDealerCardPlayerFour: UIImageView!
-    @IBOutlet weak var ivDealerCardPlayerThree: UIImageView!
-    @IBOutlet weak var ivDealerCardPlayerTwo: UIImageView!
-    @IBOutlet weak var ivDealerCardPlayerOne: UIImageView!
-    @IBOutlet weak var ivDealerCardPlayerYou: UIImageView!
     
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
     // labels for the players
@@ -43,8 +41,8 @@ class GameViewController: UIViewController {
     var defaults = UserDefaults.standard
     
     var roundsInTotal : Int = 0
-    var currentNumberOfTricks : Int = 1    // correspondts to the number of cards dealt
-    var tricksPlayed : Int = 0      // how many of the tricks of the round have been played
+    var currentRoundNumber : Int = 1    // correspondts to the number of cards dealt
+    var tricksPlayedInRound : Int = 0      // how many of the tricks of the round have been played
     
     var players = [Player]()        // array holding the players. 0 is always the human in front of the device
     var playersInOrderOfTrick = [Player]() // this array gets shifted after each round
@@ -55,17 +53,15 @@ class GameViewController: UIViewController {
     var cardDeck = DeckOfCards()    // the card deck
     var cardsInTrick = [Card]()
 
-    
     var myName = ""
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         playerLabels = [labelPlayerYou, labelPlayerOne, labelPlayerTwo, labelPlayerThree, labelPlayerFour]
         
         for thisLabel in playerLabels {
             thisLabel.isHidden = true
+            thisLabel.textColor = UIColor.black
         }
         
         
@@ -109,9 +105,7 @@ class GameViewController: UIViewController {
         
         cardDeck = DeckOfCards()
         clearCardsInTrick()
-        dealCards(howManyCards: currentNumberOfTricks)
-        displayPlayerCards()
-        displayTrumpCard()
+        dealCards(howManyCards: currentRoundNumber)
         
         for thisPlayer in playersInOrderOfTrick {
             thisPlayer.tricksWon = 0
@@ -123,13 +117,11 @@ class GameViewController: UIViewController {
     }
     
     func newPlay(){
-        
+        print("newPlay")
         clearCardsInTrick()
-        
 
-        
         // this loop will go on till the number of tricks played is equal to the tricks in the round
-        while tricksPlayed < currentNumberOfTricks && playersInOrderOfTrick.count > 0 {
+        while tricksPlayedInRound < currentRoundNumber && playersInOrderOfTrick.count > 0 {
             // continuing playing the trick:
             // let the next player play his card
             
@@ -139,16 +131,12 @@ class GameViewController: UIViewController {
                 playersInOrderOfTrick.removeFirst()
             }
             else {
-                // human player!
-                // break from the loop
-                // disply that the player should play a card
-                // when the player has played his card, the
+                // human player! break from the loop
+                // TODO: disply that the player should play a card
                 break
             }
         }
-        
 
-        
         // if all cards have been played
         if playersInOrderOfTrick.count == 0 {
             // evaluate trick -> sets winningCard and winningPlayer
@@ -159,13 +147,13 @@ class GameViewController: UIViewController {
             shiftPlayers(thisWinningPlayer: winningPlayer!)
             
             // increase the numberOfTricksPlayed
-            tricksPlayed += 1
+            tricksPlayedInRound += 1
             vNextTrick.isHidden = false
             cardsInTrick.removeAll()
         }
         
         // if all tricks of the round have been played
-        if tricksPlayed == currentNumberOfTricks {
+        if tricksPlayedInRound == currentRoundNumber {
             // evaluate this round
             for thisPlayer in players {
                 let oldScore = thisPlayer.score
@@ -181,27 +169,21 @@ class GameViewController: UIViewController {
                 // set tricksPlanned & trickedWon to zero for all players
                 thisPlayer.tricksWon = 0
                 thisPlayer.tricksPlanned = 0
-                
-                
             }
             // increase currentNumberOftricks
-            currentNumberOfTricks += 1
+            currentRoundNumber += 1
             
             // set tricksplayed to 0
-            tricksPlayed = 0
+            tricksPlayedInRound = 0
             
             // start the next round: deal cards, have the players bet....
             vNextTrick.isHidden = false
-            
         }
-        
- 
     }
-    
     
     // function that takes the number of cards per player to be dealt, then deals the cards to the players and also turns the flop card.
     func dealCards(howManyCards : Int) {
-        print("bagOfTricks.dealCards")
+        print("dealCards")
         
         // first empty all players cards arrays
         for thisPlayer in players {
@@ -217,9 +199,7 @@ class GameViewController: UIViewController {
                 // TODO: to make it less akward, make the human cards appear slowly
                 if thisPlayer.isHuman {
                     self.displayPlayerCards()
-                    
                 }
-                
             }
         }
         
@@ -238,7 +218,7 @@ class GameViewController: UIViewController {
 
     // evaluate the trick
     func evaluate(cardsInTrick : [Card]) {
-        print("trick[\(tricksPlayed), trump:\(trump)].evaluate")
+        print("trick[\(tricksPlayedInRound), trump:\(trump)].evaluate")
         
         if cardsInTrick.count > 0 {
             winningCard = cardsInTrick[0]
@@ -273,6 +253,7 @@ class GameViewController: UIViewController {
             winningPlayer?.tricksWon += 1
             printWinners()
             updateTricksUI()
+//            displayWinner()
         }
     }
 
@@ -281,7 +262,7 @@ class GameViewController: UIViewController {
     // displays the cards of the human player in the card array.
     // each card is a button
     func displayPlayerCards(){
-        
+        print("displayPlayerCards")
         // human player is always the first in the players array
         let theseCards = players[0].cards
         
@@ -289,7 +270,7 @@ class GameViewController: UIViewController {
             thisCardView.removeFromSuperview()
         }
         
-        let widthOfCards = 120 + (theseCards.count * 40)
+        let widthOfCards = CARDWIDTHINPLAYAREA + (theseCards.count * 40)
         let widthOfView = vCardView.frame.width - 40
         var initialOffset : Int = ((Int(widthOfView) - widthOfCards) / 2)
         let addedPixel = 40
@@ -299,7 +280,7 @@ class GameViewController: UIViewController {
             print("cfreate button \(thisCard.id)")
             let btnCard = UIButton()
             btnCard.setImage(UIImage(named: thisCard.id), for: .normal)
-            btnCard.frame = CGRect(x: initialOffset, y: 10, width: 140, height: 220)
+            btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
             btnCard.setTitle("\(thisCard.id)", for: .normal)
             btnCard.tag = 100 + n
             btnCard.addTarget(self, action: #selector(pressed(sender:)), for: .touchUpInside)
@@ -311,34 +292,58 @@ class GameViewController: UIViewController {
 
     // display the cards in the current trick
     func displayCardsInTrick(){
-        
+        print("displayCardsInTrick")
         clearCardsInTrick()
         var offset = 0
         for thisCard in cardsInTrick {
-            let iCard = UIImage(named: thisCard.id)
-            let ivCard = UIImageView(image: iCard)
-            ivCard.frame = CGRect(x: offset, y: 0, width: 140, height: 220)
-            vCardsInTrick.addSubview(ivCard)
-            offset += 40
+            let vCardPlusName = UIView()
+            let ivCard = UIImageView(image: UIImage(named: thisCard.id))
+            let labelName = UILabel()
+            
+            labelName.text = players.filter{$0.id == thisCard.playedByPlayer}[0].name
+            labelName.font = UIFont.init(name: "Futura", size: 20)
+            labelName.textColor = UIColor.black
+            labelName.textAlignment = NSTextAlignment.center
+            
+            ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINPLAYAREA, height: CARDHEIGHTINPLAYAREA)
+            labelName.frame = CGRect(x: offset, y: CARDHEIGHTINPLAYAREA + 20, width: CARDWIDTHINPLAYAREA, height: 30)
+            
+            vCardPlusName.addSubview(ivCard)
+            vCardPlusName.addSubview(labelName)
+            vCardsInTrick.addSubview(vCardPlusName)
+            offset += CARDWIDTHINPLAYAREA + 20
         }
     }
     
     // display the trump card
     func displayTrumpCard(){
+        print("displayTrumpCard")
         ivTrumpCard.image = UIImage(named: floppedTrumpCard!.id)
     }
     
     
     // updates how many tricks each player has won vs planned
     func updateTricksUI(){
+        print("updateTricksUI")
         for n in 0..<players.count {
             playerLabels[n].text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
             playerLabels[n].isHidden = false
         }
     }
     
+    func displayWinner(){
+        
+        for n in 0..<cardsInTrick.count {
+            if cardsInTrick[n] === winningCard {
+                let label = vCardsInTrick.subviews[n].subviews[1] as! UILabel
+                label.textColor = UIColor.blue
+            }
+        }
+    }
+    
     // removes all cards in the trick area from the view
     func clearCardsInTrick(){
+        print("clearCardsInTrick")
         // clear all images from the view
         for cardView in vCardsInTrick.subviews {
             cardView.removeFromSuperview()
@@ -383,9 +388,10 @@ class GameViewController: UIViewController {
     
     // MARK: - UTILITY FUNCTIONS
     @IBAction func btnNextTrick(_ sender: UIButton) {
+        print("btnNextTrick")
         vNextTrick.isHidden = true
         // check if we have to play the next trick or start a new round (dealing cards, etc.)
-        if tricksPlayed == 0 {
+        if tricksPlayedInRound == 0 {
             startRound()
         }
         else {
@@ -394,6 +400,7 @@ class GameViewController: UIViewController {
     }
     // function that is triggered, when a card is selected
     @objc func pressed(sender: UIButton){
+        print("pressedCard")
         let index = sender.tag - 100       // the cards start with the tag 100
         let cardId = sender.title(for: .normal)
         
@@ -408,7 +415,7 @@ class GameViewController: UIViewController {
     
     // shifts the array playersInOrderOfTrick
     func shiftPlayers(thisWinningPlayer : Player) {
-        
+        print("shiftPlayers")
         for _ in 0..<playersInOrderOfTrick.count {
             if thisWinningPlayer !== playersInOrderOfTrick[0] {
                 playersInOrderOfTrick.append(playersInOrderOfTrick.removeFirst())
@@ -422,6 +429,7 @@ class GameViewController: UIViewController {
     
     // creates a number of players with names taken at random from an array
     func createPlayers (n : Int) {
+        print("createPlayers")
         // some names, that are picked at random
         var playerNames = ["Peter", "Louise", "Claudia", "Roberto", "Michael", "Celine", "Paula", "Elvira", "Daniel", "Francesca"]
         for _ in 1...n {

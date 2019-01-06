@@ -175,20 +175,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k3F-D8-MJV" userLabel="parkingLot">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BackGround" translatesAutoresizingMaskIntoConstraints="NO" id="pll-UQ-YrW">
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdC-du-8nJ" userLabel="TrumpImage">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdC-du-8nJ" userLabel="ivTrumpCard">
                                 <rect key="frame" x="102" y="551" width="188" height="278"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX">
+                            <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX" userLabel="vHumanArea">
                                 <rect key="frame" x="0.0" y="590" width="1194" height="244"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="YourCardArea" translatesAutoresizingMaskIntoConstraints="NO" id="Vrt-qV-lln">
@@ -204,7 +199,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8b-Jm-9JS" userLabel="CardArea">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8b-Jm-9JS" userLabel="vCardsInTrick">
                                 <rect key="frame" x="222" y="165" width="750" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -212,21 +207,21 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="59"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR CARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-Pu-Oiq">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR CARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-Pu-Oiq" userLabel="labelYourCards">
                                 <rect key="frame" x="499" y="551" width="196" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trump" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSE-tY-DjA">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trump" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSE-tY-DjA" userLabel="labelTrump">
                                 <rect key="frame" x="0.0" y="551" width="103" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trick x / 15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkI-UU-UnW">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trick x / 15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkI-UU-UnW" userLabel="labelRoundNumber">
                                 <rect key="frame" x="444" y="12" width="307" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
@@ -268,26 +263,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgm-Jd-6Wa">
-                                <rect key="frame" x="955" y="67" width="20" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YBD-0m-LCj">
-                                <rect key="frame" x="709" y="67" width="20" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-6Q-7T7">
-                                <rect key="frame" x="465" y="67" width="20" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-vi-CwX">
-                                <rect key="frame" x="216" y="67" width="20" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DealerCard" translatesAutoresizingMaskIntoConstraints="NO" id="vag-9A-MG0">
-                                <rect key="frame" x="24" y="67" width="20" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMV-af-Hdc">
                                 <rect key="frame" x="1045" y="135" width="129" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -314,11 +289,6 @@
                         <viewLayoutGuide key="safeArea" id="TjU-yO-tFX"/>
                     </view>
                     <connections>
-                        <outlet property="ivDealerCardPlayerFour" destination="bgm-Jd-6Wa" id="KDn-rZ-u5H"/>
-                        <outlet property="ivDealerCardPlayerOne" destination="LI3-vi-CwX" id="8yF-VT-Zw9"/>
-                        <outlet property="ivDealerCardPlayerThree" destination="YBD-0m-LCj" id="9pt-JW-Rj8"/>
-                        <outlet property="ivDealerCardPlayerTwo" destination="tFq-6Q-7T7" id="2VG-JO-R8t"/>
-                        <outlet property="ivDealerCardPlayerYou" destination="vag-9A-MG0" id="B2P-q2-rOf"/>
                         <outlet property="ivTrumpCard" destination="IdC-du-8nJ" id="gCf-Bo-pGp"/>
                         <outlet property="labelPlayerFour" destination="ezW-kp-hec" id="Nhb-m6-9BV"/>
                         <outlet property="labelPlayerOne" destination="bOy-yS-Jos" id="tIu-fY-IVi"/>
@@ -329,7 +299,6 @@
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
                         <outlet property="vCardsInTrick" destination="v8b-Jm-9JS" id="31Y-Cg-Mbm"/>
                         <outlet property="vNextTrick" destination="dMV-af-Hdc" id="E30-o0-f6z"/>
-                        <outlet property="vParkingLot" destination="k3F-D8-MJV" id="4r3-1n-Rlq"/>
                         <outlet property="vRootView" destination="CXl-mE-ZoZ" id="aKS-bb-3Cj"/>
                     </connections>
                 </viewController>
@@ -340,7 +309,6 @@
     </scenes>
     <resources>
         <image name="BackGround" width="1366" height="1024"/>
-        <image name="DealerCard" width="18" height="26"/>
         <image name="TopGraphic" width="1368" height="73"/>
         <image name="YourCardArea" width="1368" height="352"/>
         <image name="btnPlay" width="705" height="216.27272033691406"/>

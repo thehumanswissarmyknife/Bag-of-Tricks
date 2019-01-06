@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DisplayCardsDelegate {
-    func displayPlayerCards(theseCards : [Card])
+    func displayPlayerCards()
 }
 
 class Player {
@@ -142,14 +142,8 @@ class Player {
         print("player[\(name)].playCard(\(playThisCard!.id))")
         playThisCard!.playedByPlayer = id
         
+        cards = cards.filter{$0 !== playThisCard}
         
-        
-        for n in 0..<cards.count {
-            var cardInN = cards[n]
-            if cards[n] === playThisCard{
-                cards.remove(at: n)
-            }
-        }
         return playThisCard!
         
     }
@@ -158,15 +152,9 @@ class Player {
         
         print("\(name).playThisCard(\(thisCardID))")
         
-        var cardToPlay = cards[0]
+        let cardToPlay = cards.filter{$0.id == thisCardID}[0]
+        cards = cards.filter{$0 !== cardToPlay}
         
-        for n in 0..<cards.count {
-            if cards[n].id == thisCardID {
-                cardToPlay = cards[n]
-                cards.remove(at: n)
-            }
-        }
-        delegate?.displayPlayerCards(theseCards: cards)
         return cardToPlay
     }
 
