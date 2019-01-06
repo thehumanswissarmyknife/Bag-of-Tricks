@@ -17,10 +17,8 @@
 		F3E0508C21DD03350087C1F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508A21DD03350087C1F7 /* Main.storyboard */; };
 		F3E0508E21DD03360087C1F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508D21DD03360087C1F7 /* Assets.xcassets */; };
 		F3E0509121DD03360087C1F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508F21DD03360087C1F7 /* LaunchScreen.storyboard */; };
-		F3E050A321DD03B30087C1F7 /* Trick.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0509D21DD03B30087C1F7 /* Trick.swift */; };
 		F3E050A421DD03B30087C1F7 /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0509E21DD03B30087C1F7 /* Opponent.swift */; };
 		F3E050A521DD03B30087C1F7 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0509F21DD03B30087C1F7 /* Card.swift */; };
-		F3E050A621DD03B30087C1F7 /* BagOfTricks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E050A021DD03B30087C1F7 /* BagOfTricks.swift */; };
 		F3E050A721DD03B30087C1F7 /* DeckOfCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E050A121DD03B30087C1F7 /* DeckOfCards.swift */; };
 		F3E050A821DD03B30087C1F7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E050A221DD03B30087C1F7 /* Player.swift */; };
 /* End PBXBuildFile section */
@@ -38,10 +36,8 @@
 		F3E0508D21DD03360087C1F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3E0509021DD03360087C1F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F3E0509221DD03360087C1F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F3E0509D21DD03B30087C1F7 /* Trick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trick.swift; sourceTree = "<group>"; };
 		F3E0509E21DD03B30087C1F7 /* Opponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		F3E0509F21DD03B30087C1F7 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		F3E050A021DD03B30087C1F7 /* BagOfTricks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BagOfTricks.swift; sourceTree = "<group>"; };
 		F3E050A121DD03B30087C1F7 /* DeckOfCards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckOfCards.swift; sourceTree = "<group>"; };
 		F3E050A221DD03B30087C1F7 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,12 +106,10 @@
 		F3E0509C21DD03A40087C1F7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F3E050A021DD03B30087C1F7 /* BagOfTricks.swift */,
 				F3E0509F21DD03B30087C1F7 /* Card.swift */,
 				F3E050A121DD03B30087C1F7 /* DeckOfCards.swift */,
 				F3E0509E21DD03B30087C1F7 /* Opponent.swift */,
 				F3E050A221DD03B30087C1F7 /* Player.swift */,
-				F3E0509D21DD03B30087C1F7 /* Trick.swift */,
 				F3A9866D21DD10F900B9A313 /* Settings.swift */,
 			);
 			name = Model;
@@ -201,11 +195,9 @@
 				F3E050A521DD03B30087C1F7 /* Card.swift in Sources */,
 				F3E050A821DD03B30087C1F7 /* Player.swift in Sources */,
 				F3A9866C21DD0C9700B9A313 /* PreferenceViewController.swift in Sources */,
-				F3E050A321DD03B30087C1F7 /* Trick.swift in Sources */,
 				F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */,
 				F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */,
 				F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */,
-				F3E050A621DD03B30087C1F7 /* BagOfTricks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
