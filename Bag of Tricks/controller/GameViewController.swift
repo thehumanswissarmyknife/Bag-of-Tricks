@@ -22,9 +22,11 @@ class GameViewController: UIViewController {
     @IBOutlet weak var ivTrumpCard: UIImageView!
     @IBOutlet weak var vNextTrick: UIButton!
     
+    
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
     // labels for the players
     @IBOutlet weak var labelTricksPlayed: UILabel!
+    @IBOutlet weak var labelWinner: UILabel!
     
     @IBOutlet weak var labelPlayerYou: UILabel!
     @IBOutlet weak var labelPlayerOne: UILabel!
@@ -46,8 +48,8 @@ class GameViewController: UIViewController {
     
     var players = [Player]()        // array holding the players. 0 is always the human in front of the device
     var playersInOrderOfTrick = [Player]() // this array gets shifted after each round
-    var winningCard : Card?
-    var winningPlayer : Player?
+    var winningCard : Card = Card(thisColor: "blurp", thisValue: -1)
+    var winningPlayer : Player = Player(thisName: "hansens", makeHuman: false)
     var trump : String = ""         // string with the trump color for the round
     var floppedTrumpCard : Card?    // the flopped card determining the trump
     var cardDeck = DeckOfCards()    // the card deck
@@ -94,6 +96,10 @@ class GameViewController: UIViewController {
         // how many tricks - can be calculated byy
         roundsInTotal = cardDeck.shuffledCards.count / players.count
         
+        // initializa the winningPlay<er & card
+        winningPlayer = players[0]
+        winningCard = cardDeck.shuffledCards[0]
+        
         // start the round
         startRound()
     }
@@ -119,6 +125,7 @@ class GameViewController: UIViewController {
     func newPlay(){
         print("newPlay")
         clearCardsInTrick()
+        labelWinner.isHidden = true
 
         // this loop will go on till the number of tricks played is equal to the tricks in the round
         while tricksPlayedInRound < currentRoundNumber && playersInOrderOfTrick.count > 0 {
@@ -140,11 +147,12 @@ class GameViewController: UIViewController {
         // if all cards have been played
         if playersInOrderOfTrick.count == 0 {
             // evaluate trick -> sets winningCard and winningPlayer
-            evaluate(cardsInTrick: cardsInTrick)
+//            evaluate(cardsInTrick: cardsInTrick)
+            evaluateCardsInTrick()
             
             // fill up the playersInOrderOfTrick array and shift it accordingly
             playersInOrderOfTrick = players
-            shiftPlayers(thisWinningPlayer: winningPlayer!)
+            shiftPlayers(thisWinningPlayer: winningPlayer)
             
             // increase the numberOfTricksPlayed
             tricksPlayedInRound += 1
@@ -216,45 +224,42 @@ class GameViewController: UIViewController {
         printPlayersCards()
     }
 
-    // evaluate the trick
-    func evaluate(cardsInTrick : [Card]) {
-        print("trick[\(tricksPlayedInRound), trump:\(trump)].evaluate")
+    
+    // evaluate the cards in this trick
+    func evaluateCardsInTrick(){
+        print("evaluateCardsInTrick")
+        // let's assunme that the first card is the winner and remove it from the array
+        winningCard = cardsInTrick.removeFirst()
         
-        if cardsInTrick.count > 0 {
-            winningCard = cardsInTrick[0]
-            winningPlayer = players[0]
-            for n in 0..<cardsInTrick.count{
-                
-                // if this card is a wizard
-                if cardsInTrick[n].color == "black" && cardsInTrick[n].value == 14 {
-                    winningCard = cardsInTrick[n]
-                    winningPlayer = players[n]
-                    break
+        for thisCard in cardsInTrick {
+            if winningCard.value == 14 {
+                // Wizarsd always win
+                break
+            }
+            
+            if thisCard.value == 14 {
+                winningCard = thisCard
+                break
+            }
+            
+            if thisCard.value != 0 {
+                // if the current card is not nil
+                if thisCard.color == trump && thisCard.color != winningCard.color {
+                    winningCard = thisCard
                 }
                 
-                if cardsInTrick[n].color == "black" && cardsInTrick[n].value == 0 {
-                    
-                } else {
-                    // if the card is a trump card and the current winner is not
-                    if cardsInTrick[n].color == trump && cardsInTrick[n].color != winningCard!.color{
-                        winningCard = cardsInTrick[n]
-                        winningPlayer = players[n]
-                    }
-                    
-                    // cards of the same suite are calculated
-                    if cardsInTrick[n].color == winningCard!.color {
-                        if cardsInTrick[n].value > winningCard!.value{
-                            winningCard = cardsInTrick[n]
-                            winningPlayer = players[n]
-                        }
-                    }
+                if thisCard.color == winningCard.color && thisCard.value > winningCard.value {
+                    winningCard = thisCard
                 }
             }
-            winningPlayer?.tricksWon += 1
-            printWinners()
-            updateTricksUI()
-//            displayWinner()
         }
+        
+        winningPlayer = players.filter{$0.id == winningCard.playedByPlayer}[0]
+        winningPlayer.tricksWon += 1
+        labelWinner.text = "\(winningPlayer.name) won"
+        labelWinner.isHidden = false
+        printWinners()
+        updateTricksUI()
     }
 
     // MARK: - UI UPDATING FUNCTIONS
@@ -380,8 +385,8 @@ class GameViewController: UIViewController {
     
     func printWinners(){
         print("-------------------------------------")
-        print("trick.winningCard: \(winningCard!.id)")
-        print("trick.winningPlayer: \(winningPlayer!.name)")
+        print("trick.winningCard: \(winningCard.id)")
+        print("trick.winningPlayer: \(winningPlayer.name)")
         print("=====================================")
     }
     

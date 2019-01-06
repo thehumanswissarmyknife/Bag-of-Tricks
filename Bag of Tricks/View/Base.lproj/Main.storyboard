@@ -274,6 +274,13 @@
                                     <action selector="btnNextTrick:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="1fE-F9-DfJ"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XU0-QJ-Y1E">
+                                <rect key="frame" x="864" y="543" width="310" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -296,6 +303,7 @@
                         <outlet property="labelPlayerTwo" destination="uwr-1W-qSg" id="Rlt-nQ-tc1"/>
                         <outlet property="labelPlayerYou" destination="rkg-mO-j4B" id="Kqs-L8-TIh"/>
                         <outlet property="labelTricksPlayed" destination="TkI-UU-UnW" id="CpN-E7-vxb"/>
+                        <outlet property="labelWinner" destination="XU0-QJ-Y1E" id="3Rv-G5-0df"/>
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
                         <outlet property="vCardsInTrick" destination="v8b-Jm-9JS" id="31Y-Cg-Mbm"/>
                         <outlet property="vNextTrick" destination="dMV-af-Hdc" id="E30-o0-f6z"/>
