@@ -28,7 +28,7 @@ class Player {
     var cardsThatShoudlWinTheTrick = [Card]()
     
     // id: 0 < id < 10 for human players, id > 10 for computer players
-    let id : Int
+    var id : Int
     
     var score : Int = 0
     
@@ -39,6 +39,14 @@ class Player {
         name = thisName
         level = thisLevel
         id = thisID
+    }
+    
+    convenience init (thisName : String, makeHuman : Bool) {
+        self.init(thisName: thisName, thisLevel: "generic", thisID: 0)
+        isHuman = makeHuman
+        if !isHuman {
+             id = Int.random(in: 1...999999)
+        }
     }
     
     // sort the cards right before the card needs to be played. Index 0 should be the best card to play. Need to know the trump and cards ahve been played.

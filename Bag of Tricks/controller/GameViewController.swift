@@ -35,14 +35,6 @@ class GameViewController: UIViewController {
     @IBOutlet weak var labelPlayerFour: UILabel!
     
     var playerLabels = [UILabel]()
-    
-    // MARK: - Modalview
-    // TODO: ALERT
-    @IBOutlet weak var vModalView: UIView!
-    @IBOutlet weak var btnPlayGame: UIButton!
-    
-    // modaler View für die bestimmung der Spieleranzahl
-    @IBOutlet weak var tfName: UITextField!
     @IBOutlet weak var vCardView: UIView!
     @IBOutlet weak var vCardsInTrick: UIView!
     
@@ -82,24 +74,9 @@ class GameViewController: UIViewController {
             print("found the name")
         }
         
-//        vModalView.isHidden = false
-//        vRootView.addSubview(vModalView)
-        
         // TODO: create alert style window for input
         
-        /* TODO: refactor all functionality to the gameController:
-         this way it's easier to trigger the play-input and hae all variables at hand
-         
-         -> bagOfTricks
-         -> playerArray
-         -> each trick
-         -> all loops through the rounds are in the main game controller
-         */
-        
         startGame()
-
-
-        // Do any additional setup after loading the view.
     }
     
 
@@ -112,8 +89,7 @@ class GameViewController: UIViewController {
         
         // create players
         // human player has id 0
-        players.append(Player(thisName: myName, thisLevel: "easy", thisID: 0))
-        players[0].isHuman = true
+        players.append(Player(thisName: myName, makeHuman: true))
         createPlayers(n: 2)
         
         // add all players to the players in order array
@@ -134,9 +110,8 @@ class GameViewController: UIViewController {
         cardDeck = DeckOfCards()
         clearCardsInTrick()
         dealCards(howManyCards: currentNumberOfTricks)
-        displayPlayerCards(theseCards: players[0].cards)
-        let trumpId = floppedTrumpCard?.id as! String
-        ivTrumpCard.image = UIImage(named: trumpId)
+        displayPlayerCards()
+        displayTrumpCard()
         
         for thisPlayer in playersInOrderOfTrick {
             thisPlayer.tricksWon = 0
@@ -235,9 +210,16 @@ class GameViewController: UIViewController {
         
         for _ in 1...howManyCards {
             for thisPlayer in players {
-                let thisCard = cardDeck.dealCard()
+                let thisCard = self.cardDeck.dealCard()
                 thisCard.playedByPlayer = thisPlayer.id
                 thisPlayer.cards.append(thisCard)
+                
+                // TODO: to make it less akward, make the human cards appear slowly
+                if thisPlayer.isHuman {
+                    self.displayPlayerCards()
+                    
+                }
+                
             }
         }
         
@@ -245,34 +227,15 @@ class GameViewController: UIViewController {
         if cardDeck.shuffledCards.count > 0 {
             floppedTrumpCard = cardDeck.dealCard()
             trump = (floppedTrumpCard?.color)!
+            displayTrumpCard()
         }
         else{
             // no trump
             trump = ""
         }
-        
-//        tricksPlayed += 1
-        
-        // print the delat cards to the console
         printPlayersCards()
-//        print("cards remaining: \(cardDeck.shuffledCards.count)")
-//        print("cards played: \(cardDeck.playedCards.count)")
-        
-        
-        
     }
-    
-    // creates a number of players with names taken at random from an array
-    func createPlayers (n : Int) {
-        // some names, that are picked at random
-        var playerNames = ["Peter", "Louise", "Claudia", "Roberto", "Michael", "Celine", "Paula", "Elvira", "Daniel", "Francesca"]
-        for _ in 1...n {
-            let random = Int.random(in: 0..<playerNames.count)
-            let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1)
-            players.append(aPlayer)
-        }
-    }
-    
+
     // evaluate the trick
     func evaluate(cardsInTrick : [Card]) {
         print("trick[\(tricksPlayed), trump:\(trump)].evaluate")
@@ -307,27 +270,24 @@ class GameViewController: UIViewController {
                     }
                 }
             }
-            
-
             winningPlayer?.tricksWon += 1
+            printWinners()
             updateTricksUI()
-            print("-------------------------------------")
-            print("trick.winningCard: \(winningCard!.id)")
-            print("trick.winningPlayer: \(winningPlayer!.name)")
-            print("=====================================")
         }
     }
-    
-    // MARK: - Functions for the player
+
+    // MARK: - UI UPDATING FUNCTIONS
     
     // displays the cards of the human player in the card array.
     // each card is a button
-    func displayPlayerCards(theseCards : [Card]){
+    func displayPlayerCards(){
+        
+        // human player is always the first in the players array
+        let theseCards = players[0].cards
         
         for thisCardView in vCardView.subviews {
             thisCardView.removeFromSuperview()
         }
-        
         
         let widthOfCards = 120 + (theseCards.count * 40)
         let widthOfView = vCardView.frame.width - 40
@@ -348,18 +308,11 @@ class GameViewController: UIViewController {
             initialOffset += addedPixel
         }
     }
-    
-    func clearCardsInTrick(){
-        // clear all images from the view
-        for cardView in vCardsInTrick.subviews {
-            cardView.removeFromSuperview()
-        }
-    }
-    
+
+    // display the cards in the current trick
     func displayCardsInTrick(){
         
         clearCardsInTrick()
-        
         var offset = 0
         for thisCard in cardsInTrick {
             let iCard = UIImage(named: thisCard.id)
@@ -370,16 +323,65 @@ class GameViewController: UIViewController {
         }
     }
     
-    // MARK: - UTILITY FUNCTIONS
-    // functions triggered, when the "PLAY GAME" button is pressed in the modal view
-    @IBAction func btnPlayGamePressed(_ sender: UIButton) {
-        myName = tfName.text!
-        labelPlayerYou.text = "\(myName): -/15"
-        defaults.set(myName, forKey:"playerName")
-        vModalView.isHidden = true
-        vParkingLot.addSubview(vModalView)
+    // display the trump card
+    func displayTrumpCard(){
+        ivTrumpCard.image = UIImage(named: floppedTrumpCard!.id)
     }
     
+    
+    // updates how many tricks each player has won vs planned
+    func updateTricksUI(){
+        for n in 0..<players.count {
+            playerLabels[n].text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
+            playerLabels[n].isHidden = false
+        }
+    }
+    
+    // removes all cards in the trick area from the view
+    func clearCardsInTrick(){
+        // clear all images from the view
+        for cardView in vCardsInTrick.subviews {
+            cardView.removeFromSuperview()
+        }
+    }
+    
+    // MARK: - PRINTING FUNCTIONS
+    // print the order of the players!
+    func printPlayerOrder(){
+        // perfunctory printing
+        var playerOrder = ""
+        for thisPlayer in playersInOrderOfTrick {
+            if playerOrder == "" {
+                playerOrder = thisPlayer.name
+            }
+            else {
+                playerOrder = "\(playerOrder)-\(thisPlayer.name)"
+            }
+        }
+        print("New Order: \(playerOrder)")
+        print("")
+    }
+    
+    // prints the cards of all players to the console
+    func printPlayersCards(){
+        for thisPlayer in players {
+            var cards = "\(thisPlayer.name):"
+            for thisCard in thisPlayer.cards {
+                cards = "\(cards) \(thisCard.id)"
+            }
+            print(cards)
+        }
+    }
+    
+    func printWinners(){
+        print("-------------------------------------")
+        print("trick.winningCard: \(winningCard!.id)")
+        print("trick.winningPlayer: \(winningPlayer!.name)")
+        print("=====================================")
+    }
+    
+    
+    // MARK: - UTILITY FUNCTIONS
     @IBAction func btnNextTrick(_ sender: UIButton) {
         vNextTrick.isHidden = true
         // check if we have to play the next trick or start a new round (dealing cards, etc.)
@@ -397,27 +399,16 @@ class GameViewController: UIViewController {
         
         cardsInTrick.append(playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
         displayCardsInTrick()
-        displayPlayerCards(theseCards: playersInOrderOfTrick[0].cards)
+        displayPlayerCards()
         playersInOrderOfTrick.removeFirst()
         
         newPlay()
         
     }
     
-    // prints the cards of all players to the console
-    func printPlayersCards(){
-        for thisPlayer in players {
-            var cards = "\(thisPlayer.name):"
-            for thisCard in thisPlayer.cards {
-                cards = "\(cards) \(thisCard.id)"
-            }
-            print(cards)
-        }
-    }
-    
     // shifts the array playersInOrderOfTrick
     func shiftPlayers(thisWinningPlayer : Player) {
-       
+        
         for _ in 0..<playersInOrderOfTrick.count {
             if thisWinningPlayer !== playersInOrderOfTrick[0] {
                 playersInOrderOfTrick.append(playersInOrderOfTrick.removeFirst())
@@ -426,75 +417,19 @@ class GameViewController: UIViewController {
                 break
             }
         }
-        
-        // perfunctory printing
-        var playerOrder = ""
-        for thisPlayer in playersInOrderOfTrick {
-            if playerOrder == "" {
-                playerOrder = thisPlayer.name
-            }
-            else {
-                playerOrder = "\(playerOrder)-\(thisPlayer.name)"
-            }
-        }
-        print("New Order: \(playerOrder)")
-        print("")
-        
+        printPlayerOrder()
     }
     
-    func updateTricksUI(){
-        for n in 0..<players.count {
-            playerLabels[n].text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
-            playerLabels[n].isHidden = false
+    // creates a number of players with names taken at random from an array
+    func createPlayers (n : Int) {
+        // some names, that are picked at random
+        var playerNames = ["Peter", "Louise", "Claudia", "Roberto", "Michael", "Celine", "Paula", "Elvira", "Daniel", "Francesca"]
+        for _ in 1...n {
+            let random = Int.random(in: 0..<playerNames.count)
+            let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1)
+            players.append(aPlayer)
         }
     }
     
-    //    // plays a round : starting with dealing 1 card, playing the trick, dealing two cards, ...
-    //    func playBag() {
-    //        print(".playBag")
-    //
-    //        for thisManyTricksInRound in 1...roundsInTotal {
-    //
-    //            print("")
-    //            print("bagOfTricks.playBag: \(thisManyTricksInRound)/\(roundsInTotal)")
-    //            print("-------------------------")
-    //
-    //            cardDeck = DeckOfCards()
-    //            // deal cards
-    //            dealCards(howManyCards: thisManyTricksInRound)
-    //
-    //            // the tricks inside each round!
-    //            for currentTrick in 1...thisManyTricksInRound {
-    //                // create a trick
-    //                let thisTrick = Trick(thisTrump: trump, thesePlayers: playersInOrderOfTrick)
-    //
-    //                // play the trick and assign the winner to a variable
-    //                print("### trick(\(currentTrick)) ###")
-    //
-    //                for thisPlayer in playersInOrderOfTrick {
-    //                    if thisPlayer.isHuman {
-    //
-    //                    }
-    //                    else {
-    //                        let cardPlayed = thisPlayer.playCard(thisTrump: trump, theseCards: thisTrick.cardsInTrick)
-    //                        thisTrick.cardsInTrick.append(cardPlayed)
-    //                    }
-    //                }
-    //
-    //                let thisWinningPlayer = thisTrick.play()
-    //
-    //                // shift the players array
-    //                shiftPlayers(thisWinningPlayer: thisWinningPlayer)
-    //
-    //                // update tricksWon of the winner
-    //                thisWinningPlayer.tricksWon += 1
-    //
-    //                // TODO: update the opponents of all players
-    //                for thisPlayer in players {
-    //                    thisPlayer.updateOppponents(playedCards: thisTrick.cardsInTrick)
-    //                }
-    //            }
-    //        }
-    //    }
 
 }
