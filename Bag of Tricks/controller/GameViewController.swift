@@ -54,6 +54,8 @@ class GameViewController: UIViewController {
     var floppedTrumpCard : Card?    // the flopped card determining the trump
     var cardDeck = DeckOfCards()    // the card deck
     var cardsInTrick = [Card]()
+    
+    var playerIndexWhoStartsTheRound = 0
 
     var myName = ""
 
@@ -96,9 +98,6 @@ class GameViewController: UIViewController {
         // how many tricks - can be calculated byy
         roundsInTotal = cardDeck.shuffledCards.count / players.count
         
-        // initializa the winningPlay<er & card
-        winningPlayer = players[0]
-        winningCard = cardDeck.shuffledCards[0]
         
         // start the round
         startRound()
@@ -108,18 +107,26 @@ class GameViewController: UIViewController {
     func startRound(){
         
         print("starting new nound")
+        print("\(players[playerIndexWhoStartsTheRound].name) is first to play")
         
         cardDeck = DeckOfCards()
         clearCardsInTrick()
         dealCards(howManyCards: currentRoundNumber)
         
+        // shift the players so that the one who is supposed to start, is at index 0
+        shiftPlayers(thisWinningPlayer: players[playerIndexWhoStartsTheRound])
+        
         for thisPlayer in playersInOrderOfTrick {
             thisPlayer.tricksWon = 0
-            let tricksEstimated = thisPlayer.calculateTricksToWin(thisTrump: trump)
+            if thisPlayer.isHuman == false {
+                let tricksEstimated = thisPlayer.calculateTricksToWin(thisTrump: trump)
+            }
+            else {
+                displayTrickBettingScreen()
+            }
         }
         
         updateTricksUI()
-        newPlay()
     }
     
     func newPlay(){
@@ -156,7 +163,18 @@ class GameViewController: UIViewController {
             
             // increase the numberOfTricksPlayed
             tricksPlayedInRound += 1
-            vNextTrick.isHidden = false
+            
+            if tricksPlayedInRound < currentRoundNumber {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    self.btnNextTrick(self.vNextTrick)
+                }
+            }
+            else {
+                // show the new scores!
+//                displayScores()
+                
+            }
+            
             cardsInTrick.removeAll()
         }
         
@@ -186,6 +204,11 @@ class GameViewController: UIViewController {
             
             // start the next round: deal cards, have the players bet....
             vNextTrick.isHidden = false
+            
+            playerIndexWhoStartsTheRound += 1
+            if playerIndexWhoStartsTheRound >= players.count {
+                playerIndexWhoStartsTheRound -= players.count
+            }
         }
     }
     
@@ -219,7 +242,7 @@ class GameViewController: UIViewController {
         }
         else{
             // no trump
-            trump = ""
+            trump = "none"
         }
         printPlayersCards()
     }
@@ -249,6 +272,10 @@ class GameViewController: UIViewController {
                 }
                 
                 if thisCard.color == winningCard.color && thisCard.value > winningCard.value {
+                    winningCard = thisCard
+                }
+                
+                if winningCard.value == 0 && thisCard.value > 0 {
                     winningCard = thisCard
                 }
             }
@@ -288,11 +315,43 @@ class GameViewController: UIViewController {
             btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
             btnCard.setTitle("\(thisCard.id)", for: .normal)
             btnCard.tag = 100 + n
+            btnCard.isEnabled = thisCard.canBePlayed
             btnCard.addTarget(self, action: #selector(pressed(sender:)), for: .touchUpInside)
             vCardView.addSubview(btnCard)
             
             initialOffset += addedPixel
         }
+    }
+    
+    func displayScores() {
+        print("displayScores")
+//        vRootView.
+        let vScoreBoard = UIView()
+        vScoreBoard.tag = 60
+        
+        let svScores = UIStackView()
+        var yPos = 0
+        
+        for thisPlayer in players {
+            let myView = UIView()
+            let labelName = UILabel()
+            labelName.text = thisPlayer.name
+            labelName.frame = CGRect(x: 0, y: yPos, width: 120, height: 30)
+            let labelTricks = UILabel()
+            labelTricks.text = "\(thisPlayer.tricksWon)/\(thisPlayer.tricksPlanned)"
+            labelTricks.frame = CGRect(x: Int(labelName.frame.width + 10), y: yPos, width: 50, height: 30)
+            let labelScore = UILabel()
+            labelScore.text = "\(thisPlayer.score)"
+            labelScore.frame = CGRect(x: Int(labelName.frame.width + labelTricks.frame.width + 20), y: yPos, width: 50, height: 30)
+            
+            myView.addSubview(labelName)
+            myView.addSubview(labelTricks)
+            myView.addSubview(labelScore)
+            
+            vScoreBoard.addSubview(myView)
+            yPos += 40
+        }
+        vRootView.addSubview(vScoreBoard)
     }
 
     // display the cards in the current trick
@@ -318,6 +377,68 @@ class GameViewController: UIViewController {
             vCardsInTrick.addSubview(vCardPlusName)
             offset += CARDWIDTHINPLAYAREA + 20
         }
+    }
+    
+    func displayTrickBettingScreen() {
+        print("displayTrickBettingScreen")
+        let vBackGround = UIView()
+        vBackGround.tag = 70
+        vBackGround.frame = CGRect(x: 20, y: 100, width: vRootView.frame.width - 40, height: vRootView.frame.height - 20)
+        
+        let vCardsOfPlayer = UIView()
+        vCardsOfPlayer.tag = 71
+        vCardsOfPlayer.frame = CGRect(x: 10, y: 10, width: vBackGround.frame.width - 20, height: 220)
+        vBackGround.addSubview(vCardsOfPlayer)
+        
+        var offset = (Int(vCardsOfPlayer.frame.width) - (players[0].cards.count * 40 + 120)) / 2
+        for thisCard in players[0].cards {
+            let ivCard = UIImageView(image: UIImage(named: thisCard.id))
+            ivCard.frame = CGRect(x: offset, y: 0, width: 140, height: 220)
+            vCardsOfPlayer.addSubview(ivCard)
+            offset += 40
+        }
+        
+        let vBettingArea = UIView()
+        vBettingArea.tag = 72
+        vBettingArea.frame = CGRect(x: 10, y: 240, width: vBackGround.frame.width - 40, height: 100)
+        vBackGround.addSubview(vBettingArea)
+        
+        let pxCenter = Int(vBettingArea.frame.width) / 2
+        
+        let btnMinus = UIButton()
+        btnMinus.setTitle("-", for: .normal)
+        btnMinus.setImage(UIImage(named: "btnMinus"), for: .normal)
+        btnMinus.frame = CGRect(x: pxCenter - 100, y: 0, width: 45, height: 45)
+        btnMinus.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
+        btnMinus.tag = 0
+        
+        let btnPlus = UIButton()
+        btnPlus.setTitle("+", for: .normal)
+        btnPlus.setImage(UIImage(named: "btnPlus"), for: .normal)
+        btnPlus.frame = CGRect(x: pxCenter + 55, y: 0, width: 45, height: 45)
+        btnPlus.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
+        btnPlus.tag = 1
+        
+        let labelNumber = UILabel()
+        labelNumber.text = "0"
+        labelNumber.font = UIFont(name: "Futura", size: 30)
+        labelNumber.textAlignment = NSTextAlignment(CTTextAlignment.center)
+        labelNumber.frame = CGRect(x: pxCenter - 22, y: 0, width: 44, height: 45)
+        labelNumber.tag = 74
+        
+        let btnBet = UIButton()
+        btnBet.setTitle("play", for: .normal)
+        btnBet.frame = CGRect(x: pxCenter - 102, y: 55, width: 200, height: 50)
+        btnBet.setImage(UIImage(named: "btnBet"), for: .normal)
+        btnBet.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
+        btnBet.tag = 2
+        
+        vBettingArea.addSubview(btnMinus)
+        vBettingArea.addSubview(labelNumber)
+        vBettingArea.addSubview(btnPlus)
+        vBettingArea.addSubview(btnBet)
+        
+        vRootView.addSubview(vBackGround)
     }
     
     // display the trump card
@@ -441,6 +562,31 @@ class GameViewController: UIViewController {
             let random = Int.random(in: 0..<playerNames.count)
             let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1)
             players.append(aPlayer)
+        }
+    }
+    
+    @objc func btnAdjustTricks(sender: UIButton!) {
+        print("btnAdjustTricks")
+        let labelNumber = vRootView.subviews.filter{$0.tag == 70}[0].subviews.filter{$0.tag == 72}[0].subviews.filter{$0.tag == 74}[0] as! UILabel
+        var trickValue = Int(labelNumber.text!)
+        
+        if sender.tag == 0 {
+            
+            if trickValue! > 0 {
+                labelNumber.text = String(trickValue! - 1)
+            }
+        }
+        else if sender.tag == 1 {
+            if trickValue! < currentRoundNumber {
+                labelNumber.text = String(trickValue! + 1)
+            }
+        }
+        else if sender.tag == 2 {
+            players[0].tricksPlanned = Int(labelNumber.text!)!
+            let viewToDiscard = vRootView.subviews.filter{$0.tag == 70}[0]
+            viewToDiscard.isHidden = true
+            viewToDiscard.removeFromSuperview()
+            newPlay()
         }
     }
     
