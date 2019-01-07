@@ -21,6 +21,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var vParkingLot: UIView!
     @IBOutlet weak var ivTrumpCard: UIImageView!
     @IBOutlet weak var vNextTrick: UIButton!
+    @IBOutlet weak var vCardView: UIView!
+    @IBOutlet weak var vCardsInTrick: UIView!
     
     
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
@@ -35,8 +37,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var labelPlayerFour: UILabel!
     
     var playerLabels = [UILabel]()
-    @IBOutlet weak var vCardView: UIView!
-    @IBOutlet weak var vCardsInTrick: UIView!
+
     
     // MARK: - VARIABLES FOR THE GAME LOGIC
     // TODO: Userdefaults integration für name, anzahl player...
@@ -115,6 +116,17 @@ class GameViewController: UIViewController {
         
         // shift the players so that the one who is supposed to start, is at index 0
         shiftPlayers(thisWinningPlayer: players[playerIndexWhoStartsTheRound])
+        
+        // if the flopped card is a wizard, the first player has to choose the trump color
+        if floppedTrumpCard!.value == 14 {
+            if !playersInOrderOfTrick[0].isHuman{
+                // for the moment pick a random color
+                let colors = ["blue", "green", "red", "yellow"]
+                floppedTrumpCard = Card(thisColor: colors[Int.random(in: 0...3)], thisValue: 15)
+                trump = (floppedTrumpCard?.color)!
+                displayTrumpCard()
+            }
+        }
         
         for thisPlayer in playersInOrderOfTrick {
             thisPlayer.tricksWon = 0
@@ -229,7 +241,10 @@ class GameViewController: UIViewController {
                 
                 // TODO: to make it less akward, make the human cards appear slowly
                 if thisPlayer.isHuman {
-                    self.displayPlayerCards()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.displayPlayerCards()
+                    }
+                    
                 }
             }
         }
@@ -296,7 +311,7 @@ class GameViewController: UIViewController {
     func displayPlayerCards(){
         print("displayPlayerCards")
         // human player is always the first in the players array
-        let theseCards = players[0].cards
+        var theseCards = players[0].cards
         
         for thisCardView in vCardView.subviews {
             thisCardView.removeFromSuperview()
@@ -382,6 +397,7 @@ class GameViewController: UIViewController {
     func displayTrickBettingScreen() {
         print("displayTrickBettingScreen")
         let vBackGround = UIView()
+        vCardView.isHidden = true
         vBackGround.tag = 70
         vBackGround.frame = CGRect(x: 20, y: 100, width: vRootView.frame.width - 40, height: vRootView.frame.height - 20)
         
@@ -400,7 +416,7 @@ class GameViewController: UIViewController {
         
         let vBettingArea = UIView()
         vBettingArea.tag = 72
-        vBettingArea.frame = CGRect(x: 10, y: 240, width: vBackGround.frame.width - 40, height: 100)
+        vBettingArea.frame = CGRect(x: 10, y: 240, width: vBackGround.frame.width - 40, height: 160)
         vBackGround.addSubview(vBettingArea)
         
         let pxCenter = Int(vBettingArea.frame.width) / 2
@@ -426,9 +442,30 @@ class GameViewController: UIViewController {
         labelNumber.frame = CGRect(x: pxCenter - 22, y: 0, width: 44, height: 45)
         labelNumber.tag = 74
         
+        var yPosPlayButton = 60
+        if floppedTrumpCard?.value == 14 {
+            let vColors = UIView()
+            vColors.frame = CGRect(x: pxCenter-100, y: 50, width: 200, height: 50)
+            
+            var colors = ["Blue", "Green", "Red", "Yellow"]
+            
+            var thisOffset = 0
+            for thisColor in colors {
+                let btn = UIButton()
+                btn.setTitle(thisColor, for: .selected)
+                btn.setImage(UIImage(named: "btn\(thisColor)"), for: .normal)
+                btn.frame = CGRect(x: thisOffset, y: 0, width: 50, height: 50)
+                btn.addTarget(self, action: #selector(btnColor), for: .touchUpInside)
+                thisOffset += 50
+                vColors.addSubview(btn)
+            }
+            yPosPlayButton = 110
+            vBettingArea.addSubview(vColors)
+        }
+        
         let btnBet = UIButton()
         btnBet.setTitle("play", for: .normal)
-        btnBet.frame = CGRect(x: pxCenter - 102, y: 55, width: 200, height: 50)
+        btnBet.frame = CGRect(x: pxCenter - 102, y: yPosPlayButton, width: 200, height: 50)
         btnBet.setImage(UIImage(named: "btnBet"), for: .normal)
         btnBet.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
         btnBet.tag = 2
@@ -586,8 +623,22 @@ class GameViewController: UIViewController {
             let viewToDiscard = vRootView.subviews.filter{$0.tag == 70}[0]
             viewToDiscard.isHidden = true
             viewToDiscard.removeFromSuperview()
+            vCardView.isHidden = false
+            updateTricksUI()
             newPlay()
         }
+    }
+    
+    @objc func btnColor(sender: UIButton){
+        let btn = sender
+        var buttons = (sender.superview?.subviews)! as! [UIButton]
+        for thisButton in buttons {
+
+            thisButton.setImage(UIImage(named: "btn"+thisButton.title(for: .normal)!), for: .selected)
+        }
+        let image = "btn" + btn.title(for: .selected)! + "Active"
+        btn.setImage(UIImage(named: image), for: .normal)
+        trump = (btn.title(for: .normal)!)
     }
     
 
