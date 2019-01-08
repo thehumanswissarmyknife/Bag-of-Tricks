@@ -24,7 +24,7 @@ class Card {
         
         color = thisColor
         value = thisValue
-        id = "\(color)\(value)"
+        id = "\(color)\(value)".lowercased()
     }
     
 }

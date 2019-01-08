@@ -15,7 +15,7 @@ class DeckOfCards {
     init (){
         shuffledCards = []
         
-        let colors = ["blue", "green", "yellow", "red"]
+        let colors = ["Blue", "Green", "Yellow", "Red"]
         
         // create the cards in four colors and 1 thru 13
         for n in 1...13 {
@@ -28,7 +28,7 @@ class DeckOfCards {
         // create the wizards (14) & nils (0)
         for _ in 1...4 {
             for n in [0,14]{
-                let card = Card(thisColor: "black", thisValue: n)
+                let card = Card(thisColor: "Black", thisValue: n)
                 shuffledCards.append(card)
             }
         }

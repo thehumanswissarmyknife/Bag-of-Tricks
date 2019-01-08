@@ -179,10 +179,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdC-du-8nJ" userLabel="ivTrumpCard">
-                                <rect key="frame" x="102" y="551" width="188" height="278"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX" userLabel="vHumanArea">
                                 <rect key="frame" x="0.0" y="590" width="1194" height="244"/>
                                 <subviews>
@@ -281,6 +277,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oe-U4-ddV">
+                                <rect key="frame" x="102" y="551" width="140" height="220"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -296,7 +297,6 @@
                         <viewLayoutGuide key="safeArea" id="TjU-yO-tFX"/>
                     </view>
                     <connections>
-                        <outlet property="ivTrumpCard" destination="IdC-du-8nJ" id="gCf-Bo-pGp"/>
                         <outlet property="labelPlayerFour" destination="ezW-kp-hec" id="Nhb-m6-9BV"/>
                         <outlet property="labelPlayerOne" destination="bOy-yS-Jos" id="tIu-fY-IVi"/>
                         <outlet property="labelPlayerThree" destination="fO0-Zw-Nah" id="w3x-nx-7Ac"/>
@@ -308,6 +308,7 @@
                         <outlet property="vCardsInTrick" destination="v8b-Jm-9JS" id="31Y-Cg-Mbm"/>
                         <outlet property="vNextTrick" destination="dMV-af-Hdc" id="E30-o0-f6z"/>
                         <outlet property="vRootView" destination="CXl-mE-ZoZ" id="aKS-bb-3Cj"/>
+                        <outlet property="vTrumpCard" destination="9Oe-U4-ddV" id="aEy-pk-0bo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DpY-fD-3YL" userLabel="First Responder" sceneMemberID="firstResponder"/>

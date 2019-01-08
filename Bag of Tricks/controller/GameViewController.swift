@@ -10,16 +10,26 @@ import UIKit
 
 class GameViewController: UIViewController {
     
+    // MARK: - global variables
     let CARDWIDTHINPLAYAREA =  140
     let CARDHEIGHTINPLAYAREA = 220
     
     let CARDHEIGHTINHUMANAREA = 220
     let CARDWIDTHINHUMANAREA = 140
     
+    // MARK: - COLORS
+    let colorBlue = UIColor(rgb: 0x2980b9)
+    let colorGreen = UIColor(rgb: 0x27ae60)
+    let colorRed = UIColor(rgb: 0xe74c3c)
+    let colorYellow = UIColor(rgb: 0xf1c40f)
+    let colorDarkGrey = UIColor(rgb: 0x636e72)
+    let colorLightGrey = UIColor(rgb: 0xb2bec3)
+    let colorLightestGrey = UIColor(rgb: 0xdfe6e9)
+    
+    
     // MARK: OUTLETS FOR THE UI
     @IBOutlet var vRootView: UIView!
-    @IBOutlet weak var vParkingLot: UIView!
-    @IBOutlet weak var ivTrumpCard: UIImageView!
+    @IBOutlet weak var vTrumpCard: UIView!
     @IBOutlet weak var vNextTrick: UIButton!
     @IBOutlet weak var vCardView: UIView!
     @IBOutlet weak var vCardsInTrick: UIView!
@@ -159,6 +169,7 @@ class GameViewController: UIViewController {
             else {
                 // human player! break from the loop
                 // TODO: disply that the player should play a card
+//                players[0].sortCardsToPlay(thisTrump: trump, cardsPlayed: cardsInTrick)
                 break
             }
         }
@@ -311,7 +322,7 @@ class GameViewController: UIViewController {
     func displayPlayerCards(){
         print("displayPlayerCards")
         // human player is always the first in the players array
-        var theseCards = players[0].cards
+        let theseCards = players[0].cards
         
         for thisCardView in vCardView.subviews {
             thisCardView.removeFromSuperview()
@@ -324,14 +335,18 @@ class GameViewController: UIViewController {
         
         for n in 0..<theseCards.count {
             let thisCard = players[0].cards[n]
-            print("cfreate button \(thisCard.id)")
-            let btnCard = UIButton()
-            btnCard.setImage(UIImage(named: thisCard.id), for: .normal)
+            print("create button \(thisCard.id.lowercased())")
+            
+            let btnCard = createCardButton(for: thisCard)
+//            btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
+//            btnCard.setBackgroundImage(UIImage(named: "bg" + thisCard.color), for: .normal)
+//            btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
+//            btnCard.imageView?.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
+//            btnCard.setTitle("\(thisCard.id.lowercased())", for: .normal)
+//            btnCard.isEnabled = thisCard.canBePlayed
+//            btnCard.addTarget(self, action: #selector(cardButtonPressed(sender:)), for: .touchUpInside)
             btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            btnCard.setTitle("\(thisCard.id)", for: .normal)
-            btnCard.tag = 100 + n
-            btnCard.isEnabled = thisCard.canBePlayed
-            btnCard.addTarget(self, action: #selector(pressed(sender:)), for: .touchUpInside)
+
             vCardView.addSubview(btnCard)
             
             initialOffset += addedPixel
@@ -376,7 +391,8 @@ class GameViewController: UIViewController {
         var offset = 0
         for thisCard in cardsInTrick {
             let vCardPlusName = UIView()
-            let ivCard = UIImageView(image: UIImage(named: thisCard.id))
+            
+            let ivCard = createCardImage(for: thisCard)
             let labelName = UILabel()
             
             labelName.text = players.filter{$0.id == thisCard.playedByPlayer}[0].name
@@ -408,7 +424,7 @@ class GameViewController: UIViewController {
         
         var offset = (Int(vCardsOfPlayer.frame.width) - (players[0].cards.count * 40 + 120)) / 2
         for thisCard in players[0].cards {
-            let ivCard = UIImageView(image: UIImage(named: thisCard.id))
+            let ivCard = createCardImage(for: thisCard)
             ivCard.frame = CGRect(x: offset, y: 0, width: 140, height: 220)
             vCardsOfPlayer.addSubview(ivCard)
             offset += 40
@@ -481,7 +497,12 @@ class GameViewController: UIViewController {
     // display the trump card
     func displayTrumpCard(){
         print("displayTrumpCard")
-        ivTrumpCard.image = UIImage(named: floppedTrumpCard!.id)
+        
+        vTrumpCard.addSubview(createCardImage(for: floppedTrumpCard!))
+//        vTrumpCard.addSubview(myTrumpCard)
+//        myTrumpCard.frame = CGRect(x: 80, y: 550, width: 140, height: 220)
+//        vRootView.insertSubview(myTrumpCard, at: 1)
+//            UIImage(named: floppedTrumpCard!.id)
     }
     
     
@@ -562,10 +583,10 @@ class GameViewController: UIViewController {
         }
     }
     // function that is triggered, when a card is selected
-    @objc func pressed(sender: UIButton){
+    @objc func cardButtonPressed(sender: UIButton){
         print("pressedCard")
         let index = sender.tag - 100       // the cards start with the tag 100
-        let cardId = sender.title(for: .normal)
+        let cardId = sender.title(for: .selected)
         
         cardsInTrick.append(playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
         displayCardsInTrick()
@@ -600,6 +621,35 @@ class GameViewController: UIViewController {
             let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1)
             players.append(aPlayer)
         }
+    }
+    
+    func createCardButton(for thisCard: Card) -> UIButton {
+        print("createCardButton: \(thisCard.id)")
+        
+        let btnCard = UIButton()
+        btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
+        print("bg" + thisCard.color)
+        btnCard.setBackgroundImage(UIImage(named: "bg" + thisCard.color), for: .normal)
+        btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
+//        btnCard.imageView?.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
+        btnCard.setTitle("\(thisCard.id)", for: .selected)
+        btnCard.isEnabled = thisCard.canBePlayed
+        btnCard.addTarget(self, action: #selector(cardButtonPressed(sender:)), for: .touchUpInside)
+        
+        return btnCard
+    }
+    
+    func createCardImage(for thisCard: Card) -> UIView {
+        print("createCardImage:bg" + thisCard.color)
+        let ivCard = UIView()
+        let ivCardBackGround = UIImageView(image: UIImage(named: "bg" + thisCard.color))
+        ivCardBackGround.frame = CGRect(x: 0, y: 0, width: 140, height: 220)
+        let ivCardFace = UIImageView(image: UIImage(named: thisCard.id))
+        ivCardFace.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
+        ivCard.addSubview(ivCardBackGround)
+        ivCard.addSubview(ivCardFace)
+        
+        return ivCard
     }
     
     @objc func btnAdjustTricks(sender: UIButton!) {
@@ -642,4 +692,22 @@ class GameViewController: UIViewController {
     }
     
 
+}
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
 }
