@@ -49,16 +49,45 @@ class Player {
         }
     }
     
+    func sortCards() {
+        cards = cards.sorted { (a, b) -> Bool in
+            if ((a.color.count-1)*13)+a.value > ((b.color.count-1)*13)+b.value {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+    }
     // sort the cards right before the card needs to be played. Index 0 should be the best card to play. Need to know the trump and cards ahve been played.
     func sortCardsToPlay(thisTrump : String, cardsPlayed : [Card]) {
         print("player[\(name)].sortCardsToPlay")
-        
-//        var tempCards = [Card]()
+
         // clear the playable cards
         playableCards.removeAll()
         for thisCard in cards {
             thisCard.canBePlayed = false
         }
+        
+        var cardString = ""
+        for thisCard in cards {
+            cardString = "\(cardString) \(thisCard.id)"
+        }
+        print("sorting cards:\(cardString)")
+        cards = cards.sorted { (a, b) -> Bool in
+            if ((a.color.count-1)*13)+a.value > ((b.color.count-1)*13)+b.value {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        
+        cardString = ""
+        for thisCard in cards {
+            cardString = "\(cardString) \(thisCard.id)"
+        }
+        print("sorted cards:\(cardString)")
         
         // check if there are any cards played - if not, you"re the first one
         if cardsPlayed.count>0 {

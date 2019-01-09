@@ -40,14 +40,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var labelTricksPlayed: UILabel!
     @IBOutlet weak var labelWinner: UILabel!
     
-    @IBOutlet weak var labelPlayerYou: UILabel!
-    @IBOutlet weak var labelPlayerOne: UILabel!
-    @IBOutlet weak var labelPlayerTwo: UILabel!
-    @IBOutlet weak var labelPlayerThree: UILabel!
-    @IBOutlet weak var labelPlayerFour: UILabel!
-    
-    var playerLabels = [UILabel]()
-
+    @IBOutlet weak var vPlayerTrickLabelArea: UIView!
     
     // MARK: - VARIABLES FOR THE GAME LOGIC
     // TODO: Userdefaults integration für name, anzahl player...
@@ -72,13 +65,8 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        playerLabels = [labelPlayerYou, labelPlayerOne, labelPlayerTwo, labelPlayerThree, labelPlayerFour]
         
-        for thisLabel in playerLabels {
-            thisLabel.isHidden = true
-            thisLabel.textColor = UIColor.black
-        }
-        
+    
         
         if let name = defaults.string(forKey: "UserName") as? String {
             myName = name
@@ -119,16 +107,19 @@ class GameViewController: UIViewController {
         
         print("starting new nound")
         print("\(players[playerIndexWhoStartsTheRound].name) is first to play")
+//        displayPlayerTrickLabels()
         
         cardDeck = DeckOfCards()
         clearCardsInTrick()
         dealCards(howManyCards: currentRoundNumber)
         
+        labelTricksPlayed.text = "TRICK \(currentRoundNumber)/\(roundsInTotal)"
+        
         // shift the players so that the one who is supposed to start, is at index 0
         shiftPlayers(thisWinningPlayer: players[playerIndexWhoStartsTheRound])
         
         // if the flopped card is a wizard, the first player has to choose the trump color
-        if floppedTrumpCard!.value == 14 {
+        if floppedTrumpCard!.value == 100 {
             if !playersInOrderOfTrick[0].isHuman{
                 // for the moment pick a random color
                 let colors = ["blue", "green", "red", "yellow"]
@@ -148,7 +139,7 @@ class GameViewController: UIViewController {
             }
         }
         
-        updateTricksUI()
+        displayPlayerTrickLabels()
     }
     
     func newPlay(){
@@ -169,7 +160,7 @@ class GameViewController: UIViewController {
             else {
                 // human player! break from the loop
                 // TODO: disply that the player should play a card
-//                players[0].sortCardsToPlay(thisTrump: trump, cardsPlayed: cardsInTrick)
+                players[0].sortCardsToPlay(thisTrump: trump, cardsPlayed: cardsInTrick)
                 break
             }
         }
@@ -281,12 +272,12 @@ class GameViewController: UIViewController {
         winningCard = cardsInTrick.removeFirst()
         
         for thisCard in cardsInTrick {
-            if winningCard.value == 14 {
+            if winningCard.value == 100 {
                 // Wizarsd always win
                 break
             }
             
-            if thisCard.value == 14 {
+            if thisCard.value == 100 {
                 winningCard = thisCard
                 break
             }
@@ -312,7 +303,8 @@ class GameViewController: UIViewController {
         labelWinner.text = "\(winningPlayer.name) won"
         labelWinner.isHidden = false
         printWinners()
-        updateTricksUI()
+        shiftPlayers(thisWinningPlayer: winningPlayer)
+        displayPlayerTrickLabels()
     }
 
     // MARK: - UI UPDATING FUNCTIONS
@@ -321,9 +313,12 @@ class GameViewController: UIViewController {
     // each card is a button
     func displayPlayerCards(){
         print("displayPlayerCards")
+        players[0].sortCardsToPlay(thisTrump: trump, cardsPlayed: cardsInTrick)
         // human player is always the first in the players array
-        let theseCards = players[0].cards
         
+        players[0].sortCards()
+        let theseCards = players[0].cards
+
         for thisCardView in vCardView.subviews {
             thisCardView.removeFromSuperview()
         }
@@ -334,17 +329,10 @@ class GameViewController: UIViewController {
         let addedPixel = 40
         
         for n in 0..<theseCards.count {
-            let thisCard = players[0].cards[n]
+            let thisCard = theseCards[n]
             print("create button \(thisCard.id.lowercased())")
             
             let btnCard = createCardButton(for: thisCard)
-//            btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
-//            btnCard.setBackgroundImage(UIImage(named: "bg" + thisCard.color), for: .normal)
-//            btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
-//            btnCard.imageView?.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
-//            btnCard.setTitle("\(thisCard.id.lowercased())", for: .normal)
-//            btnCard.isEnabled = thisCard.canBePlayed
-//            btnCard.addTarget(self, action: #selector(cardButtonPressed(sender:)), for: .touchUpInside)
             btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
 
             vCardView.addSubview(btnCard)
@@ -415,13 +403,14 @@ class GameViewController: UIViewController {
         let vBackGround = UIView()
         vCardView.isHidden = true
         vBackGround.tag = 70
-        vBackGround.frame = CGRect(x: 20, y: 100, width: vRootView.frame.width - 40, height: vRootView.frame.height - 20)
+        vBackGround.frame = CGRect(x: 20, y: 180, width: vRootView.frame.width - 40, height: vRootView.frame.height - 20)
         
         let vCardsOfPlayer = UIView()
         vCardsOfPlayer.tag = 71
         vCardsOfPlayer.frame = CGRect(x: 10, y: 10, width: vBackGround.frame.width - 20, height: 220)
         vBackGround.addSubview(vCardsOfPlayer)
         
+        players[0].sortCards()
         var offset = (Int(vCardsOfPlayer.frame.width) - (players[0].cards.count * 40 + 120)) / 2
         for thisCard in players[0].cards {
             let ivCard = createCardImage(for: thisCard)
@@ -459,7 +448,7 @@ class GameViewController: UIViewController {
         labelNumber.tag = 74
         
         var yPosPlayButton = 60
-        if floppedTrumpCard?.value == 14 {
+        if floppedTrumpCard?.value == 100 {
             let vColors = UIView()
             vColors.frame = CGRect(x: pxCenter-100, y: 50, width: 200, height: 50)
             
@@ -507,13 +496,14 @@ class GameViewController: UIViewController {
     
     
     // updates how many tricks each player has won vs planned
-    func updateTricksUI(){
-        print("updateTricksUI")
-        for n in 0..<players.count {
-            playerLabels[n].text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
-            playerLabels[n].isHidden = false
-        }
-    }
+//    func updateTricksUI(){
+//        print("updateTricksUI")
+//        displayPlayerTrickLabels()
+////        for n in 0..<players.count {
+////            playerLabels[n].text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
+////            playerLabels[n].isHidden = false
+////        }
+//    }
     
     func displayWinner(){
         
@@ -532,6 +522,38 @@ class GameViewController: UIViewController {
         for cardView in vCardsInTrick.subviews {
             cardView.removeFromSuperview()
         }
+    }
+    
+    // creates the labels for all players the first time around and afterwards, just updates them
+    func displayPlayerTrickLabels(){
+        if vPlayerTrickLabelArea.subviews.count > 0 {
+            for n in 0..<players.count {
+                let thisLabel = vPlayerTrickLabelArea.subviews[n] as! UILabel
+                thisLabel.text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
+                
+                // TODO: color the player who is playing next, red!
+//                if players[n] === playersInOrderOfTrick[0]{
+//                    thisLabel.textColor = colorRed
+//                }
+//                else {
+//                    thisLabel.textColor = UIColor.black
+//                }
+                
+            }
+        } else {
+
+            let spacing = (Int(vPlayerTrickLabelArea.frame.width) - (players.count * 220)) / (players.count - 1)
+            var offset = 10
+            for thisPlayer in players {
+                let thisLabel = UILabel()
+                thisLabel.font = UIFont(name: "Futura", size: 25)
+                thisLabel.text = "\(thisPlayer.name): \(thisPlayer.tricksWon)/\(thisPlayer.tricksPlanned)"
+                thisLabel.frame = CGRect(x: offset, y: 0, width: 200, height: 50)
+                vPlayerTrickLabelArea.addSubview(thisLabel)
+                offset += spacing + Int(thisLabel.frame.width)
+            }
+        }
+        
     }
     
     // MARK: - PRINTING FUNCTIONS
@@ -629,9 +651,8 @@ class GameViewController: UIViewController {
         let btnCard = UIButton()
         btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
         print("bg" + thisCard.color)
-        btnCard.setBackgroundImage(UIImage(named: "bg" + thisCard.color), for: .normal)
+        btnCard.setBackgroundImage(UIImage(named: "bgWhite"), for: .normal)
         btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
-//        btnCard.imageView?.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
         btnCard.setTitle("\(thisCard.id)", for: .selected)
         btnCard.isEnabled = thisCard.canBePlayed
         btnCard.addTarget(self, action: #selector(cardButtonPressed(sender:)), for: .touchUpInside)
@@ -642,7 +663,7 @@ class GameViewController: UIViewController {
     func createCardImage(for thisCard: Card) -> UIView {
         print("createCardImage:bg" + thisCard.color)
         let ivCard = UIView()
-        let ivCardBackGround = UIImageView(image: UIImage(named: "bg" + thisCard.color))
+        let ivCardBackGround = UIImageView(image: UIImage(named: "bgWhite"))
         ivCardBackGround.frame = CGRect(x: 0, y: 0, width: 140, height: 220)
         let ivCardFace = UIImageView(image: UIImage(named: thisCard.id))
         ivCardFace.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
@@ -674,7 +695,7 @@ class GameViewController: UIViewController {
             viewToDiscard.isHidden = true
             viewToDiscard.removeFromSuperview()
             vCardView.isHidden = false
-            updateTricksUI()
+            displayPlayerTrickLabels()
             newPlay()
         }
     }

@@ -27,7 +27,7 @@ class DeckOfCards {
         
         // create the wizards (14) & nils (0)
         for _ in 1...4 {
-            for n in [0,14]{
+            for n in [0,100]{
                 let card = Card(thisColor: "Black", thisValue: n)
                 shuffledCards.append(card)
             }

@@ -179,6 +179,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oe-U4-ddV">
+                                <rect key="frame" x="102" y="551" width="140" height="220"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX" userLabel="vHumanArea">
                                 <rect key="frame" x="0.0" y="590" width="1194" height="244"/>
                                 <subviews>
@@ -199,9 +204,8 @@
                                 <rect key="frame" x="222" y="165" width="750" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TopGraphic" translatesAutoresizingMaskIntoConstraints="NO" id="5qc-o3-ibX">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="TopGraphic" translatesAutoresizingMaskIntoConstraints="NO" id="5qc-o3-ibX">
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="59"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR CARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-Pu-Oiq" userLabel="labelYourCards">
                                 <rect key="frame" x="499" y="551" width="196" height="40"/>
@@ -224,41 +228,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ezW-kp-hec">
-                                <rect key="frame" x="978" y="60" width="196" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fO0-Zw-Nah">
-                                <rect key="frame" x="731" y="60" width="196" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwr-1W-qSg">
-                                <rect key="frame" x="487" y="60" width="196" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 3: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOy-yS-Jos">
-                                <rect key="frame" x="237" y="60" width="196" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You: 3/7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkg-mO-j4B">
-                                <rect key="frame" x="46" y="60" width="196" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMV-af-Hdc">
                                 <rect key="frame" x="1045" y="135" width="129" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -277,9 +246,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oe-U4-ddV">
-                                <rect key="frame" x="102" y="551" width="140" height="220"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6m-go-RDJ">
+                                <rect key="frame" x="0.0" y="60" width="1194" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -289,24 +257,23 @@
                             <constraint firstAttribute="bottom" secondItem="KpK-VM-dfX" secondAttribute="bottom" id="8sW-bb-ayR"/>
                             <constraint firstItem="v8b-Jm-9JS" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="141" id="K13-0Q-g8V"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="LQH-D1-LV0"/>
+                            <constraint firstItem="C6m-go-RDJ" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="NEU-d2-8bi"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="566" id="Nep-eb-ue3"/>
+                            <constraint firstItem="C6m-go-RDJ" firstAttribute="top" secondItem="5qc-o3-ibX" secondAttribute="bottom" constant="1" id="RKf-Rn-2Zk"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="TKh-ac-EUY"/>
+                            <constraint firstItem="C6m-go-RDJ" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="Uxq-yS-uGL"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="v8b-Jm-9JS" secondAttribute="bottom" constant="105" id="nhn-PA-FxH"/>
                             <constraint firstItem="TjU-yO-tFX" firstAttribute="trailing" secondItem="v8b-Jm-9JS" secondAttribute="trailing" constant="222" id="u60-Lc-kGQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TjU-yO-tFX"/>
                     </view>
                     <connections>
-                        <outlet property="labelPlayerFour" destination="ezW-kp-hec" id="Nhb-m6-9BV"/>
-                        <outlet property="labelPlayerOne" destination="bOy-yS-Jos" id="tIu-fY-IVi"/>
-                        <outlet property="labelPlayerThree" destination="fO0-Zw-Nah" id="w3x-nx-7Ac"/>
-                        <outlet property="labelPlayerTwo" destination="uwr-1W-qSg" id="Rlt-nQ-tc1"/>
-                        <outlet property="labelPlayerYou" destination="rkg-mO-j4B" id="Kqs-L8-TIh"/>
                         <outlet property="labelTricksPlayed" destination="TkI-UU-UnW" id="CpN-E7-vxb"/>
                         <outlet property="labelWinner" destination="XU0-QJ-Y1E" id="3Rv-G5-0df"/>
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
                         <outlet property="vCardsInTrick" destination="v8b-Jm-9JS" id="31Y-Cg-Mbm"/>
                         <outlet property="vNextTrick" destination="dMV-af-Hdc" id="E30-o0-f6z"/>
+                        <outlet property="vPlayerTrickLabelArea" destination="C6m-go-RDJ" id="LXh-Ho-yNt"/>
                         <outlet property="vRootView" destination="CXl-mE-ZoZ" id="aKS-bb-3Cj"/>
                         <outlet property="vTrumpCard" destination="9Oe-U4-ddV" id="aEy-pk-0bo"/>
                     </connections>
