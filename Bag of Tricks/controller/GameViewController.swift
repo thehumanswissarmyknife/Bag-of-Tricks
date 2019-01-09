@@ -313,7 +313,6 @@ class GameViewController: UIViewController {
     // each card is a button
     func displayPlayerCards(){
         print("displayPlayerCards")
-        players[0].sortCardsToPlay(thisTrump: trump, cardsPlayed: cardsInTrick)
         // human player is always the first in the players array
         
         players[0].sortCards()
@@ -485,13 +484,9 @@ class GameViewController: UIViewController {
     
     // display the trump card
     func displayTrumpCard(){
-        print("displayTrumpCard")
+        print("displayTrumpCard: \(floppedTrumpCard!.id)")
         
         vTrumpCard.addSubview(createCardImage(for: floppedTrumpCard!))
-//        vTrumpCard.addSubview(myTrumpCard)
-//        myTrumpCard.frame = CGRect(x: 80, y: 550, width: 140, height: 220)
-//        vRootView.insertSubview(myTrumpCard, at: 1)
-//            UIImage(named: floppedTrumpCard!.id)
     }
     
     
@@ -646,11 +641,9 @@ class GameViewController: UIViewController {
     }
     
     func createCardButton(for thisCard: Card) -> UIButton {
-        print("createCardButton: \(thisCard.id)")
         
         let btnCard = UIButton()
         btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
-        print("bg" + thisCard.color)
         btnCard.setBackgroundImage(UIImage(named: "bgWhite"), for: .normal)
         btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
         btnCard.setTitle("\(thisCard.id)", for: .selected)
@@ -661,7 +654,6 @@ class GameViewController: UIViewController {
     }
     
     func createCardImage(for thisCard: Card) -> UIView {
-        print("createCardImage:bg" + thisCard.color)
         let ivCard = UIView()
         let ivCardBackGround = UIImageView(image: UIImage(named: "bgWhite"))
         ivCardBackGround.frame = CGRect(x: 0, y: 0, width: 140, height: 220)
@@ -702,14 +694,15 @@ class GameViewController: UIViewController {
     
     @objc func btnColor(sender: UIButton){
         let btn = sender
-        var buttons = (sender.superview?.subviews)! as! [UIButton]
+        let buttons = (sender.superview?.subviews)! as! [UIButton]
         for thisButton in buttons {
 
-            thisButton.setImage(UIImage(named: "btn"+thisButton.title(for: .normal)!), for: .selected)
+            thisButton.setImage(UIImage(named: "btn"+thisButton.title(for: .selected)!), for: .selected)
         }
         let image = "btn" + btn.title(for: .selected)! + "Active"
         btn.setImage(UIImage(named: image), for: .normal)
-        trump = (btn.title(for: .normal)!)
+        trump = (btn.title(for: .selected)!)
+        floppedTrumpCard = Card(thisColor: trump, thisValue: 15)
     }
     
 

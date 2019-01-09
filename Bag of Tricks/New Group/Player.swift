@@ -51,7 +51,13 @@ class Player {
     
     func sortCards() {
         cards = cards.sorted { (a, b) -> Bool in
-            if ((a.color.count-1)*13)+a.value > ((b.color.count-1)*13)+b.value {
+            var aColor = a.color.count
+            var bColor = b.color.count
+            
+            if a.color == "black" && a.value == 0 {
+                return false
+            }
+            else if ((aColor-1)*13)+a.value > ((bColor-1)*13)+b.value {
                 return true
             }
             else {
@@ -61,7 +67,7 @@ class Player {
     }
     // sort the cards right before the card needs to be played. Index 0 should be the best card to play. Need to know the trump and cards ahve been played.
     func sortCardsToPlay(thisTrump : String, cardsPlayed : [Card]) {
-        print("player[\(name)].sortCardsToPlay")
+        print("- - player[\(name)].sortCardsToPlay")
 
         // clear the playable cards
         playableCards.removeAll()
@@ -69,29 +75,15 @@ class Player {
             thisCard.canBePlayed = false
         }
         
-        var cardString = ""
-        for thisCard in cards {
-            cardString = "\(cardString) \(thisCard.id)"
-        }
-        print("sorting cards:\(cardString)")
-        cards = cards.sorted { (a, b) -> Bool in
-            if ((a.color.count-1)*13)+a.value > ((b.color.count-1)*13)+b.value {
-                return true
-            }
-            else {
-                return false
-            }
-        }
-        
-        cardString = ""
-        for thisCard in cards {
-            cardString = "\(cardString) \(thisCard.id)"
-        }
-        print("sorted cards:\(cardString)")
+        sortCards()
         
         // check if there are any cards played - if not, you"re the first one
         if cardsPlayed.count>0 {
-            suite = ""
+            
+            // find teh suit to follow
+            suite = "none"
+            
+            // if a zero or a wizard is played
             for thisCard in cardsPlayed {
                 if thisCard.color != "black" {
                     suite = thisCard.color
