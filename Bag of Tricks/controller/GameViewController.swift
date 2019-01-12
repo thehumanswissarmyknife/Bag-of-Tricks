@@ -108,13 +108,11 @@ class GameViewController: UIViewController {
         
         print("starting new nound")
         print("\(players[playerIndexWhoStartsTheRound].name) is first to play")
-//        displayPlayerTrickLabels()
         
         cardDeck = DeckOfCards()
         clearCardsInTrick()
         dealCards(howManyCards: currentRoundNumber)
-        
-        
+
         labelTricksPlayed.text = "TRICK \(currentRoundNumber)/\(roundsInTotal)"
         
         // shift the players so that the one who is supposed to start, is at index 0
@@ -148,7 +146,6 @@ class GameViewController: UIViewController {
     
     func newPlay(){
         print("newPlay")
-        clearCardsInTrick()
         labelWinner.isHidden = true
 
         
@@ -159,7 +156,8 @@ class GameViewController: UIViewController {
             
             if !playersInOrderOfTrick[0].isHuman && playersInOrderOfTrick[0].cards.count > 0{
                 cardsInTrick.append(playersInOrderOfTrick[0].playCard(thisTrump: trump, theseCards: cardsInTrick))
-                displayCardsInTrick()
+//                displayCardsInTrick()
+                displayLastCardInTrick()
                 
                 playersInOrderOfTrick.removeFirst()
             }
@@ -192,7 +190,9 @@ class GameViewController: UIViewController {
                 // show the new scores!
                 
             }
-            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.clearCardsInTrick()
+            }
             cardsInTrick.removeAll()
         }
         
@@ -402,6 +402,49 @@ class GameViewController: UIViewController {
         vRootView.addSubview(vTheScoreBoard)
     }
 
+    func displayLastCardInTrick() {
+        print("diplayLastCardInTrick")
+        
+        // for each card already on the table, the offset is 40
+        let offsetX = (vCardsInTrick.subviews.count * 60)
+        print("======== currently \(cardsInTrick.count) cards in trick")
+        
+        if cardsInTrick.count > 0 {
+            let vCardPlusName = UIView()
+            let ivCard = createCardImage(for: cardsInTrick.last!)
+            let lPlayerName = UILabel()
+            
+            lPlayerName.text = players.filter{$0.id == (cardsInTrick.last?.playedByPlayer)}[0].name
+            lPlayerName.font = UIFont.init(name: "Futura", size: 20)
+            lPlayerName.textAlignment = NSTextAlignment.center
+            
+            ivCard.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+            lPlayerName.frame = CGRect(x: Int(ivCard.frame.width) / 2 - 50, y: Int(ivCard.frame.height) - 20, width: 100, height: 20)
+            
+            vCardPlusName.addSubview(ivCard)
+            vCardPlusName.addSubview(lPlayerName)
+            vCardPlusName.alpha = 0
+            
+            print("adding card: \(cardsInTrick.last!.id), played by \(lPlayerName.text)")
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.vCardsInTrick.addSubview(vCardPlusName)
+                vCardPlusName.frame.origin.y = 0
+                vCardPlusName.frame.origin.x = CGFloat(offsetX)
+                vCardPlusName.alpha = 1
+            }) { finished in
+                print("animation done")
+            }
+            
+        }
+        else {
+            print(":::::: no cards in trick yet :::::::" )
+        }
+        
+        print("======== currently \(vCardsInTrick.subviews.count) views in the area")
+        
+
+    }
     // display the cards in the current trick
     func displayCardsInTrick(){
         print("displayCardsInTrick")
@@ -423,13 +466,25 @@ class GameViewController: UIViewController {
             
             vCardPlusName.addSubview(ivCard)
             vCardPlusName.addSubview(labelName)
-            vCardsInTrick.addSubview(vCardPlusName)
+            vCardPlusName.alpha = 0
+            self.vCardsInTrick.addSubview(vCardPlusName)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {
+                    vCardPlusName.alpha = 1
+                    vCardPlusName.frame.origin.y += 600
+                }) { (true) in
+                    print("Done")
+                }
+            }
+
+            
             offset += CARDWIDTHINHUMANAREA + 20
         }
     }
     
     func displayTrickBettingScreen() {
         
+
         print("displayTrickBettingScreen")
         let vBackGround = UIView()
         vCardView.isHidden = true
@@ -447,7 +502,7 @@ class GameViewController: UIViewController {
             let ivCard = createCardImage(for: thisCard)
             ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
             vCardsOfPlayer.addSubview(ivCard)
-            offset += 40
+            offset += 60
         }
         
         let vBettingArea = UIView()
@@ -649,7 +704,9 @@ class GameViewController: UIViewController {
         let cardId = sender.title(for: .selected)
         
         cardsInTrick.append(playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
-        displayCardsInTrick()
+//        displayCardsInTrick()
+        
+        displayLastCardInTrick()
         displayPlayerCards()
         playersInOrderOfTrick.removeFirst()
         
