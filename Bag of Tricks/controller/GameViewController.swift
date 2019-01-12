@@ -144,8 +144,7 @@ class GameViewController: UIViewController {
         displayPlayerTrickLabels()
     }
     
-    func newPlay(){
-        print("newPlay")
+    func playTrick(){
         labelWinner.isHidden = true
 
         
@@ -189,9 +188,6 @@ class GameViewController: UIViewController {
             else {
                 // show the new scores!
                 
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.clearCardsInTrick()
             }
             cardsInTrick.removeAll()
         }
@@ -332,7 +328,7 @@ class GameViewController: UIViewController {
         let widthOfCards = CARDWIDTHINHUMANAREA + (theseCards.count * 40)
         let widthOfView = vCardView.frame.width - 40
         var initialOffset : Int = ((Int(widthOfView) - widthOfCards) / 2)
-        let addedPixel = 40
+        let addedPixel = 60
         
         for n in 0..<theseCards.count {
             let thisCard = theseCards[n]
@@ -410,6 +406,7 @@ class GameViewController: UIViewController {
         print("======== currently \(cardsInTrick.count) cards in trick")
         
         if cardsInTrick.count > 0 {
+            
             let vCardPlusName = UIView()
             let ivCard = createCardImage(for: cardsInTrick.last!)
             let lPlayerName = UILabel()
@@ -467,6 +464,7 @@ class GameViewController: UIViewController {
             vCardPlusName.addSubview(ivCard)
             vCardPlusName.addSubview(labelName)
             vCardPlusName.alpha = 0
+           
             self.vCardsInTrick.addSubview(vCardPlusName)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {
@@ -598,12 +596,13 @@ class GameViewController: UIViewController {
     }
     
     // removes all cards in the trick area from the view
-    func clearCardsInTrick(){
+    func clearCardsInTrick() -> Bool{
         print("clearCardsInTrick")
         // clear all images from the view
         for cardView in vCardsInTrick.subviews {
             cardView.removeFromSuperview()
         }
+        return true
     }
     
     // creates the labels for all players the first time around and afterwards, just updates them
@@ -694,7 +693,9 @@ class GameViewController: UIViewController {
             startRound()
         }
         else {
-            newPlay()
+            if clearCardsInTrick() {
+                playTrick()
+            }
         }
     }
     // function that is triggered, when a card is selected
@@ -710,7 +711,7 @@ class GameViewController: UIViewController {
         displayPlayerCards()
         playersInOrderOfTrick.removeFirst()
         
-        newPlay()
+        playTrick()
         
     }
     
@@ -760,7 +761,7 @@ class GameViewController: UIViewController {
         let ivCardBackGround = UIImageView(image: UIImage(named: "bgWhite"))
         ivCardBackGround.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
         let ivCardFace = UIImageView(image: UIImage(named: thisCard.id))
-        ivCardFace.frame = CGRect(x: 5, y: 5, width: CARDWIDTHINHUMANAREA - 10, height: CARDHEIGHTINHUMANAREA - 10)
+        ivCardFace.frame = CGRect(x: 10, y: 10, width: CARDWIDTHINHUMANAREA - 20, height: CARDHEIGHTINHUMANAREA - 20)
         ivCard.addSubview(ivCardBackGround)
         ivCard.addSubview(ivCardFace)
         
@@ -790,7 +791,7 @@ class GameViewController: UIViewController {
             viewToDiscard.removeFromSuperview()
             vCardView.isHidden = false
             displayPlayerTrickLabels()
-            newPlay()
+            playTrick()
         }
     }
     
