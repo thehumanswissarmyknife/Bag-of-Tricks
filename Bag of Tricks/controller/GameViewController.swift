@@ -11,11 +11,11 @@ import UIKit
 class GameViewController: UIViewController {
     
     // MARK: - global variables
-    let CARDWIDTHINPLAYAREA =  140
-    let CARDHEIGHTINPLAYAREA = 220
+//    let CARDWIDTHINPLAYAREA =  163
+//    let CARDHEIGHTINPLAYAREA = 256
     
-    let CARDHEIGHTINHUMANAREA = 220
-    let CARDWIDTHINHUMANAREA = 140
+    let CARDHEIGHTINHUMANAREA = 300
+    let CARDWIDTHINHUMANAREA = 191
     
     // MARK: - COLORS
     let colorBlue = UIColor(rgb: 0x2980b9)
@@ -33,6 +33,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var vNextTrick: UIButton!
     @IBOutlet weak var vCardView: UIView!
     @IBOutlet weak var vCardsInTrick: UIView!
+    @IBOutlet weak var vHumanArea: UIView!
     
     
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
@@ -113,10 +114,13 @@ class GameViewController: UIViewController {
         clearCardsInTrick()
         dealCards(howManyCards: currentRoundNumber)
         
+        
         labelTricksPlayed.text = "TRICK \(currentRoundNumber)/\(roundsInTotal)"
         
         // shift the players so that the one who is supposed to start, is at index 0
         shiftPlayers(thisWinningPlayer: players[playerIndexWhoStartsTheRound])
+        
+        highlightDealerName()
         
         // if the flopped card is a wizard, the first player has to choose the trump color
         if floppedTrumpCard!.value == 100 {
@@ -147,6 +151,7 @@ class GameViewController: UIViewController {
         clearCardsInTrick()
         labelWinner.isHidden = true
 
+        
         // this loop will go on till the number of tricks played is equal to the tricks in the round
         while tricksPlayedInRound < currentRoundNumber && playersInOrderOfTrick.count > 0 {
             // continuing playing the trick:
@@ -155,12 +160,13 @@ class GameViewController: UIViewController {
             if !playersInOrderOfTrick[0].isHuman && playersInOrderOfTrick[0].cards.count > 0{
                 cardsInTrick.append(playersInOrderOfTrick[0].playCard(thisTrump: trump, theseCards: cardsInTrick))
                 displayCardsInTrick()
+                
                 playersInOrderOfTrick.removeFirst()
             }
             else {
                 // human player! break from the loop
                 // TODO: disply that the player should play a card
-                players[0].sortCardsToPlay(thisTrump: trump, cardsPlayed: cardsInTrick)
+                players[0].sortCards()
                 break
             }
         }
@@ -168,7 +174,6 @@ class GameViewController: UIViewController {
         // if all cards have been played
         if playersInOrderOfTrick.count == 0 {
             // evaluate trick -> sets winningCard and winningPlayer
-//            evaluate(cardsInTrick: cardsInTrick)
             evaluateCardsInTrick()
             
             // fill up the playersInOrderOfTrick array and shift it accordingly
@@ -185,7 +190,6 @@ class GameViewController: UIViewController {
             }
             else {
                 // show the new scores!
-//                displayScores()
                 
             }
             
@@ -195,6 +199,7 @@ class GameViewController: UIViewController {
         // if all tricks of the round have been played
         if tricksPlayedInRound == currentRoundNumber {
             // evaluate this round
+//            displayScores()
             for thisPlayer in players {
                 let oldScore = thisPlayer.score
                 if thisPlayer.tricksPlanned == thisPlayer.tricksWon {
@@ -210,6 +215,8 @@ class GameViewController: UIViewController {
                 thisPlayer.tricksWon = 0
                 thisPlayer.tricksPlanned = 0
             }
+            
+            
             // increase currentNumberOftricks
             currentRoundNumber += 1
             
@@ -322,14 +329,14 @@ class GameViewController: UIViewController {
             thisCardView.removeFromSuperview()
         }
         
-        let widthOfCards = CARDWIDTHINPLAYAREA + (theseCards.count * 40)
+        let widthOfCards = CARDWIDTHINHUMANAREA + (theseCards.count * 40)
         let widthOfView = vCardView.frame.width - 40
         var initialOffset : Int = ((Int(widthOfView) - widthOfCards) / 2)
         let addedPixel = 40
         
         for n in 0..<theseCards.count {
             let thisCard = theseCards[n]
-            print("create button \(thisCard.id.lowercased())")
+//            print("create button \(thisCard.id.lowercased())")
             
             let btnCard = createCardButton(for: thisCard)
             btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
@@ -343,32 +350,56 @@ class GameViewController: UIViewController {
     func displayScores() {
         print("displayScores")
 //        vRootView.
-        let vScoreBoard = UIView()
-        vScoreBoard.tag = 60
+        
+        let middleX = Int(vRootView.frame.width) / 2
+        
+        let vTheScoreBoard = UIView()
+        vTheScoreBoard.tag = 50
+        
+        vTheScoreBoard.frame = CGRect(x:  middleX - 945/2, y: 100, width: 945, height: 400)
+        let ivScoreBoard = UIImageView(image: UIImage(named: "scoreBoard"))
+        ivScoreBoard.frame = CGRect(x:  0, y: 0, width: 945, height: 508)
+        vTheScoreBoard.addSubview((ivScoreBoard))
+        vRootView.addSubview(vTheScoreBoard)
+        
+        let btnNextRound = UIButton()
+        btnNextRound.setImage(UIImage(named: "btnNextRound"), for: .normal)
+        btnNextRound.frame = CGRect(x: middleX - 269/2, y: 300, width: 269, height: 60)
+        btnNextRound.addTarget(self, action: #selector(btnNextRoundAfterScores), for: .touchUpInside)
+        vTheScoreBoard.addSubview((btnNextRound))
         
         let svScores = UIStackView()
-        var yPos = 0
+        var yPos = 50
+        
+        let labelTheScore = UILabel()
+        labelTheScore.text = "Scores after \(currentRoundNumber) of \(roundsInTotal)"
+        labelTheScore.font = UIFont(name: "Futura", size: 30)
+        vTheScoreBoard.addSubview(labelTheScore)
         
         for thisPlayer in players {
             let myView = UIView()
+            
             let labelName = UILabel()
             labelName.text = thisPlayer.name
-            labelName.frame = CGRect(x: 0, y: yPos, width: 120, height: 30)
+            labelName.frame = CGRect(x: 20, y: yPos, width: 150, height: 25)
+            labelName.font = UIFont(name: "Futura", size: 30)
             let labelTricks = UILabel()
             labelTricks.text = "\(thisPlayer.tricksWon)/\(thisPlayer.tricksPlanned)"
-            labelTricks.frame = CGRect(x: Int(labelName.frame.width + 10), y: yPos, width: 50, height: 30)
+            labelTricks.frame = CGRect(x: Int(labelName.frame.width + 20), y: yPos, width: 80, height: 25)
+            labelTricks.font = UIFont(name: "Futura", size: 30)
             let labelScore = UILabel()
             labelScore.text = "\(thisPlayer.score)"
-            labelScore.frame = CGRect(x: Int(labelName.frame.width + labelTricks.frame.width + 20), y: yPos, width: 50, height: 30)
+            labelScore.frame = CGRect(x: Int(labelName.frame.width + labelTricks.frame.width + 40), y: yPos, width: 80, height: 25)
+            labelScore.font = UIFont(name: "Futura", size: 30)
             
             myView.addSubview(labelName)
             myView.addSubview(labelTricks)
             myView.addSubview(labelScore)
             
-            vScoreBoard.addSubview(myView)
+            vTheScoreBoard.addSubview(myView)
             yPos += 40
         }
-        vRootView.addSubview(vScoreBoard)
+        vRootView.addSubview(vTheScoreBoard)
     }
 
     // display the cards in the current trick
@@ -387,17 +418,18 @@ class GameViewController: UIViewController {
             labelName.textColor = UIColor.black
             labelName.textAlignment = NSTextAlignment.center
             
-            ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINPLAYAREA, height: CARDHEIGHTINPLAYAREA)
-            labelName.frame = CGRect(x: offset, y: CARDHEIGHTINPLAYAREA + 20, width: CARDWIDTHINPLAYAREA, height: 30)
+            ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+            labelName.frame = CGRect(x: offset, y: CARDHEIGHTINHUMANAREA + 20, width: CARDWIDTHINHUMANAREA, height: 30)
             
             vCardPlusName.addSubview(ivCard)
             vCardPlusName.addSubview(labelName)
             vCardsInTrick.addSubview(vCardPlusName)
-            offset += CARDWIDTHINPLAYAREA + 20
+            offset += CARDWIDTHINHUMANAREA + 20
         }
     }
     
     func displayTrickBettingScreen() {
+        
         print("displayTrickBettingScreen")
         let vBackGround = UIView()
         vCardView.isHidden = true
@@ -406,34 +438,34 @@ class GameViewController: UIViewController {
         
         let vCardsOfPlayer = UIView()
         vCardsOfPlayer.tag = 71
-        vCardsOfPlayer.frame = CGRect(x: 10, y: 10, width: vBackGround.frame.width - 20, height: 220)
+        vCardsOfPlayer.frame = CGRect(x: 10, y: 10, width: Int(vBackGround.frame.width - 20), height: CARDHEIGHTINHUMANAREA)
         vBackGround.addSubview(vCardsOfPlayer)
         
         players[0].sortCards()
         var offset = (Int(vCardsOfPlayer.frame.width) - (players[0].cards.count * 40 + 120)) / 2
         for thisCard in players[0].cards {
             let ivCard = createCardImage(for: thisCard)
-            ivCard.frame = CGRect(x: offset, y: 0, width: 140, height: 220)
+            ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
             vCardsOfPlayer.addSubview(ivCard)
             offset += 40
         }
         
         let vBettingArea = UIView()
         vBettingArea.tag = 72
-        vBettingArea.frame = CGRect(x: 10, y: 240, width: vBackGround.frame.width - 40, height: 160)
+        vBettingArea.frame = CGRect(x: 10, y: 240, width: Int(vBackGround.frame.width - 40), height: CARDHEIGHTINHUMANAREA + 20)
         vBackGround.addSubview(vBettingArea)
         
         let pxCenter = Int(vBettingArea.frame.width) / 2
         
         let btnMinus = UIButton()
-        btnMinus.setTitle("-", for: .normal)
+        btnMinus.setTitle("-", for: .selected)
         btnMinus.setImage(UIImage(named: "btnMinus"), for: .normal)
         btnMinus.frame = CGRect(x: pxCenter - 100, y: 0, width: 45, height: 45)
         btnMinus.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
         btnMinus.tag = 0
         
         let btnPlus = UIButton()
-        btnPlus.setTitle("+", for: .normal)
+        btnPlus.setTitle("+", for: .selected)
         btnPlus.setImage(UIImage(named: "btnPlus"), for: .normal)
         btnPlus.frame = CGRect(x: pxCenter + 55, y: 0, width: 45, height: 45)
         btnPlus.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
@@ -527,12 +559,6 @@ class GameViewController: UIViewController {
                 thisLabel.text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
                 
                 // TODO: color the player who is playing next, red!
-//                if players[n] === playersInOrderOfTrick[0]{
-//                    thisLabel.textColor = colorRed
-//                }
-//                else {
-//                    thisLabel.textColor = UIColor.black
-//                }
                 
             }
         } else {
@@ -549,6 +575,23 @@ class GameViewController: UIViewController {
             }
         }
         
+    }
+    
+    func highlightDealerName(){
+        print("highlightDealerName")
+        let labelArray = vPlayerTrickLabelArea.subviews
+        
+        for thisView in labelArray {
+            let thisLabel = thisView as! UILabel
+            var thisName = thisLabel.text!
+            thisName = String(thisName.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true)[0])
+            print(thisName)
+            if thisName == playersInOrderOfTrick.last?.name {
+                thisLabel.textColor = colorRed
+            } else {
+                thisLabel.textColor = UIColor.black
+            }
+        }
     }
     
     // MARK: - PRINTING FUNCTIONS
@@ -644,6 +687,8 @@ class GameViewController: UIViewController {
         
         let btnCard = UIButton()
         btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
+        btnCard.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        btnCard.imageView?.contentMode = .scaleAspectFill
         btnCard.setBackgroundImage(UIImage(named: "bgWhite"), for: .normal)
         btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
         btnCard.setTitle("\(thisCard.id)", for: .selected)
@@ -656,9 +701,9 @@ class GameViewController: UIViewController {
     func createCardImage(for thisCard: Card) -> UIView {
         let ivCard = UIView()
         let ivCardBackGround = UIImageView(image: UIImage(named: "bgWhite"))
-        ivCardBackGround.frame = CGRect(x: 0, y: 0, width: 140, height: 220)
+        ivCardBackGround.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
         let ivCardFace = UIImageView(image: UIImage(named: thisCard.id))
-        ivCardFace.frame = CGRect(x: 10, y: 10, width: 120, height: 200)
+        ivCardFace.frame = CGRect(x: 5, y: 5, width: CARDWIDTHINHUMANAREA - 10, height: CARDHEIGHTINHUMANAREA - 10)
         ivCard.addSubview(ivCardBackGround)
         ivCard.addSubview(ivCardFace)
         
@@ -703,6 +748,11 @@ class GameViewController: UIViewController {
         btn.setImage(UIImage(named: image), for: .normal)
         trump = (btn.title(for: .selected)!)
         floppedTrumpCard = Card(thisColor: trump, thisValue: 15)
+    }
+    
+    @objc func btnNextRoundAfterScores(sender: UIButton){
+        let theView = vRootView.subviews.filter{$0.tag == 50}[0]
+        theView.removeFromSuperview()
     }
     
 

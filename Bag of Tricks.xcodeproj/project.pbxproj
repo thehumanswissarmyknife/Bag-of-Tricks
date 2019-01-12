@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F37BED9121E8F0E70009FB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37BED9021E8F0E70009FB7C /* Assets.xcassets */; };
 		F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866921DD0B5400B9A313 /* MainViewController.swift */; };
 		F3A9866C21DD0C9700B9A313 /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */; };
 		F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866D21DD10F900B9A313 /* Settings.swift */; };
@@ -15,7 +16,6 @@
 		F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0508621DD03350087C1F7 /* AppDelegate.swift */; };
 		F3E0508921DD03350087C1F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0508821DD03350087C1F7 /* ViewController.swift */; };
 		F3E0508C21DD03350087C1F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508A21DD03350087C1F7 /* Main.storyboard */; };
-		F3E0508E21DD03360087C1F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508D21DD03360087C1F7 /* Assets.xcassets */; };
 		F3E0509121DD03360087C1F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E0508F21DD03360087C1F7 /* LaunchScreen.storyboard */; };
 		F3E050A421DD03B30087C1F7 /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0509E21DD03B30087C1F7 /* Opponent.swift */; };
 		F3E050A521DD03B30087C1F7 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0509F21DD03B30087C1F7 /* Card.swift */; };
@@ -24,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F37BED9021E8F0E70009FB7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3A9866921DD0B5400B9A313 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		F3A9866D21DD10F900B9A313 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -33,7 +34,6 @@
 		F3E0508621DD03350087C1F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3E0508821DD03350087C1F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F3E0508B21DD03350087C1F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F3E0508D21DD03360087C1F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3E0509021DD03360087C1F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F3E0509221DD03360087C1F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3E0509E21DD03B30087C1F7 /* Opponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
@@ -75,8 +75,8 @@
 				F3E0509C21DD03A40087C1F7 /* Model */,
 				F3E0509B21DD03990087C1F7 /* controller */,
 				F3E0509A21DD03750087C1F7 /* View */,
-				F3E0508D21DD03360087C1F7 /* Assets.xcassets */,
 				F3E0509221DD03360087C1F7 /* Info.plist */,
+				F37BED9021E8F0E70009FB7C /* Assets.xcassets */,
 			);
 			path = "Bag of Tricks";
 			sourceTree = "<group>";
@@ -175,7 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3E0509121DD03360087C1F7 /* LaunchScreen.storyboard in Resources */,
-				F3E0508E21DD03360087C1F7 /* Assets.xcassets in Resources */,
+				F37BED9121E8F0E70009FB7C /* Assets.xcassets in Resources */,
 				F3E0508C21DD03350087C1F7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
