@@ -4,9 +4,14 @@ https://github.com/thehumanswissarmyknife/Bag-of-Tricks.git
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+## personal files
+graphics/
+*.afdesign
+
 ## Build generated
 build/
 DerivedData/
+
 
 ## Various settings
 *.pbxuser
