@@ -250,12 +250,7 @@ class GameViewController: UIViewController {
                 thisPlayer.cards.append(thisCard)
                 
                 // TODO: to make it less akward, make the human cards appear slowly
-                if thisPlayer.isHuman {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.displayPlayerCards()
-                    }
-                    
-                }
+
             }
         }
         
@@ -494,11 +489,13 @@ class GameViewController: UIViewController {
     func displayTrickBettingScreen() {
         pushHumanAreaUp()
         
-
+        for thisView in vCardView.subviews{
+            thisView.removeFromSuperview()
+        }
         print("displayTrickBettingScreen")
         
         players[0].sortCards()
-        var offset = (Int(vCardView.frame.width) - (players[0].cards.count * 40 + 120)) / 2
+        var offset = (Int(vCardView.frame.width) - (players[0].cards.count * 40 + 192)) / 2
         for thisCard in players[0].cards {
             let ivCard = createCardImage(for: thisCard)
             ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
@@ -575,16 +572,7 @@ class GameViewController: UIViewController {
         vTrumpCard.addSubview(createCardImage(for: floppedTrumpCard!))
     }
     
-    
-    // updates how many tricks each player has won vs planned
-//    func updateTricksUI(){
-//        print("updateTricksUI")
-//        displayPlayerTrickLabels()
-////        for n in 0..<players.count {
-////            playerLabels[n].text = "\(players[n].name): \(players[n].tricksWon)/\(players[n].tricksPlanned)"
-////            playerLabels[n].isHidden = false
-////        }
-//    }
+
     
     func displayWinner(){
         
@@ -651,6 +639,7 @@ class GameViewController: UIViewController {
     
     // preparation for the betting
     func pushHumanAreaUp(){
+        print("pushHumanAreaUp")
         UIView.animate(withDuration: 1, animations: {
             self.cHumanAreaTop.constant -= 150
             self.cLabelHumanArea.constant -= 150
@@ -662,6 +651,7 @@ class GameViewController: UIViewController {
     }
     
     func pushDownHumanArea(){
+        print("pushDownHumanArea")
         UIView.animate(withDuration: 1, animations: {
             self.cHumanAreaTop.constant = 536
             self.cLabelHumanArea.constant = -35
@@ -743,14 +733,27 @@ class GameViewController: UIViewController {
         let cardId = sender.title(for: .selected)
         
         cardsInTrick.append(playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
-//        displayCardsInTrick()
-        
+        disablePlayerCards()
         displayLastCardInTrick()
         displayPlayerCards()
         playersInOrderOfTrick.removeFirst()
         
         playTrick()
         
+    }
+    
+    func disablePlayerCards(){
+        for thisCardbutton in vCardView.subviews {
+            let btn = thisCardbutton as! UIButton
+            btn.isEnabled = false
+        }
+    }
+    
+    func enablePlayerCards(){
+        for thisCardbutton in vCardView.subviews {
+            let btn = thisCardbutton as! UIButton
+            btn.isEnabled = true
+        }
     }
     
     // shifts the array playersInOrderOfTrick
@@ -797,7 +800,7 @@ class GameViewController: UIViewController {
         let ivCardBackGround = UIImageView(image: UIImage(named: "bgWhite"))
         ivCardBackGround.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
         let ivCardFace = UIImageView(image: UIImage(named: thisCard.id))
-        ivCardFace.frame = CGRect(x: 10, y: 10, width: CARDWIDTHINHUMANAREA - 20, height: CARDHEIGHTINHUMANAREA - 20)
+        ivCardFace.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
         ivCard.addSubview(ivCardBackGround)
         ivCard.addSubview(ivCardFace)
         
