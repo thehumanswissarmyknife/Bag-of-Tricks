@@ -179,58 +179,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oe-U4-ddV">
-                                <rect key="frame" x="20" y="215" width="140" height="220"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX" userLabel="vHumanArea">
-                                <rect key="frame" x="0.0" y="590" width="1194" height="244"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="YourCardArea" translatesAutoresizingMaskIntoConstraints="NO" id="Vrt-qV-lln">
-                                        <rect key="frame" x="0.0" y="-44" width="1194" height="288"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OS1-CC-c6L">
-                                        <rect key="frame" x="8" y="12" width="1178" height="220"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8b-Jm-9JS" userLabel="vCardsInTrick">
-                                <rect key="frame" x="222" y="165" width="750" height="320"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TopGraphic" translatesAutoresizingMaskIntoConstraints="NO" id="5qc-o3-ibX">
-                                <rect key="frame" x="0.0" y="-12" width="1194" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR CARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-Pu-Oiq" userLabel="labelYourCards">
-                                <rect key="frame" x="499" y="551" width="196" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trump" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSE-tY-DjA" userLabel="labelTrump">
-                                <rect key="frame" x="39" y="167" width="103" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trick x / 15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkI-UU-UnW" userLabel="labelRoundNumber">
-                                <rect key="frame" x="29" y="12" width="203" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMV-af-Hdc">
-                                <rect key="frame" x="1045" y="135" width="129" height="42"/>
+                                <rect key="frame" x="1065" y="134" width="129" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="23"/>
                                 <state key="normal" title="NEXT TRICK">
@@ -247,26 +197,106 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6m-go-RDJ">
-                                <rect key="frame" x="266" y="0.0" width="902" height="50"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YCb-jV-1hA" userLabel="vPlayArea">
+                                <rect key="frame" x="0.0" y="120" width="1057" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8b-Jm-9JS" userLabel="vCardsInTrick">
+                                        <rect key="frame" x="258" y="0.0" width="749" height="300"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oe-U4-ddV">
+                                        <rect key="frame" x="24" y="0.0" width="192" height="300"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trump" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSE-tY-DjA" userLabel="labelTrump">
+                                        <rect key="frame" x="78" y="308" width="83" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cards played in trick" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rE-i7-OJs" userLabel="labelTrump">
+                                        <rect key="frame" x="493" y="308" width="279" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpK-VM-dfX" userLabel="vHumanArea">
+                                <rect key="frame" x="0.0" y="536" width="1194" height="298"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="YourCardArea" translatesAutoresizingMaskIntoConstraints="NO" id="Vrt-qV-lln">
+                                        <rect key="frame" x="0.0" y="0.0" width="1194" height="498"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OS1-CC-c6L">
+                                        <rect key="frame" x="8" y="8" width="1178" height="100"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR CARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-Pu-Oiq" userLabel="labelYourCards">
+                                        <rect key="frame" x="499" y="-35" width="196" height="32.5"/>
+                                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="OS1-CC-c6L" secondAttribute="bottom" constant="190" id="38A-VN-5ig"/>
+                                    <constraint firstItem="BRS-Pu-Oiq" firstAttribute="top" secondItem="KpK-VM-dfX" secondAttribute="top" constant="-35" id="5fG-Gh-Y6B"/>
+                                    <constraint firstItem="OS1-CC-c6L" firstAttribute="top" secondItem="KpK-VM-dfX" secondAttribute="top" constant="8" id="92l-HH-hQY"/>
+                                    <constraint firstAttribute="trailing" secondItem="OS1-CC-c6L" secondAttribute="trailing" constant="8" id="9MF-ff-GAd"/>
+                                    <constraint firstItem="BRS-Pu-Oiq" firstAttribute="leading" secondItem="KpK-VM-dfX" secondAttribute="leading" constant="499" id="ZpH-dO-hoU"/>
+                                    <constraint firstAttribute="trailing" secondItem="BRS-Pu-Oiq" secondAttribute="trailing" constant="499" id="cnP-OA-8Si"/>
+                                    <constraint firstItem="BRS-Pu-Oiq" firstAttribute="centerX" secondItem="KpK-VM-dfX" secondAttribute="centerX" id="kxz-cs-RHA"/>
+                                    <constraint firstItem="OS1-CC-c6L" firstAttribute="leading" secondItem="KpK-VM-dfX" secondAttribute="leading" constant="8" id="ofC-ju-E5e"/>
+                                    <constraint firstAttribute="bottom" secondItem="BRS-Pu-Oiq" secondAttribute="bottom" constant="300.5" id="uBt-nO-cwH"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lei-0D-IbG" userLabel="vTopGraphics">
+                                <rect key="frame" x="0.0" y="0.0" width="1194" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TopGraphic" translatesAutoresizingMaskIntoConstraints="NO" id="5qc-o3-ibX">
+                                        <rect key="frame" x="0.0" y="0.0" width="1194" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trick x / 15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkI-UU-UnW" userLabel="labelRoundNumber">
+                                        <rect key="frame" x="20" y="12" width="184" height="39"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6m-go-RDJ">
+                                        <rect key="frame" x="272" y="7" width="902" height="49"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="v8b-Jm-9JS" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" constant="222" id="79Z-PV-htf"/>
-                            <constraint firstAttribute="bottom" secondItem="KpK-VM-dfX" secondAttribute="bottom" id="8sW-bb-ayR"/>
-                            <constraint firstItem="v8b-Jm-9JS" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="141" id="K13-0Q-g8V"/>
-                            <constraint firstItem="KpK-VM-dfX" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="LQH-D1-LV0"/>
-                            <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="TjU-yO-tFX" secondAttribute="top" constant="566" id="Nep-eb-ue3"/>
-                            <constraint firstItem="KpK-VM-dfX" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="TKh-ac-EUY"/>
-                            <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="v8b-Jm-9JS" secondAttribute="bottom" constant="105" id="nhn-PA-FxH"/>
-                            <constraint firstItem="TjU-yO-tFX" firstAttribute="trailing" secondItem="v8b-Jm-9JS" secondAttribute="trailing" constant="222" id="u60-Lc-kGQ"/>
+                            <constraint firstAttribute="bottom" secondItem="KpK-VM-dfX" secondAttribute="bottom" id="OEP-bJ-n44"/>
+                            <constraint firstAttribute="trailing" secondItem="KpK-VM-dfX" secondAttribute="trailing" id="amx-bX-Z2Q"/>
+                            <constraint firstItem="KpK-VM-dfX" firstAttribute="leading" secondItem="CXl-mE-ZoZ" secondAttribute="leading" id="id8-dx-Ce6"/>
+                            <constraint firstItem="KpK-VM-dfX" firstAttribute="top" secondItem="CXl-mE-ZoZ" secondAttribute="top" constant="536" id="l6l-8C-mvh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TjU-yO-tFX"/>
                     </view>
                     <connections>
+                        <outlet property="cHumanAreaTop" destination="l6l-8C-mvh" id="8DN-4T-hgb"/>
+                        <outlet property="cLabelHumanArea" destination="5fG-Gh-Y6B" id="d5e-Cm-hy0"/>
+                        <outlet property="lHumanArea" destination="BRS-Pu-Oiq" id="IXz-GN-CXR"/>
                         <outlet property="labelTricksPlayed" destination="TkI-UU-UnW" id="CpN-E7-vxb"/>
                         <outlet property="labelWinner" destination="XU0-QJ-Y1E" id="3Rv-G5-0df"/>
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
@@ -286,7 +316,7 @@
     <resources>
         <image name="BackGround" width="1366" height="1024.5"/>
         <image name="TopGraphic" width="1366" height="71.5"/>
-        <image name="YourCardArea" width="1366" height="350.5"/>
+        <image name="YourCardArea" width="1366" height="733"/>
         <image name="btnPlay" width="705" height="216.27272033691406"/>
         <image name="btnRules" width="705" height="216"/>
         <image name="btnSettings" width="705" height="216"/>

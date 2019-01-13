@@ -34,6 +34,9 @@ class GameViewController: UIViewController {
     @IBOutlet weak var vCardView: UIView!
     @IBOutlet weak var vCardsInTrick: UIView!
     @IBOutlet weak var vHumanArea: UIView!
+    @IBOutlet weak var cHumanAreaTop: NSLayoutConstraint!
+    @IBOutlet weak var cLabelHumanArea: NSLayoutConstraint!
+    @IBOutlet weak var lHumanArea: UILabel!
     
     
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
@@ -66,6 +69,8 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        cHumanAreaTop.constant = 556
+        
         
     
         
@@ -326,9 +331,8 @@ class GameViewController: UIViewController {
         }
         
         let widthOfCards = CARDWIDTHINHUMANAREA + (theseCards.count * 40)
-        let widthOfView = vCardView.frame.width - 40
-        var initialOffset : Int = ((Int(widthOfView) - widthOfCards) / 2)
-        let addedPixel = 60
+        var initialOffset : Int = (Int(vCardView.frame.width) - widthOfCards)/2
+        let addedPixel = 40
         
         for n in 0..<theseCards.count {
             let thisCard = theseCards[n]
@@ -336,6 +340,7 @@ class GameViewController: UIViewController {
             
             let btnCard = createCardButton(for: thisCard)
             btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+            btnCard.isHidden = false
 
             vCardView.addSubview(btnCard)
             
@@ -429,6 +434,7 @@ class GameViewController: UIViewController {
                 vCardPlusName.frame.origin.y = 0
                 vCardPlusName.frame.origin.x = CGFloat(offsetX)
                 vCardPlusName.alpha = 1
+                self.view.layoutIfNeeded()
             }) { finished in
                 print("animation done")
             }
@@ -466,47 +472,44 @@ class GameViewController: UIViewController {
             vCardPlusName.alpha = 0
            
             self.vCardsInTrick.addSubview(vCardPlusName)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {
-                    vCardPlusName.alpha = 1
-                    vCardPlusName.frame.origin.y += 600
-                }) { (true) in
-                    print("Done")
-                }
+
+            UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {
+                vCardPlusName.alpha = 1
+                vCardPlusName.frame.origin.y += 600
+                self.view.layoutIfNeeded()
+            }) { (true) in
+                print("Done")
             }
+            
 
             
             offset += CARDWIDTHINHUMANAREA + 20
         }
     }
     
+
+    
+
+    
     func displayTrickBettingScreen() {
+        pushHumanAreaUp()
         
 
         print("displayTrickBettingScreen")
-        let vBackGround = UIView()
-        vCardView.isHidden = true
-        vBackGround.tag = 70
-        vBackGround.frame = CGRect(x: 20, y: 180, width: vRootView.frame.width - 40, height: vRootView.frame.height - 20)
-        
-        let vCardsOfPlayer = UIView()
-        vCardsOfPlayer.tag = 71
-        vCardsOfPlayer.frame = CGRect(x: 10, y: 10, width: Int(vBackGround.frame.width - 20), height: CARDHEIGHTINHUMANAREA)
-        vBackGround.addSubview(vCardsOfPlayer)
         
         players[0].sortCards()
-        var offset = (Int(vCardsOfPlayer.frame.width) - (players[0].cards.count * 40 + 120)) / 2
+        var offset = (Int(vCardView.frame.width) - (players[0].cards.count * 40 + 120)) / 2
         for thisCard in players[0].cards {
             let ivCard = createCardImage(for: thisCard)
             ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            vCardsOfPlayer.addSubview(ivCard)
+            vCardView.addSubview(ivCard)
             offset += 60
         }
         
         let vBettingArea = UIView()
         vBettingArea.tag = 72
-        vBettingArea.frame = CGRect(x: 10, y: 240, width: Int(vBackGround.frame.width - 40), height: CARDHEIGHTINHUMANAREA + 20)
-        vBackGround.addSubview(vBettingArea)
+        vBettingArea.frame = CGRect(x: 10, y: CARDHEIGHTINHUMANAREA + 20, width: Int(vCardView.frame.width - 40), height: CARDHEIGHTINHUMANAREA + 20)
+        vHumanArea.addSubview(vBettingArea)
         
         let pxCenter = Int(vBettingArea.frame.width) / 2
         
@@ -531,12 +534,12 @@ class GameViewController: UIViewController {
         labelNumber.frame = CGRect(x: pxCenter - 22, y: 0, width: 44, height: 45)
         labelNumber.tag = 74
         
-        var yPosPlayButton = 60
+        var yPosPlayButton = 40
         if floppedTrumpCard?.value == 100 {
             let vColors = UIView()
             vColors.frame = CGRect(x: pxCenter-100, y: 50, width: 200, height: 50)
             
-            var colors = ["Blue", "Green", "Red", "Yellow"]
+            let colors = ["Blue", "Green", "Red", "Yellow"]
             
             var thisOffset = 0
             for thisColor in colors {
@@ -548,7 +551,7 @@ class GameViewController: UIViewController {
                 thisOffset += 50
                 vColors.addSubview(btn)
             }
-            yPosPlayButton = 110
+            yPosPlayButton = 90
             vBettingArea.addSubview(vColors)
         }
         
@@ -563,8 +566,6 @@ class GameViewController: UIViewController {
         vBettingArea.addSubview(labelNumber)
         vBettingArea.addSubview(btnPlus)
         vBettingArea.addSubview(btnBet)
-        
-        vRootView.addSubview(vBackGround)
     }
     
     // display the trump card
@@ -645,6 +646,43 @@ class GameViewController: UIViewController {
             } else {
                 thisLabel.textColor = UIColor.black
             }
+        }
+    }
+    
+    // preparation for the betting
+    func pushHumanAreaUp(){
+        UIView.animate(withDuration: 1, animations: {
+            self.cHumanAreaTop.constant -= 150
+            self.cLabelHumanArea.constant -= 150
+            self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "HOW MANY TRICKS WILL YOU GET?")
+            self.view.layoutIfNeeded()
+        }) { (finished) in
+            
+        }
+    }
+    
+    func pushDownHumanArea(){
+        UIView.animate(withDuration: 1, animations: {
+            self.cHumanAreaTop.constant = 536
+            self.cLabelHumanArea.constant = -35
+            self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "YOUR CARDS")
+            self.view.layoutIfNeeded()
+        }) { (finished) in
+            self.displayPlayerCards()
+        }
+    }
+    
+    // makes a label disappear and re-appear with a different text
+    func fadeInLabel(thisLabel : UILabel, inSeconds: Double, withText: String?){
+        UIView.animate(withDuration: inSeconds/2, animations: {
+            thisLabel.alpha = 0
+            self.view.layoutIfNeeded()
+        }) { (finished) in
+            UIView.animate(withDuration: inSeconds/2, animations: {
+                thisLabel.text = withText
+                thisLabel.alpha = 1
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
@@ -744,15 +782,13 @@ class GameViewController: UIViewController {
     func createCardButton(for thisCard: Card) -> UIButton {
         
         let btnCard = UIButton()
+        btnCard.isHidden = true
         btnCard.setImage(UIImage(named: thisCard.id.lowercased()), for: .normal)
-        btnCard.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        btnCard.imageView?.contentMode = .scaleAspectFill
         btnCard.setBackgroundImage(UIImage(named: "bgWhite"), for: .normal)
         btnCard.setBackgroundImage(UIImage(named: "bgDisabled"), for: .disabled)
         btnCard.setTitle("\(thisCard.id)", for: .selected)
         btnCard.isEnabled = thisCard.canBePlayed
         btnCard.addTarget(self, action: #selector(cardButtonPressed(sender:)), for: .touchUpInside)
-        
         return btnCard
     }
     
@@ -770,7 +806,7 @@ class GameViewController: UIViewController {
     
     @objc func btnAdjustTricks(sender: UIButton!) {
         print("btnAdjustTricks")
-        let labelNumber = vRootView.subviews.filter{$0.tag == 70}[0].subviews.filter{$0.tag == 72}[0].subviews.filter{$0.tag == 74}[0] as! UILabel
+        let labelNumber = sender.superview?.subviews[1] as! UILabel
         var trickValue = Int(labelNumber.text!)
         
         if sender.tag == 0 {
@@ -784,12 +820,12 @@ class GameViewController: UIViewController {
                 labelNumber.text = String(trickValue! + 1)
             }
         }
+            // means the user wants to play
         else if sender.tag == 2 {
             players[0].tricksPlanned = Int(labelNumber.text!)!
-            let viewToDiscard = vRootView.subviews.filter{$0.tag == 70}[0]
-            viewToDiscard.isHidden = true
+            let viewToDiscard = sender.superview!
             viewToDiscard.removeFromSuperview()
-            vCardView.isHidden = false
+            pushDownHumanArea()
             displayPlayerTrickLabels()
             playTrick()
         }
