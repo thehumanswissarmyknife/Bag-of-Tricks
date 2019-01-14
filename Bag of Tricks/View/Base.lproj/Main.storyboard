@@ -18,11 +18,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iPad" translatesAutoresizingMaskIntoConstraints="NO" id="68e-Tt-ABw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="StartScreen" translatesAutoresizingMaskIntoConstraints="NO" id="68e-Tt-ABw">
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                             </imageView>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ac-xp-6cO">
-                                <rect key="frame" x="439" y="390" width="316" height="90"/>
+                                <rect key="frame" x="491" y="645" width="212" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="btnRules"/>
                                 <connections>
@@ -30,7 +30,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Qx-Zp-ok5">
-                                <rect key="frame" x="439" y="226" width="316" height="91"/>
+                                <rect key="frame" x="56" y="645" width="212" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <size key="titleShadowOffset" width="-41" height="0.0"/>
                                 <state key="normal" title="Button" image="btnPlay"/>
@@ -39,7 +39,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXk-sP-gvx">
-                                <rect key="frame" x="439" y="557" width="316" height="89"/>
+                                <rect key="frame" x="927" y="645" width="212" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="btnSettings"/>
                                 <connections>
@@ -179,17 +179,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMV-af-Hdc">
-                                <rect key="frame" x="1065" y="134" width="129" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="23"/>
-                                <state key="normal" title="NEXT TRICK">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnNextTrick:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="1fE-F9-DfJ"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XU0-QJ-Y1E">
                                 <rect key="frame" x="864" y="543" width="310" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -197,6 +186,32 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fem-9C-3Wk">
+                                <rect key="frame" x="1164" y="47" width="376" height="508"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JnF-PK-x0P">
+                                        <rect key="frame" x="8" y="0.0" width="424" height="508"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button" image="bgScoreBoard"/>
+                                        <connections>
+                                            <action selector="btnPressedScoreBoard:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="HTO-97-26w"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMV-af-Hdc">
+                                        <rect key="frame" x="37" y="379" width="152" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="23"/>
+                                        <state key="normal" title="NEXT ROUND">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnNextTrick:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="1fE-F9-DfJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YCb-jV-1hA" userLabel="vPlayArea">
                                 <rect key="frame" x="0.0" y="120" width="1057" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -299,6 +314,7 @@
                         <outlet property="lHumanArea" destination="BRS-Pu-Oiq" id="IXz-GN-CXR"/>
                         <outlet property="labelTricksPlayed" destination="TkI-UU-UnW" id="CpN-E7-vxb"/>
                         <outlet property="labelWinner" destination="XU0-QJ-Y1E" id="3Rv-G5-0df"/>
+                        <outlet property="vBtnScoreBoard" destination="fem-9C-3Wk" id="3t4-hw-Ccd"/>
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
                         <outlet property="vCardsInTrick" destination="v8b-Jm-9JS" id="31Y-Cg-Mbm"/>
                         <outlet property="vHumanArea" destination="KpK-VM-dfX" id="cjo-cS-1be"/>
@@ -315,11 +331,12 @@
     </scenes>
     <resources>
         <image name="BackGround" width="1366" height="1024.5"/>
+        <image name="StartScreen" width="2732" height="2048"/>
         <image name="TopGraphic" width="1366" height="71.5"/>
         <image name="YourCardArea" width="1366" height="733"/>
-        <image name="btnPlay" width="705" height="216.27272033691406"/>
-        <image name="btnRules" width="705" height="216"/>
-        <image name="btnSettings" width="705" height="216"/>
-        <image name="iPad" width="2731.9091796875" height="2047.9090576171875"/>
+        <image name="bgScoreBoard" width="370" height="508.5"/>
+        <image name="btnPlay" width="485" height="114"/>
+        <image name="btnRules" width="484" height="114"/>
+        <image name="btnSettings" width="485" height="114"/>
     </resources>
 </document>
