@@ -24,6 +24,9 @@ class Player {
     var opponents = [Opponent]()
     var suite = ""
     
+    var defaults = UserDefaults.standard
+    var sortingOrder : Bool = true
+    
     
     var cardsThatShoudlWinTheTrick = [Card]()
     
@@ -50,20 +53,44 @@ class Player {
     }
     
     func sortCards() {
-        cards = cards.sorted { (a, b) -> Bool in
-            var aColor = a.color.count
-            var bColor = b.color.count
-            
-            if a.color == "black" && a.value == 0 {
-                return false
-            }
-            else if ((aColor-1)*13)+a.value > ((bColor-1)*13)+b.value {
-                return true
-            }
-            else {
-                return false
+        
+        if let prefSortingOrder = defaults.bool(forKey: "sortingOrder") as? Bool {
+            sortingOrder = prefSortingOrder
+        }
+        
+        if sortingOrder {
+            cards = cards.sorted { (a, b) -> Bool in
+                var aColor = a.color.count
+                var bColor = b.color.count
+                
+                if a.color == "black" && a.value == 0 {
+                    return false
+                }
+                else if ((aColor-1)*13)+a.value > ((bColor-1)*13)+b.value {
+                    return true
+                }
+                else {
+                    return false
+                }
             }
         }
+        else {
+            cards = cards.sorted { (a, b) -> Bool in
+                var aColor = a.color.count
+                var bColor = b.color.count
+                
+                if a.color == "black" && a.value == 0 {
+                    return false
+                }
+                else if ((aColor-1)*13)+a.value < ((bColor-1)*13)+b.value {
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+        }
+
     }
     // sort the cards right before the card needs to be played. Index 0 should be the best card to play. Need to know the trump and cards ahve been played.
     func sortCardsToPlay(thisTrump : String, cardsPlayed : [Card]) {

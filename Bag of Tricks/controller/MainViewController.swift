@@ -19,17 +19,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        let player1 = Player(thisName: "Frank", thisLevel: "easy", thisID : 11)
-//        let player2 = Player(thisName: "Peter", thisLevel: "easy", thisID : 21)
-//        let player3 = Player(thisName: "Louise", thisLevel: "easy", thisID : 31)
-//        
-//        let myPlayers = [player1, player2, player3]
-//        print("new MainViewController")
-//        
-//        let myBagOfTricks = BagOfTricks(theseManyTricks : 5, thisTrump : "green", thesePlayers : myPlayers)
-//        
-//        
-//        myBagOfTricks.playBag()
+
     }
     
 
@@ -51,11 +41,22 @@ class MainViewController: UIViewController {
             
             let destination = segue.destination as! RuleViewController
         }
+        else if segue.identifier == "goToHighScore" {
+            print("going to the highscores")
+            
+            let destination = segue.destination as! HighScoreViewController
+        }
+        else if segue.identifier == "goToGame" {
+            print("going to the game")
+            
+            let destination = segue.destination as! GameViewController
+        }
     }
     
     @IBAction func btnPlayPressed(_ sender: UIButton) {
         if sender.tag == 1 {
             // play button pressed
+            performSegue(withIdentifier: "goToGame", sender: self)
         }
         else if sender.tag == 2 {
             // rules button pressed
@@ -64,6 +65,10 @@ class MainViewController: UIViewController {
         else if sender.tag == 3 {
             // preferences button pressed
             performSegue(withIdentifier: "goToSettings", sender: self)
+        }
+        else if sender.tag == 4 {
+            // preferences button pressed
+            performSegue(withIdentifier: "goToHighScore", sender: self)
         }
     }
     

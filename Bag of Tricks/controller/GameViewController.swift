@@ -11,9 +11,6 @@ import UIKit
 class GameViewController: UIViewController {
     
     // MARK: - global variables
-//    let CARDWIDTHINPLAYAREA =  163
-//    let CARDHEIGHTINPLAYAREA = 256
-    
     let CARDHEIGHTINHUMANAREA = 300
     let CARDWIDTHINHUMANAREA = 191
     
@@ -48,13 +45,14 @@ class GameViewController: UIViewController {
     @IBOutlet weak var vPlayerTrickLabelArea: UIView!
     
     // MARK: - VARIABLES FOR THE GAME LOGIC
-    // TODO: Userdefaults integration für name, anzahl player...
+    // TODO: Userdefaults integration für name, anzahl player, highscores
     var defaults = UserDefaults.standard
-    
+    var dictHighScore: [String: Int] = [:]
     var roundsInTotal : Int = 0
     var currentRoundNumber : Int = 1    // correspondts to the number of cards dealt
     var tricksPlayedInRound : Int = 0      // how many of the tricks of the round have been played
     
+    var numberOfPlayers : Int = 3
     var players = [Player]()        // array holding the players. 0 is always the human in front of the device
     var playersInOrderOfTrick = [Player]() // this array gets shifted after each round
     var winningCard : Card = Card(thisColor: "blurp", thisValue: -1)
@@ -74,38 +72,70 @@ class GameViewController: UIViewController {
         
         vBtnScoreBoard.frame = CGRect(x: Int(vRootView.frame.width) - 30, y: 40, width: 376, height: 508)
         
-        
-    
-        
-        if let name = defaults.string(forKey: "UserName") as? String {
-            myName = name
-            print("found the name")
+        // loading the userdefaults
+        if let prefHighScore = defaults.dictionary(forKey: "highScore") as? [String:Int]{
+            dictHighScore = prefHighScore
         }
         
+        if let prefUserName = defaults.string(forKey: "userName") {
+            myName = prefUserName
+        }
+        if let prefNumberOfPlayers = defaults.integer(forKey: "numberOfPlayers") as? Int {
+            numberOfPlayers = prefNumberOfPlayers
+        }
         // TODO: create alert style window for input
         
-        startGame()
+//        startGame()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let thisAlert = UIAlertController(title: "Before we start", message: "Please choose a name and your opponents", preferredStyle: .alert)
+        
+        thisAlert.addTextField { (thisTextField) in
+            thisTextField.text = self.myName
+        }
+        thisAlert.addTextField{ (thisTextField2) in
+            thisTextField2.text = "\(self.numberOfPlayers)"
+            thisTextField2.keyboardType = UIKeyboardType.numberPad
+        }
+        thisAlert.addAction(UIAlertAction(title: "CANCEL", style: .cancel, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        thisAlert.addAction(UIAlertAction(title: NSLocalizedString("PLAY", comment: "Default action"), style: .default, handler: { _ in
+            print("startGame")
+            if let thisNumberOfPlayers = Int(thisAlert.textFields![1].text!) {
+                self.defaults.set(thisNumberOfPlayers, forKey: "numberOfPlayers")
+                self.numberOfPlayers = thisNumberOfPlayers
+            }
+            
+            if let thisPlayerName = thisAlert.textFields![0].text {
+                self.myName = thisPlayerName
+                self.defaults.set(self.myName, forKey: "userName")
+            }
+            self.startGame()
+        }))
+        
+        self.present(thisAlert, animated: true, completion: nil)
     }
     
 
     
     // MARK: - GAME FUNCTIONS
     func startGame() {
-        defaults.set("Luigi", forKey: "UserName")
         print(".startGame")
-        // TODO: init all variables
         
         // create players
         // human player has id 0
         players.append(Player(thisName: myName, makeHuman: true))
-        createPlayers(n: 2)
+        createPlayers(n: numberOfPlayers - 1)
         
         // add all players to the players in order array
         playersInOrderOfTrick = players
         
         // how many tricks - can be calculated byy
         roundsInTotal = cardDeck.shuffledCards.count / players.count
-        
         
         // start the round
         startRound()
@@ -201,7 +231,7 @@ class GameViewController: UIViewController {
         }
         
         // if all tricks of the round have been played
-        if tricksPlayedInRound == currentRoundNumber {
+        if tricksPlayedInRound == currentRoundNumber && currentRoundNumber < roundsInTotal {
             // evaluate this round
 //            displayScores()
             for thisPlayer in players {
@@ -219,8 +249,6 @@ class GameViewController: UIViewController {
                 // set tricksPlanned & trickedWon to zero for all players
                 
             }
-            
-            
             // increase currentNumberOftricks
             currentRoundNumber += 1
             
@@ -229,15 +257,41 @@ class GameViewController: UIViewController {
             
             // start the next round: deal cards, have the players bet....
             vNextTrick.isHidden = false
-            if Int(vBtnScoreBoard.frame.origin.x) == Int(vRootView.frame.width) - 30{
-                pushToggleScoreBoard()
-            }
+//            if Int(vBtnScoreBoard.frame.origin.x) == Int(vRootView.frame.width) - 30{
+//                pushToggleScoreBoard()
+                pushHideScoreBoard(hide: false)
+//            }
             
             
             playerIndexWhoStartsTheRound += 1
             if playerIndexWhoStartsTheRound >= players.count {
                 playerIndexWhoStartsTheRound -= players.count
             }
+            
+            
+        }
+        else if tricksPlayedInRound == currentRoundNumber && currentRoundNumber == roundsInTotal {
+            print("all rounds have been played, let's get the highscores")
+            var scoreString = ""
+            for thisplayer in players {
+                if scoreString == "" {
+                    scoreString = "\(thisplayer.name): \(thisplayer.score)\n"
+                }
+                else {
+                    scoreString = scoreString + "\(thisplayer.name): \(thisplayer.score)\n"
+                }
+            }
+            let thisScoreAlert = UIAlertController(title: "Final Score", message: scoreString, preferredStyle: .alert)
+            thisScoreAlert.addAction(UIAlertAction(title: "Play again", style: .default, handler: { _ in
+                self.updateHighScore()
+                self.startGame()
+            }))
+            thisScoreAlert.addAction(UIAlertAction(title: "No way, José", style: .cancel, handler: { (_) in
+                self.updateHighScore()
+                self.dismiss(animated: true, completion: nil)
+            }))
+            
+            self.present(thisScoreAlert, animated: true)
         }
     }
     
@@ -681,6 +735,28 @@ class GameViewController: UIViewController {
         }
     }
     
+    func pushHideScoreBoard(hide: Bool) {
+        if !hide {
+            print("unhiding the scoreboard")
+            UIView.animate(withDuration: 0.5) {
+                self.vBtnScoreBoard.frame.origin.x -= 330
+                self.view.layoutIfNeeded()
+            }
+        }
+        else if hide {
+            print("hiding the scoreboard")
+            let btn = vBtnScoreBoard.subviews[0] as! UIButton
+            UIView.animate(withDuration: 0.5, animations: {
+                self.vBtnScoreBoard.frame.origin.x += 330
+                self.view.layoutIfNeeded()
+            }) { (finished) in
+                if self.tricksPlayedInRound == 0 && self.vCardsInTrick.subviews.count == self.players.count {
+                    self.btnNextTrick(btn)
+                }
+                
+            }
+        }
+    }
     func pushToggleScoreBoard(){
         print("pushToggleScoreBoard: \(vBtnScoreBoard.frame.origin.x)")
         // check where the baord is
@@ -696,7 +772,7 @@ class GameViewController: UIViewController {
                 self.vBtnScoreBoard.frame.origin.x += 330
                 self.view.layoutIfNeeded()
             }) { (finished) in
-                if self.tricksPlayedInRound == 0 && self.vCardsInTrick.subviews.count == 3 {
+                if self.tricksPlayedInRound == 0 && self.vCardsInTrick.subviews.count == self.players.count {
                     self.btnNextTrick(btn)
                 }
                 
@@ -741,6 +817,31 @@ class GameViewController: UIViewController {
     
     
     // MARK: - UTILITY FUNCTIONS
+    
+    func updateHighScore(){
+        // go through the dictionary and determine the min and max
+        var max = 0
+        var min = 0
+        var minName = ""
+        for (thisName, thisScore) in dictHighScore {
+            if thisScore > max {
+                max = thisScore
+            }
+            else if thisScore < min {
+                min = thisScore
+                minName = thisName
+            }
+        }
+        if dictHighScore.count > 9 && players[0].score > min {
+            dictHighScore.removeValue(forKey: minName)
+            dictHighScore.updateValue(players[0].score, forKey: players[0].name)
+        }
+        else if players[0].score > min && dictHighScore.count < 10 {
+            dictHighScore.updateValue(players[0].score, forKey: players[0].name)
+        }
+        defaults.set(dictHighScore, forKey: "highScore")
+        
+    }
     
     func updateScores(){
         print("updateScores")
@@ -829,7 +930,11 @@ class GameViewController: UIViewController {
         vNextTrick.isHidden = true
         // check if we have to play the next trick or start a new round (dealing cards, etc.)
         if tricksPlayedInRound == 0 {
-            pushToggleScoreBoard()
+//            pushToggleScoreBoard()
+            if Int(vBtnScoreBoard.frame.origin.x) != Int(vRootView.frame.width) - 30 {
+                pushHideScoreBoard(hide: true)
+            }
+            
             startRound()
         }
         else {
@@ -921,8 +1026,9 @@ class GameViewController: UIViewController {
     
     @objc func btnAdjustTricks(sender: UIButton!) {
         print("btnAdjustTricks")
-        let labelNumber = sender.superview?.subviews[1] as! UILabel
-        var trickValue = Int(labelNumber.text!)
+        
+        let labelNumber = sender.superview?.subviews.filter{$0.tag == 74}.first as! UILabel
+        let trickValue = Int(labelNumber.text!)
         
         if sender.tag == 0 {
             
@@ -965,10 +1071,16 @@ class GameViewController: UIViewController {
     }
     @IBAction func btnPressedScoreBoard(_ sender: UIButton) {
         print("btnPressedScoreBoard")
-        pushToggleScoreBoard()
+//        pushToggleScoreBoard()
+        pushHideScoreBoard(hide: true)
     }
     
-
+    @IBAction func btnPressedAbort(_ sender: UIButton) {
+        
+        // TODO: add alert with question
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 extension UIColor {
