@@ -31,10 +31,12 @@ class GameViewController: UIViewController {
     @IBOutlet weak var vCardView: UIView!
     @IBOutlet weak var vCardsInTrick: UIView!
     @IBOutlet weak var vHumanArea: UIView!
-    @IBOutlet weak var cHumanAreaTop: NSLayoutConstraint!
+    @IBOutlet weak var cHumanAreaBottom: NSLayoutConstraint!
     @IBOutlet weak var cLabelHumanArea: NSLayoutConstraint!
     @IBOutlet weak var lHumanArea: UILabel!
     @IBOutlet weak var vBtnScoreBoard: UIView!
+    @IBOutlet weak var cScoreBoardRight: NSLayoutConstraint!
+    @IBOutlet weak var btnScoreBoard: UIButton!
     
     
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
@@ -47,10 +49,12 @@ class GameViewController: UIViewController {
     // MARK: - VARIABLES FOR THE GAME LOGIC
     // TODO: Userdefaults integration für name, anzahl player, highscores
     var defaults = UserDefaults.standard
+    var myName = ""
     var dictHighScore: [String: Int] = [:]
     var roundsInTotal : Int = 0
     var currentRoundNumber : Int = 1    // correspondts to the number of cards dealt
     var tricksPlayedInRound : Int = 0      // how many of the tricks of the round have been played
+    var playerIndexWhoStartsTheRound = 0
     
     var numberOfPlayers : Int = 3
     var players = [Player]()        // array holding the players. 0 is always the human in front of the device
@@ -62,15 +66,16 @@ class GameViewController: UIViewController {
     var cardDeck = DeckOfCards()    // the card deck
     var cardsInTrick = [Card]()
     
-    var playerIndexWhoStartsTheRound = 0
+    // MARK: - visual utilitz variables
+    var humanAreaIsUp = false
+    var scoreBoardIsVisible = false
 
-    var myName = ""
-
+    // MARK: - view functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        cHumanAreaTop.constant = 556
+//        cHumanAreaTop.constant = 556
         
-        vBtnScoreBoard.frame = CGRect(x: Int(vRootView.frame.width) - 30, y: 40, width: 376, height: 508)
+//        vBtnScoreBoard.frame = CGRect(x: Int(vRootView.frame.width) - 30, y: 40, width: 376, height: 508)
         
         // loading the userdefaults
         if let prefHighScore = defaults.dictionary(forKey: "highScore") as? [String:Int]{
@@ -258,8 +263,8 @@ class GameViewController: UIViewController {
             // start the next round: deal cards, have the players bet....
             vNextTrick.isHidden = false
 //            if Int(vBtnScoreBoard.frame.origin.x) == Int(vRootView.frame.width) - 30{
-//                pushToggleScoreBoard()
-                pushHideScoreBoard(hide: false)
+                pushToggleScoreBoard()
+//                pushHideScoreBoard(hide: false)
 //            }
             
             
@@ -404,60 +409,59 @@ class GameViewController: UIViewController {
         }
     }
     
-    func displayScores() {
-        print("displayScores")
-//        vRootView.
-        
-        let middleX = Int(vRootView.frame.width) / 2
-        
-        let vTheScoreBoard = UIView()
-        vTheScoreBoard.tag = 50
-        
-        vTheScoreBoard.frame = CGRect(x:  middleX - 945/2, y: 100, width: 945, height: 400)
-        let ivScoreBoard = UIImageView(image: UIImage(named: "scoreBoard"))
-        ivScoreBoard.frame = CGRect(x:  0, y: 0, width: 945, height: 508)
-        vTheScoreBoard.addSubview((ivScoreBoard))
-        vRootView.addSubview(vTheScoreBoard)
-        
-        let btnNextRound = UIButton()
-        btnNextRound.setImage(UIImage(named: "btnNextRound"), for: .normal)
-        btnNextRound.frame = CGRect(x: middleX - 269/2, y: 300, width: 269, height: 60)
-        btnNextRound.addTarget(self, action: #selector(btnNextRoundAfterScores), for: .touchUpInside)
-        vTheScoreBoard.addSubview((btnNextRound))
-        
-        let svScores = UIStackView()
-        var yPos = 50
-        
-        let labelTheScore = UILabel()
-        labelTheScore.text = "Scores after \(currentRoundNumber) of \(roundsInTotal)"
-        labelTheScore.font = UIFont(name: "Futura", size: 30)
-        vTheScoreBoard.addSubview(labelTheScore)
-        
-        for thisPlayer in players {
-            let myView = UIView()
-            
-            let labelName = UILabel()
-            labelName.text = thisPlayer.name
-            labelName.frame = CGRect(x: 20, y: yPos, width: 150, height: 25)
-            labelName.font = UIFont(name: "Futura", size: 30)
-            let labelTricks = UILabel()
-            labelTricks.text = "\(thisPlayer.tricksWon)/\(thisPlayer.tricksPlanned)"
-            labelTricks.frame = CGRect(x: Int(labelName.frame.width + 20), y: yPos, width: 80, height: 25)
-            labelTricks.font = UIFont(name: "Futura", size: 30)
-            let labelScore = UILabel()
-            labelScore.text = "\(thisPlayer.score)"
-            labelScore.frame = CGRect(x: Int(labelName.frame.width + labelTricks.frame.width + 40), y: yPos, width: 80, height: 25)
-            labelScore.font = UIFont(name: "Futura", size: 30)
-            
-            myView.addSubview(labelName)
-            myView.addSubview(labelTricks)
-            myView.addSubview(labelScore)
-            
-            vTheScoreBoard.addSubview(myView)
-            yPos += 40
-        }
-        vRootView.addSubview(vTheScoreBoard)
-    }
+//    func displayScores() {
+//        print("displayScores")
+////        vRootView.
+//
+//        let middleX = Int(vRootView.frame.width) / 2
+//
+//        let vTheScoreBoard = UIView()
+//        vTheScoreBoard.tag = 50
+//
+//        vTheScoreBoard.frame = CGRect(x:  middleX - 945/2, y: 100, width: 945, height: 400)
+//        let ivScoreBoard = UIImageView(image: UIImage(named: "scoreBoard"))
+//        ivScoreBoard.frame = CGRect(x:  0, y: 0, width: 945, height: 508)
+//        vTheScoreBoard.addSubview((ivScoreBoard))
+//        vRootView.addSubview(vTheScoreBoard)
+//
+//        let btnNextRound = UIButton()
+//        btnNextRound.setImage(UIImage(named: "btnNextRound"), for: .normal)
+//        btnNextRound.frame = CGRect(x: middleX - 269/2, y: 300, width: 269, height: 60)
+//        btnNextRound.addTarget(self, action: #selector(btnNextRoundAfterScores), for: .touchUpInside)
+//        vTheScoreBoard.addSubview((btnNextRound))
+//
+//        var yPos = 50
+//
+//        let labelTheScore = UILabel()
+//        labelTheScore.text = "Scores after \(currentRoundNumber) of \(roundsInTotal)"
+//        labelTheScore.font = UIFont(name: "Futura", size: 30)
+//        vTheScoreBoard.addSubview(labelTheScore)
+//
+//        for thisPlayer in players {
+//            let myView = UIView()
+//
+//            let labelName = UILabel()
+//            labelName.text = thisPlayer.name
+//            labelName.frame = CGRect(x: 20, y: yPos, width: 150, height: 25)
+//            labelName.font = UIFont(name: "Futura", size: 30)
+//            let labelTricks = UILabel()
+//            labelTricks.text = "\(thisPlayer.tricksWon)/\(thisPlayer.tricksPlanned)"
+//            labelTricks.frame = CGRect(x: Int(labelName.frame.width + 20), y: yPos, width: 80, height: 25)
+//            labelTricks.font = UIFont(name: "Futura", size: 30)
+//            let labelScore = UILabel()
+//            labelScore.text = "\(thisPlayer.score)"
+//            labelScore.frame = CGRect(x: Int(labelName.frame.width + labelTricks.frame.width + 40), y: yPos, width: 80, height: 25)
+//            labelScore.font = UIFont(name: "Futura", size: 30)
+//
+//            myView.addSubview(labelName)
+//            myView.addSubview(labelTricks)
+//            myView.addSubview(labelScore)
+//
+//            vTheScoreBoard.addSubview(myView)
+//            yPos += 40
+//        }
+//        vRootView.addSubview(vTheScoreBoard)
+//    }
 
     func displayLastCardInTrick() {
         print("diplayLastCardInTrick")
@@ -549,7 +553,8 @@ class GameViewController: UIViewController {
     
     func displayTrickBettingScreen() {
         print("displayTrickBettingScreen")
-        pushHumanAreaUp()
+//        pushHumanAreaUp()
+        pushToggleHumanArea()
         
         for thisView in vCardView.subviews{
             thisView.removeFromSuperview()
@@ -696,30 +701,61 @@ class GameViewController: UIViewController {
         }
     }
     
-    // preparation for the betting
-    func pushHumanAreaUp(){
-        print("pushHumanAreaUp")
-        UIView.animate(withDuration: 1, animations: {
-            self.cHumanAreaTop.constant -= 150
-            self.cLabelHumanArea.constant -= 150
-            self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "HOW MANY TRICKS WILL YOU GET?")
-            self.view.layoutIfNeeded()
-        }) { (finished) in
-            
+    // dependss on the variable of humanAreaIsUp
+    func pushToggleHumanArea() {
+        
+        // if it's not up, then we push it up
+        if !humanAreaIsUp {
+            print("!humanAreaIsUp - going up")
+            UIView.animate(withDuration: 1, animations: {
+                self.cHumanAreaBottom.constant += 150
+//                self.cLabelHumanArea.constant += 150
+                self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "HOW MANY TRICKS WILL YOU GET?")
+                self.view.layoutIfNeeded()
+            }) { (finished) in
+                
+            }
         }
+        else if humanAreaIsUp {
+            print("humanAreaIsUp - going down")
+            UIView.animate(withDuration: 1, animations: {
+                self.cHumanAreaBottom.constant -= 150
+//                self.cLabelHumanArea.constant -= 150
+                self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "YOUR CARDS")
+                self.view.layoutIfNeeded()
+            }) { (finished) in
+                self.displayPlayerCards()
+            }
+        }
+        // flip the switch
+        humanAreaIsUp = !humanAreaIsUp
     }
     
-    func pushDownHumanArea(){
-        print("pushDownHumanArea")
-        UIView.animate(withDuration: 1, animations: {
-            self.cHumanAreaTop.constant = 536
-            self.cLabelHumanArea.constant = -35
-            self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "YOUR CARDS")
-            self.view.layoutIfNeeded()
-        }) { (finished) in
-            self.displayPlayerCards()
-        }
-    }
+    
+//    // preparation for the betting
+//    func pushHumanAreaUp(){
+//        print("pushHumanAreaUp")
+//        UIView.animate(withDuration: 1, animations: {
+//            self.cHumanAreaBottom.constant += 150
+//            self.cLabelHumanArea.constant += 150
+//            self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "HOW MANY TRICKS WILL YOU GET?")
+//            self.view.layoutIfNeeded()
+//        }) { (finished) in
+//
+//        }
+//    }
+//
+//    func pushDownHumanArea(){
+//        print("pushDownHumanArea")
+//        UIView.animate(withDuration: 1, animations: {
+//            self.cHumanAreaBottom.constant -= 150
+//            self.cLabelHumanArea.constant -= 150
+//            self.fadeInLabel(thisLabel: self.lHumanArea, inSeconds: 0.5, withText: "YOUR CARDS")
+//            self.view.layoutIfNeeded()
+//        }) { (finished) in
+//            self.displayPlayerCards()
+//        }
+//    }
     
     // makes a label disappear and re-appear with a different text
     func fadeInLabel(thisLabel : UILabel, inSeconds: Double, withText: String?){
@@ -757,27 +793,53 @@ class GameViewController: UIViewController {
             }
         }
     }
+    
+    // depends on the varialbe scoreBoardIsVisible
     func pushToggleScoreBoard(){
-        print("pushToggleScoreBoard: \(vBtnScoreBoard.frame.origin.x)")
-        // check where the baord is
-        if Int(vBtnScoreBoard.frame.origin.x) == Int(vRootView.frame.width) - 30 {
-            UIView.animate(withDuration: 0.5) {
-                self.vBtnScoreBoard.frame.origin.x -= 330
-                self.view.layoutIfNeeded()
-            }
-        }
-        else {
-            let btn = vBtnScoreBoard.subviews[0] as! UIButton
+        
+        if !scoreBoardIsVisible {
+            print("!scoreBoardIsVisible - coming in")
             UIView.animate(withDuration: 0.5, animations: {
-                self.vBtnScoreBoard.frame.origin.x += 330
+                self.cScoreBoardRight.constant += 330
                 self.view.layoutIfNeeded()
             }) { (finished) in
-                if self.tricksPlayedInRound == 0 && self.vCardsInTrick.subviews.count == self.players.count {
-                    self.btnNextTrick(btn)
-                }
-                
+                print("scoreboardIsVisible!!!")
             }
         }
+        else if scoreBoardIsVisible {
+            print("scoreBoardIsVisible - going away")
+            UIView.animate(withDuration: 0.5, animations: {
+                self.cScoreBoardRight.constant -= 330
+                self.view.layoutIfNeeded()
+            }) { (finished) in
+                print("scoreBoard is hidden again")
+                // check if this was the ast of the tricks, if so, start the next round
+                if self.tricksPlayedInRound == 0 && self.vCardsInTrick.subviews.count == self.players.count {
+                    self.btnNextTrick(self.btnScoreBoard)
+                }
+            }
+        }
+        scoreBoardIsVisible = !scoreBoardIsVisible
+//        print("pushToggleScoreBoard: \(vBtnScoreBoard.frame.origin.x)")
+//        // check where the baord is
+//        if Int(vBtnScoreBoard.frame.origin.x) == Int(vRootView.frame.width) - 30 {
+//            UIView.animate(withDuration: 0.5) {
+//                self.vBtnScoreBoard.frame.origin.x -= 330
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//        else {
+//            let btn = vBtnScoreBoard.subviews[0] as! UIButton
+//            UIView.animate(withDuration: 0.5, animations: {
+//                self.vBtnScoreBoard.frame.origin.x += 330
+//                self.view.layoutIfNeeded()
+//            }) { (finished) in
+//                if self.tricksPlayedInRound == 0 && self.vCardsInTrick.subviews.count == self.players.count {
+//                    self.btnNextTrick(btn)
+//                }
+//
+//            }
+//        }
     }
     
     // MARK: - PRINTING FUNCTIONS
@@ -844,6 +906,7 @@ class GameViewController: UIViewController {
     }
     
     func updateScores(){
+
         print("updateScores")
         if vBtnScoreBoard.subviews.count > 1 {
             // whipe all subviews other than the button
@@ -856,7 +919,7 @@ class GameViewController: UIViewController {
         
         let thisFont = UIFont(name: "Futura", size: 25)
         let vScoreBoard = UIView()
-        vScoreBoard.frame = CGRect(x: 35, y: 40, width: 500, height: 800)
+        
         vScoreBoard.tag = 11
         
         var offsetY = 0
@@ -898,6 +961,7 @@ class GameViewController: UIViewController {
             lTricks.tag = 11
             if thisPlayer.tricksPlanned != thisPlayer.tricksWon {
                 lTricks.textColor = colorRed
+                
             }
             else {
                 lTricks.textColor = colorGreen
@@ -908,6 +972,7 @@ class GameViewController: UIViewController {
             lScore.font = smallFont
             lScore.textAlignment = NSTextAlignment.right
             lScore.tag = 11
+
             
             lPlayer.frame = CGRect(x: 0, y: offsetY, width: 120, height: 30)
             lTricks.frame = CGRect(x: 130, y: offsetY, width: 90, height: 30)
@@ -917,23 +982,24 @@ class GameViewController: UIViewController {
             vScoreBoard.addSubview(lScore)
             offsetY += 30
         }
-//        vBtnScoreBoard.addSubview(vScoreBoard)
+        vScoreBoard.frame = CGRect(x: 35, y: 40, width: 500, height: 10 + offsetY )
         vBtnScoreBoard.insertSubview(vScoreBoard, belowSubview: vNextTrick)
-        
     }
     
     @IBAction func btnNextTrick(_ sender: UIButton) {
         print("btnNextTrick")
-        
-        
-        
+
         vNextTrick.isHidden = true
         // check if we have to play the next trick or start a new round (dealing cards, etc.)
-        if tricksPlayedInRound == 0 {
-//            pushToggleScoreBoard()
-            if Int(vBtnScoreBoard.frame.origin.x) != Int(vRootView.frame.width) - 30 {
-                pushHideScoreBoard(hide: true)
+        if tricksPlayedInRound == 0  {
+            
+            if scoreBoardIsVisible {
+                pushToggleScoreBoard()
             }
+            
+//            if Int(vBtnScoreBoard.frame.origin.x) != Int(vRootView.frame.width) - 30 {
+//                pushHideScoreBoard(hide: true)
+//            }
             
             startRound()
         }
@@ -1046,7 +1112,8 @@ class GameViewController: UIViewController {
             players[0].tricksPlanned = Int(labelNumber.text!)!
             let viewToDiscard = sender.superview!
             viewToDiscard.removeFromSuperview()
-            pushDownHumanArea()
+//            pushDownHumanArea()
+            pushToggleHumanArea()
             displayPlayerTrickLabels()
             playTrick()
         }
@@ -1071,8 +1138,8 @@ class GameViewController: UIViewController {
     }
     @IBAction func btnPressedScoreBoard(_ sender: UIButton) {
         print("btnPressedScoreBoard")
-//        pushToggleScoreBoard()
-        pushHideScoreBoard(hide: true)
+        pushToggleScoreBoard()
+//        pushHideScoreBoard(hide: true)
     }
     
     @IBAction func btnPressedAbort(_ sender: UIButton) {
@@ -1080,7 +1147,6 @@ class GameViewController: UIViewController {
         // TODO: add alert with question
         self.dismiss(animated: true, completion: nil)
     }
-    
 }
 
 extension UIColor {
