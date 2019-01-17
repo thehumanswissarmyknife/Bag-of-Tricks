@@ -47,6 +47,7 @@ class OneLineOverlayViewController: UIViewController {
     func fadeOut(){
         UIView.animate(withDuration: 0.4, delay: 0.8, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.lText.alpha = 0
+            self.lText.frame.origin.y += 50
         }) { (finished) in
             self.dismiss(animated: true, completion: nil)
         }

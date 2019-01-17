@@ -583,20 +583,22 @@
                                                     <constraint firstAttribute="trailing" secondItem="9Oe-U4-ddV" secondAttribute="trailing" id="hoK-Sx-ZYl"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3pm-aO-tbA" userLabel="vCardsPlusLabel">
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3pm-aO-tbA" userLabel="vCardsPlusLabel">
                                                 <rect key="frame" x="258" y="0.0" width="750" height="350"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8b-Jm-9JS" userLabel="vCardsInTrick">
-                                                        <rect key="frame" x="0.0" y="0.0" width="750" height="300"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="300" id="zsn-ae-hxf"/>
+                                                            <constraint firstAttribute="width" constant="400" id="1pQ-XD-olb"/>
+                                                            <constraint firstAttribute="height" constant="300" id="aus-fX-ST4"/>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cards played in trick" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rE-i7-OJs" userLabel="labelCardsPlayed">
-                                                        <rect key="frame" x="235.5" y="317.5" width="279" height="32.5"/>
+                                                        <rect key="frame" x="0.0" y="313" width="400" height="33"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="279" id="Abc-on-kLE"/>
+                                                            <constraint firstAttribute="height" constant="33" id="Nw7-Jn-3N4"/>
+                                                            <constraint firstAttribute="width" constant="400" id="w3V-Rw-IbT"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
                                                         <nil key="textColor"/>
@@ -605,12 +607,11 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="v8b-Jm-9JS" secondAttribute="trailing" id="3Rt-L9-muS"/>
-                                                    <constraint firstAttribute="width" constant="750" id="FU2-fZ-dLc"/>
-                                                    <constraint firstAttribute="bottom" secondItem="3rE-i7-OJs" secondAttribute="bottom" id="Qau-c5-eBV"/>
-                                                    <constraint firstItem="v8b-Jm-9JS" firstAttribute="leading" secondItem="3pm-aO-tbA" secondAttribute="leading" id="TW8-XJ-gE7"/>
-                                                    <constraint firstItem="3rE-i7-OJs" firstAttribute="centerX" secondItem="3pm-aO-tbA" secondAttribute="centerX" id="lvf-9l-1zN"/>
-                                                    <constraint firstItem="v8b-Jm-9JS" firstAttribute="top" secondItem="3pm-aO-tbA" secondAttribute="top" id="ozv-Xb-q5b"/>
+                                                    <constraint firstItem="3rE-i7-OJs" firstAttribute="leading" secondItem="3pm-aO-tbA" secondAttribute="leading" id="BzA-R6-kW4"/>
+                                                    <constraint firstAttribute="bottom" secondItem="3rE-i7-OJs" secondAttribute="bottom" constant="4" id="FSJ-Bc-Ivg"/>
+                                                    <constraint firstItem="v8b-Jm-9JS" firstAttribute="leading" secondItem="3pm-aO-tbA" secondAttribute="leading" id="Va0-Lx-ro9"/>
+                                                    <constraint firstItem="v8b-Jm-9JS" firstAttribute="top" secondItem="3pm-aO-tbA" secondAttribute="top" id="hSD-jD-zY2"/>
+                                                    <constraint firstItem="3rE-i7-OJs" firstAttribute="top" secondItem="v8b-Jm-9JS" secondAttribute="bottom" constant="13" id="ojc-NM-M7O"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
