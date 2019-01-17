@@ -543,13 +543,13 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             }
         } else {
 
-            let spacing = (Int(vPlayerTrickLabelArea.frame.width) - (players.count * 220)) / (players.count - 1)
+            let spacing = (Int(vPlayerTrickLabelArea.frame.width) - (players.count * 190)) / (players.count - 1)
             var offset = 10
             for thisPlayer in players {
                 let thisLabel = UILabel()
                 thisLabel.font = UIFont(name: "Futura", size: 25)
                 thisLabel.text = "\(thisPlayer.name): \(thisPlayer.tricksWon)/\(thisPlayer.tricksPlanned)"
-                thisLabel.frame = CGRect(x: offset, y: 0, width: 200, height: 50)
+                thisLabel.frame = CGRect(x: offset, y: 0, width: 180, height: 50)
                 vPlayerTrickLabelArea.addSubview(thisLabel)
                 offset += spacing + Int(thisLabel.frame.width)
             }
