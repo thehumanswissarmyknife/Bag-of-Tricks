@@ -72,6 +72,182 @@
             </objects>
             <point key="canvasLocation" x="792.964824120603" y="-738.12949640287775"/>
         </scene>
+        <!--Custom Alert View Controller-->
+        <scene sceneID="58u-Nc-Lt4">
+            <objects>
+                <viewController storyboardIdentifier="customAlertID" id="Esd-LY-nUE" customClass="CustomAlertViewController" customModule="Bag_of_Tricks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d0p-dB-K00">
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" restorationIdentifier="CustomAlertViewController" translatesAutoresizingMaskIntoConstraints="NO" id="t0R-1X-jPf">
+                                <rect key="frame" x="268.5" y="193.5" width="657" height="447"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="before we play" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="623-vL-hke">
+                                        <rect key="frame" x="231" y="8" width="195" height="38"/>
+                                        <fontDescription key="fontDescription" name="MalayalamSangamMN" family="Malayalam Sangam MN" pointSize="32"/>
+                                        <color key="textColor" red="0.58431372550000005" green="0.64705882349999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="choose your opponents:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKq-pf-WFf">
+                                        <rect key="frame" x="168" y="113" width="321" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="cpd-gu-h1A"/>
+                                            <constraint firstAttribute="width" constant="321" id="ewY-NN-fTb"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="MalayalamSangamMN" family="Malayalam Sangam MN" pointSize="32"/>
+                                        <color key="textColor" red="0.58431372550000005" green="0.64705882349999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="NlP-Tw-Ye4">
+                                        <rect key="frame" x="206" y="65" width="245" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="245" id="5UX-RQ-x8g"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="MalayalamSangamMN" family="Malayalam Sangam MN" pointSize="32"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="name"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zEb-Hd-f9C" userLabel="Buttons">
+                                        <rect key="frame" x="47" y="342" width="562" height="55"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hf2-JC-4W7">
+                                                <rect key="frame" x="0.0" y="5" width="192" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="BTG-Hh-mXf"/>
+                                                    <constraint firstAttribute="width" constant="192" id="Yxp-1e-qVy"/>
+                                                </constraints>
+                                                <state key="normal" title="play" image="btnPlay"/>
+                                                <connections>
+                                                    <action selector="btnPressedPlay:" destination="Esd-LY-nUE" eventType="touchUpInside" id="FJH-3v-V41"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xW3-qJ-bNJ">
+                                                <rect key="frame" x="370" y="5" width="192" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="Eov-9O-SMb"/>
+                                                    <constraint firstAttribute="width" constant="192" id="wCs-qh-gKX"/>
+                                                </constraints>
+                                                <state key="normal" image="btnBack"/>
+                                                <connections>
+                                                    <action selector="btnPressedBack:" destination="Esd-LY-nUE" eventType="touchUpInside" id="wBw-Cq-qOQ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="55" id="3d9-MP-sRf"/>
+                                            <constraint firstItem="xW3-qJ-bNJ" firstAttribute="top" secondItem="zEb-Hd-f9C" secondAttribute="top" constant="5" id="VBa-eb-b7C"/>
+                                            <constraint firstItem="hf2-JC-4W7" firstAttribute="top" secondItem="zEb-Hd-f9C" secondAttribute="top" constant="5" id="YnR-rV-rZy"/>
+                                            <constraint firstAttribute="bottom" secondItem="xW3-qJ-bNJ" secondAttribute="bottom" constant="5" id="bng-Ox-iBi"/>
+                                            <constraint firstItem="hf2-JC-4W7" firstAttribute="leading" secondItem="zEb-Hd-f9C" secondAttribute="leading" id="cQJ-aO-Seh"/>
+                                            <constraint firstAttribute="trailing" secondItem="xW3-qJ-bNJ" secondAttribute="trailing" id="dRS-4g-5Zi"/>
+                                            <constraint firstAttribute="bottom" secondItem="hf2-JC-4W7" secondAttribute="bottom" constant="5" id="s6c-ki-QOy"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="your name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Unh-Ee-aTJ">
+                                        <rect key="frame" x="49" y="67" width="149" height="38"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="MalayalamSangamMN" family="Malayalam Sangam MN" pointSize="32"/>
+                                        <color key="textColor" red="0.58431372550000005" green="0.64705882349999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HNe-Zo-MvY" userLabel="Players">
+                                        <rect key="frame" x="7.5" y="158.5" width="641" height="175"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMv-EW-8e2">
+                                                <rect key="frame" x="55" y="4" width="18" height="38"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="MalayalamSangamMN" family="Malayalam Sangam MN" pointSize="32"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="kuW-6b-dZZ">
+                                        <rect key="frame" x="476" y="71" width="94" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="btnStepperOpponents:" destination="Esd-LY-nUE" eventType="valueChanged" id="qsd-GQ-4XP"/>
+                                        </connections>
+                                    </stepper>
+                                </subviews>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="NlP-Tw-Ye4" firstAttribute="centerX" secondItem="t0R-1X-jPf" secondAttribute="centerX" id="0bh-Fh-zck"/>
+                                    <constraint firstItem="NlP-Tw-Ye4" firstAttribute="top" secondItem="623-vL-hke" secondAttribute="bottom" constant="19" id="8OB-IR-chr"/>
+                                    <constraint firstItem="zEb-Hd-f9C" firstAttribute="leading" secondItem="t0R-1X-jPf" secondAttribute="leading" constant="47" id="BPH-gS-dFM"/>
+                                    <constraint firstItem="nKq-pf-WFf" firstAttribute="centerX" secondItem="t0R-1X-jPf" secondAttribute="centerX" id="HHf-f6-fBR"/>
+                                    <constraint firstItem="623-vL-hke" firstAttribute="leading" secondItem="t0R-1X-jPf" secondAttribute="leading" constant="231" id="OR3-4f-mDQ"/>
+                                    <constraint firstItem="NlP-Tw-Ye4" firstAttribute="top" secondItem="623-vL-hke" secondAttribute="bottom" constant="19" id="OSr-Tp-fK4"/>
+                                    <constraint firstAttribute="trailing" secondItem="zEb-Hd-f9C" secondAttribute="trailing" constant="48" id="QdN-3O-BJU"/>
+                                    <constraint firstItem="HNe-Zo-MvY" firstAttribute="top" secondItem="nKq-pf-WFf" secondAttribute="bottom" constant="8" id="RKn-Qd-KUG"/>
+                                    <constraint firstAttribute="trailing" secondItem="623-vL-hke" secondAttribute="trailing" constant="231" id="Svn-7d-kQF"/>
+                                    <constraint firstAttribute="bottom" secondItem="zEb-Hd-f9C" secondAttribute="bottom" constant="50" id="Tvt-uD-Lf6"/>
+                                    <constraint firstItem="623-vL-hke" firstAttribute="top" secondItem="t0R-1X-jPf" secondAttribute="top" constant="8" id="X1L-TT-lcv"/>
+                                    <constraint firstItem="nKq-pf-WFf" firstAttribute="top" secondItem="NlP-Tw-Ye4" secondAttribute="bottom" constant="6" id="YbQ-Li-8y2"/>
+                                    <constraint firstItem="623-vL-hke" firstAttribute="centerX" secondItem="t0R-1X-jPf" secondAttribute="centerX" id="c9r-cs-S6Y"/>
+                                    <constraint firstAttribute="width" constant="657" id="dMs-bI-Tdi"/>
+                                    <constraint firstAttribute="height" constant="447" id="xAV-8I-zaW"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="t0R-1X-jPf" firstAttribute="centerX" secondItem="d0p-dB-K00" secondAttribute="centerX" id="jmQ-75-Jan"/>
+                            <constraint firstItem="t0R-1X-jPf" firstAttribute="centerY" secondItem="d0p-dB-K00" secondAttribute="centerY" id="vtX-DT-6KL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="CRa-GX-Jks"/>
+                    </view>
+                    <connections>
+                        <outlet property="lNumberOfPlayers" destination="iMv-EW-8e2" id="9f6-Ok-J29"/>
+                        <outlet property="tfName" destination="NlP-Tw-Ye4" id="1IM-UD-DOR"/>
+                        <outlet property="vBtnStepperOpponents" destination="kuW-6b-dZZ" id="0Ux-9T-Dul"/>
+                        <outlet property="vCustomAlertView" destination="t0R-1X-jPf" id="9dG-1z-yZl"/>
+                        <outlet property="vOpponents" destination="HNe-Zo-MvY" id="p93-D0-ty2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Nu-US-LBU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1519" y="-737"/>
+        </scene>
+        <!--One Line Overlay View Controller-->
+        <scene sceneID="LSl-SL-vhf">
+            <objects>
+                <viewController storyboardIdentifier="OneLineOverlay" id="Kuw-Va-52J" customClass="OneLineOverlayViewController" customModule="Bag_of_Tricks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VRF-8C-ZdW">
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRF-1h-n6O">
+                                <rect key="frame" x="197" y="375" width="800" height="84"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="De4-CQ-aHV"/>
+                                    <constraint firstAttribute="width" constant="800" id="XlE-5s-RrF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="MalayalamSangamMN-Bold" family="Malayalam Sangam MN" pointSize="70"/>
+                                <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="2" height="2"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kRF-1h-n6O" firstAttribute="centerY" secondItem="VRF-8C-ZdW" secondAttribute="centerY" id="B7U-eO-wxY"/>
+                            <constraint firstItem="kRF-1h-n6O" firstAttribute="centerX" secondItem="VRF-8C-ZdW" secondAttribute="centerX" id="s2c-Ew-alp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wDu-eQ-N9e"/>
+                    </view>
+                    <connections>
+                        <outlet property="lText" destination="kRF-1h-n6O" id="luS-nj-aIk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sv7-3I-Vq3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1519.5979899497488" y="-92.086330935251809"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>

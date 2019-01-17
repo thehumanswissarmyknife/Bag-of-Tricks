@@ -12,6 +12,8 @@
 		F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866921DD0B5400B9A313 /* MainViewController.swift */; };
 		F3A9866C21DD0C9700B9A313 /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */; };
 		F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866D21DD10F900B9A313 /* Settings.swift */; };
+		F3AB6A3B21F0D1B000AF7FA9 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AB6A3921F0D1B000AF7FA9 /* CustomAlertViewController.swift */; };
+		F3AB6A3E21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AB6A3D21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift */; };
 		F3B2B5FF21DD2A8500CE003F /* RuleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2B5FE21DD2A8500CE003F /* RuleViewController.swift */; };
 		F3B2B60121DD61A900CE003F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2B60021DD61A900CE003F /* GameViewController.swift */; };
 		F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0508621DD03350087C1F7 /* AppDelegate.swift */; };
@@ -30,6 +32,8 @@
 		F3A9866921DD0B5400B9A313 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F3A9866B21DD0C9700B9A313 /* PreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		F3A9866D21DD10F900B9A313 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		F3AB6A3921F0D1B000AF7FA9 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
+		F3AB6A3D21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLineOverlayViewController.swift; sourceTree = "<group>"; };
 		F3B2B5FE21DD2A8500CE003F /* RuleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleViewController.swift; sourceTree = "<group>"; };
 		F3B2B60021DD61A900CE003F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F3E0508321DD03350087C1F7 /* Bag of Tricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bag of Tricks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +106,8 @@
 				F3B2B5FE21DD2A8500CE003F /* RuleViewController.swift */,
 				F3B2B60021DD61A900CE003F /* GameViewController.swift */,
 				F388312B21EDB233004178B3 /* HighScoreViewController.swift */,
+				F3AB6A3921F0D1B000AF7FA9 /* CustomAlertViewController.swift */,
+				F3AB6A3D21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -197,10 +203,12 @@
 				F3B2B60121DD61A900CE003F /* GameViewController.swift in Sources */,
 				F3E050A521DD03B30087C1F7 /* Card.swift in Sources */,
 				F3E050A821DD03B30087C1F7 /* Player.swift in Sources */,
+				F3AB6A3B21F0D1B000AF7FA9 /* CustomAlertViewController.swift in Sources */,
 				F3A9866C21DD0C9700B9A313 /* PreferenceViewController.swift in Sources */,
 				F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */,
 				F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */,
 				F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */,
+				F3AB6A3E21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift in Sources */,
 				F388312C21EDB233004178B3 /* HighScoreViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

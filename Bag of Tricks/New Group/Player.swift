@@ -27,6 +27,15 @@ class Player {
     var defaults = UserDefaults.standard
     var sortingOrder : Bool = true
     
+    var sortBlueValue : Int = 4
+    var sortRedValue : Int = 3
+    var sortGreenValue : Int = 5
+    var sortYellowValue : Int = 6
+    var sortBlackValue : Int = 0
+    
+    var colorSorting = ["Yellow", "Green", "Blue", "Red", "Black"]
+    
+    
     
     var cardsThatShoudlWinTheTrick = [Card]()
     
@@ -42,6 +51,10 @@ class Player {
         name = thisName
         level = thisLevel
         id = thisID
+
+        if let prefColorSorting = defaults.array(forKey: "colorSorting") as? [String]{
+            colorSorting = prefColorSorting
+        }
     }
     
     convenience init (thisName : String, makeHuman : Bool) {
@@ -54,14 +67,13 @@ class Player {
     
     func sortCards() {
         
-        if let prefSortingOrder = defaults.bool(forKey: "sortingOrder") as? Bool {
-            sortingOrder = prefSortingOrder
-        }
-        
+
         if sortingOrder {
             cards = cards.sorted { (a, b) -> Bool in
-                var aColor = a.color.count
-                var bColor = b.color.count
+                
+
+                var aColor : Int = colorSorting.firstIndex(of: a.color)!
+                var bColor : Int = colorSorting.firstIndex(of: b.color)!
                 
                 if a.color == "black" && a.value == 0 {
                     return false

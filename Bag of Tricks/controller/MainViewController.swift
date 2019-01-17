@@ -10,6 +10,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    var defaults = UserDefaults.standard
+    
     func updateSettings(theseSettings: Settings) {
         var settings = theseSettings
     }
@@ -17,7 +19,6 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
 
     }

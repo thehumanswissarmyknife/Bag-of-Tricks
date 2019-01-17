@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, CustomAlertViewDelegate {
     
     // MARK: - global variables
     let CARDHEIGHTINHUMANAREA = 300
@@ -107,7 +107,8 @@ class GameViewController: UIViewController {
             self.startGame()
         }))
         
-        self.present(thisAlert, animated: true, completion: nil)
+//        self.present(thisAlert, animated: true, completion: nil)
+        showCustomAlertInitScreen()
     }
     
 
@@ -222,7 +223,7 @@ class GameViewController: UIViewController {
         
         // if all tricks of the round have been played
         if tricksPlayedInRound == currentRoundNumber && currentRoundNumber < roundsInTotal {
-            // evaluate this round
+            // calculate the scores for this round
             for thisPlayer in players {
                 let oldScore = thisPlayer.score
                 if thisPlayer.tricksPlanned == thisPlayer.tricksWon {
@@ -255,6 +256,8 @@ class GameViewController: UIViewController {
             
             
         }
+            
+            // after the last round display the total scores!
         else if tricksPlayedInRound == currentRoundNumber && currentRoundNumber == roundsInTotal {
             print("all rounds have been played, let's get the highscores")
             var scoreString = ""
@@ -296,6 +299,7 @@ class GameViewController: UIViewController {
                 thisPlayer.cards.append(thisCard)
                 
                 // TODO: to make it less akward, make the human cards appear slowly
+                
 
             }
         }
@@ -321,6 +325,8 @@ class GameViewController: UIViewController {
         winningCard = cardsInTrick.removeFirst()
         
         for thisCard in cardsInTrick {
+            
+            // if the first card played is a wizard, it's won - break
             if winningCard.value == 100 {
                 // Wizarsd always win
                 break
@@ -349,6 +355,7 @@ class GameViewController: UIViewController {
         
         winningPlayer = players.filter{$0.id == winningCard.playedByPlayer}[0]
         winningPlayer.tricksWon += 1
+        displayOneLineCustomAlert(for: "\(winningPlayer.name) won")
         labelWinner.text = "\(winningPlayer.name) won"
         labelWinner.isHidden = false
         printWinners()
@@ -419,46 +426,7 @@ class GameViewController: UIViewController {
         
 
     }
-    // display the cards in the current trick
-    func displayCardsInTrick(){
-        print("displayCardsInTrick")
-        clearCardsInTrick()
-        var offset = 0
-        for thisCard in cardsInTrick {
-            let vCardPlusName = UIView()
-            
-            let ivCard = createCardImage(for: thisCard)
-            let labelName = UILabel()
-            
-            labelName.text = players.filter{$0.id == thisCard.playedByPlayer}[0].name
-            labelName.font = UIFont.init(name: "Futura", size: 20)
-            labelName.textColor = UIColor.black
-            labelName.textAlignment = NSTextAlignment.center
-            
-            ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            labelName.frame = CGRect(x: offset, y: CARDHEIGHTINHUMANAREA + 20, width: CARDWIDTHINHUMANAREA, height: 30)
-            
-            vCardPlusName.addSubview(ivCard)
-            vCardPlusName.addSubview(labelName)
-            vCardPlusName.alpha = 0
-           
-            self.vCardsInTrick.addSubview(vCardPlusName)
 
-            UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {
-                vCardPlusName.alpha = 1
-                vCardPlusName.frame.origin.y += 600
-                self.view.layoutIfNeeded()
-            }) { (true) in
-                print("Done")
-            }
-            offset += CARDWIDTHINHUMANAREA + 20
-        }
-    }
-    
-
-    
-
-    
     func displayTrickBettingScreen() {
         print("displayTrickBettingScreen")
 //        pushHumanAreaUp()
@@ -680,6 +648,27 @@ class GameViewController: UIViewController {
         scoreBoardIsVisible = !scoreBoardIsVisible
     }
     
+    func showCustomAlertInitScreen(){
+//        let customAlert = UIViewController(nibName: "CustomAlertViewController", bundle: nil) as! CustomAlertViewController
+        let customAlert = self.storyboard?.instantiateViewController(withIdentifier: "customAlertID") as! CustomAlertViewController
+        customAlert.providesPresentationContextTransitionStyle = true
+        customAlert.definesPresentationContext = true
+        customAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        customAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        customAlert.delegate = self
+        self.present(customAlert, animated: true, completion: nil)
+    }
+    
+    func displayOneLineCustomAlert(for thisText: String) {
+        let oneLiner = self.storyboard?.instantiateViewController(withIdentifier: "OneLineOverlay") as! OneLineOverlayViewController
+        oneLiner.text = thisText
+        oneLiner.providesPresentationContextTransitionStyle = true
+        oneLiner.definesPresentationContext = true
+        oneLiner.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        oneLiner.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.present(oneLiner, animated: true, completion: nil)
+    }
+    
     // MARK: - PRINTING FUNCTIONS
     // print the order of the players!
     func printPlayerOrder(){
@@ -718,6 +707,9 @@ class GameViewController: UIViewController {
     
     // MARK: - UTILITY FUNCTIONS
     
+    func backToMainMenu(){
+        self.dismiss(animated: true, completion: nil)
+    }
     func loadUserDefaults(){
         if let prefHighScore = defaults.dictionary(forKey: "highScore") as? [String:Int]{
             dictHighScore = prefHighScore
@@ -958,7 +950,6 @@ class GameViewController: UIViewController {
             players[0].tricksPlanned = Int(labelNumber.text!)!
             let viewToDiscard = sender.superview!
             viewToDiscard.removeFromSuperview()
-//            pushDownHumanArea()
             pushToggleHumanArea()
             displayPlayerTrickLabels()
             playTrick()
