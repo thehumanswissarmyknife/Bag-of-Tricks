@@ -81,33 +81,6 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let thisAlert = UIAlertController(title: "Before we start", message: "Please choose a name and your opponents", preferredStyle: .alert)
-        
-        thisAlert.addTextField { (thisTextField) in
-            thisTextField.text = self.myName
-        }
-        thisAlert.addTextField{ (thisTextField2) in
-            thisTextField2.text = "\(self.numberOfPlayers)"
-            thisTextField2.keyboardType = UIKeyboardType.numberPad
-        }
-        thisAlert.addAction(UIAlertAction(title: "CANCEL", style: .cancel, handler: { _ in
-            self.dismiss(animated: true, completion: nil)
-        }))
-        thisAlert.addAction(UIAlertAction(title: NSLocalizedString("PLAY", comment: "Default action"), style: .default, handler: { _ in
-            print("startGame")
-            if let thisNumberOfPlayers = Int(thisAlert.textFields![1].text!) {
-                self.defaults.set(thisNumberOfPlayers, forKey: "numberOfPlayers")
-                self.numberOfPlayers = thisNumberOfPlayers
-            }
-            
-            if let thisPlayerName = thisAlert.textFields![0].text {
-                self.myName = thisPlayerName
-                self.defaults.set(self.myName, forKey: "userName")
-            }
-            self.startGame()
-        }))
-        
-//        self.present(thisAlert, animated: true, completion: nil)
         showCustomAlertInitScreen()
     }
     
@@ -136,7 +109,8 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     func startRound(){
         
         print("starting new nound")
-        print("\(players[playerIndexWhoStartsTheRound].name) is first to play")
+//        print("\(players[playerIndexWhoStartsTheRound].name) is first to play")
+        displayOneLineCustomAlert(for: "Dealer: \(playersInOrderOfTrick.last!.name)")
         
         cardDeck = DeckOfCards()
         clearCardsInTrick()
@@ -149,13 +123,16 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         shiftPlayers(thisWinningPlayer: players[playerIndexWhoStartsTheRound])
         
         highlightDealerName()
+        playersInOrderOfTrick.first?.calculateBestTrumpColor()
         
         // if the flopped card is a wizard, the first player has to choose the trump color
         if floppedTrumpCard!.value == 100 {
             if !playersInOrderOfTrick[0].isHuman{
                 // for the moment pick a random color
-                let colors = ["blue", "green", "red", "yellow"]
+                let colors = ["Blue", "Green", "Red", "Yellow"]
+                playersInOrderOfTrick.first?.calculateBestTrumpColor()
                 floppedTrumpCard = Card(thisColor: colors[Int.random(in: 0...3)], thisValue: 15)
+                
                 trump = (floppedTrumpCard?.color)!
                 displayTrumpCard()
             }
@@ -313,6 +290,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         else{
             // no trump
             trump = "none"
+            floppedTrumpCard = Card(thisColor: "noTrump", thisValue: 0)
         }
         printPlayersCards()
     }
@@ -332,6 +310,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
                 break
             }
             
+            // if thisCard is a wizard it wins, break
             if thisCard.value == 100 {
                 winningCard = thisCard
                 break
@@ -356,9 +335,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         winningPlayer = players.filter{$0.id == winningCard.playedByPlayer}[0]
         winningPlayer.tricksWon += 1
         displayOneLineCustomAlert(for: "\(winningPlayer.name) won")
-        labelWinner.text = "\(winningPlayer.name) won"
-        labelWinner.isHidden = false
-        printWinners()
+
         shiftPlayers(thisWinningPlayer: winningPlayer)
         displayPlayerTrickLabels()
     }
@@ -390,7 +367,11 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             btnCard.isHidden = false
 
             vCardView.addSubview(btnCard)
-            
+            btnCard.alpha = 0
+            UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseIn, animations: {
+                btnCard.alpha = 1
+                self.view.layoutIfNeeded()
+            })
             initialOffset += addedPixel
         }
     }
@@ -948,6 +929,8 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             // means the user wants to play
         else if sender.tag == 2 {
             players[0].tricksPlanned = Int(labelNumber.text!)!
+            
+            displayTrumpCard()
             let viewToDiscard = sender.superview!
             viewToDiscard.removeFromSuperview()
             pushToggleHumanArea()

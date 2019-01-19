@@ -33,7 +33,13 @@ class Player {
     var sortYellowValue : Int = 6
     var sortBlackValue : Int = 0
     
-    var colorSorting = ["Yellow", "Green", "Blue", "Red", "Black"]
+    var colorSorting = ["Black","Yellow", "Green", "Blue", "Red"]
+    
+    var blueCards = [Card]()
+    var redCards = [Card]()
+    var greenCards = [Card]()
+    var yellowCards = [Card]()
+    var wizardCards = [Card]()
     
     
     
@@ -65,20 +71,15 @@ class Player {
         }
     }
     
+    // MARK: - utility functions
     func sortCards() {
-        
-
         if sortingOrder {
             cards = cards.sorted { (a, b) -> Bool in
-                
 
-                var aColor : Int = colorSorting.firstIndex(of: a.color)!
-                var bColor : Int = colorSorting.firstIndex(of: b.color)!
-                
-                if a.color == "black" && a.value == 0 {
-                    return false
-                }
-                else if ((aColor-1)*13)+a.value > ((bColor-1)*13)+b.value {
+                let aColor : Int = colorSorting.firstIndex(of: a.color)!
+                let bColor : Int = colorSorting.firstIndex(of: b.color)!
+
+                if ((aColor)*13)+a.value > ((bColor)*13)+b.value {
                     return true
                 }
                 else {
@@ -88,13 +89,10 @@ class Player {
         }
         else {
             cards = cards.sorted { (a, b) -> Bool in
-                var aColor = a.color.count
-                var bColor = b.color.count
+                let aColor : Int = colorSorting.firstIndex(of: a.color)!
+                let bColor : Int = colorSorting.firstIndex(of: b.color)!
                 
-                if a.color == "black" && a.value == 0 {
-                    return false
-                }
-                else if ((aColor-1)*13)+a.value < ((bColor-1)*13)+b.value {
+                if ((aColor)*13)+a.value < ((bColor)*13)+b.value {
                     return true
                 }
                 else {
@@ -104,6 +102,7 @@ class Player {
         }
 
     }
+    
     // sort the cards right before the card needs to be played. Index 0 should be the best card to play. Need to know the trump and cards ahve been played.
     func sortCardsToPlay(thisTrump : String, cardsPlayed : [Card]) {
         print("- - player[\(name)].sortCardsToPlay")
@@ -124,7 +123,7 @@ class Player {
             
             // if a zero or a wizard is played
             for thisCard in cardsPlayed {
-                if thisCard.color != "black" {
+                if thisCard.value < 1 || thisCard.value > 15 {
                     suite = thisCard.color
                     break
                 }
@@ -148,7 +147,7 @@ class Player {
             else {
                 // add all black cards to the playableCards array
                 for thisCard in cards {
-                    if thisCard.color == "black" {
+                    if thisCard.color == "Black" {
                         thisCard.canBePlayed = true
                         playableCards.append(thisCard)
                     }
@@ -196,8 +195,7 @@ class Player {
         // play card = return the card and take it out of both
         
         sortCardsToPlay(thisTrump: thisTrump, cardsPlayed: theseCards)
-        
-        
+
         let playThisCard = playableCards.randomElement()
         print("player[\(name)].playCard(\(playThisCard!.id))")
         playThisCard!.playedByPlayer = id
@@ -229,7 +227,7 @@ class Player {
             
             // the first color you find, that isn't black, is the suit to follow
             for thisCard in playedCards {
-                if thisCard.color != "black" {
+                if thisCard.color != "Black" {
                     suite = thisCard.color
                     break
                 }
@@ -237,7 +235,7 @@ class Player {
             
             for thisCard in playedCards {
                 if thisCard.color != suite {
-                    if thisCard.color == "black" {
+                    if thisCard.color == "Black" {
                         // the player most likely has this color and just played a nerd to cover....
                     }
                     else {
@@ -263,7 +261,7 @@ class Player {
         var likelyWinners = [Card]()
         
         for thisCard in cards {
-            if thisCard.value == 14 {
+            if thisCard.value == 100 {
                 wizards.append(thisCard)
             }
             else if thisCard.color == thisTrump {
@@ -277,5 +275,46 @@ class Player {
         tricksPlanned = wizards.count + trumpCards.count + likelyWinners.count
         
         return tricksPlanned
+    }
+    
+    func calculateBestTrumpColor() -> String {
+        var trumpColor = ""
+        
+        var allCardsInArrays = [[Card]]()
+        
+        for thisColor in colorSorting {
+            if thisColor.lowercased() != "black" {
+                let theseCards = cards.filter{$0.color == thisColor}
+                allCardsInArrays.append(theseCards)
+                
+            }
+        }
+        allCardsInArrays.sort { (x, y) -> Bool in
+            if x.count > y.count {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        var highestQuantifier = 0
+        var hightestQantifierColor = ""
+        
+        for thisColoredCards in allCardsInArrays {
+            let thisQ = thisColoredCards.reduce(0, { x, y in x + y.value })
+            if thisQ > highestQuantifier {
+                highestQuantifier = thisQ
+                hightestQantifierColor = (thisColoredCards.first?.color)!
+            }
+        }
+        
+        if allCardsInArrays.first?.first?.color == hightestQantifierColor {
+            trumpColor = hightestQantifierColor
+        }
+        else {
+            trumpColor = (allCardsInArrays[1].first?.color)!
+        }
+        
+        return trumpColor
     }
 }
