@@ -39,6 +39,13 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     @IBOutlet weak var btnScoreBoard: UIButton!
     
     
+    @IBOutlet weak var vBettingrea: UIView!
+    @IBOutlet weak var cBettingArea: NSLayoutConstraint!
+    @IBOutlet weak var vBettingAreaColors: UIView!
+    @IBOutlet weak var cBettingPlayButton: NSLayoutConstraint!
+    
+    @IBOutlet weak var lTricksBet: UILabel!
+    
     // MARK: - LABELS FOR THE PLAYER AND HOW MANY TRICKS THEY WON IN THIS ROUND
     // labels for the players
     @IBOutlet weak var labelTricksPlayed: UILabel!
@@ -69,6 +76,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     // MARK: - visual utilitz variables
     var humanAreaIsUp = false
     var scoreBoardIsVisible = false
+    var bettingAreaIsVisible = false
 
     // MARK: - view functions
     override func viewDidLoad() {
@@ -144,7 +152,10 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
                 let tricksEstimated = thisPlayer.calculateTricksToWin(thisTrump: trump)
             }
             else {
-                displayTrickBettingScreen()
+//                displayTrickBettingScreen()
+                displayPlayerCards()
+                pushToggleBettingArea()
+                
             }
         }
         
@@ -342,6 +353,32 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
 
     // MARK: - UI UPDATING FUNCTIONS
     
+    func pushToggleBettingArea(){
+        if bettingAreaIsVisible {
+            UIView.animate(withDuration: 0.5) {
+                self.cBettingArea.constant += 200
+                self.view.layoutIfNeeded()
+            }
+        }
+        else {
+            if floppedTrumpCard?.value == 100{
+                vBettingAreaColors.isHidden = false
+                cBettingPlayButton.constant = 50
+                resetColorButtons()
+            }
+            else {
+                cBettingPlayButton.constant = 10
+                vBettingAreaColors.isHidden = true
+            }
+            lTricksBet.text = "0"
+            UIView.animate(withDuration: 0.5) {
+                self.cBettingArea.constant -= 200
+                self.view.layoutIfNeeded()
+            }
+        }
+        bettingAreaIsVisible = !bettingAreaIsVisible
+    }
+    
     // displays the cards of the human player in the card array.
     // each card is a button
     func displayPlayerCards(){
@@ -355,25 +392,60 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             thisCardView.removeFromSuperview()
         }
         
-        let widthOfCards = CARDWIDTHINHUMANAREA + (theseCards.count * 40)
+        let widthOfCards = CARDWIDTHINHUMANAREA + ((theseCards.count-1) * 40)
         var initialOffset : Int = (Int(vCardView.frame.width) - widthOfCards)/2
         let addedPixel = 40
         
         for n in 0..<theseCards.count {
             let thisCard = theseCards[n]
             
-            let btnCard = createCardButton(for: thisCard)
-            btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            btnCard.isHidden = false
-
-            vCardView.addSubview(btnCard)
-            btnCard.alpha = 0
-            UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseIn, animations: {
-                btnCard.alpha = 1
-                self.view.layoutIfNeeded()
-            })
-            initialOffset += addedPixel
+            displayThisPlayerCard(thisCard: thisCard)
+            
+//            let btnCard = createCardButton(for: thisCard)
+//            btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+//            btnCard.isHidden = false
+//
+//            vCardView.addSubview(btnCard)
+//            btnCard.alpha = 0
+////            btnCard.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+//            UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseIn, animations: {
+//                btnCard.alpha = 1
+//                self.view.layoutIfNeeded()
+//            })
+//            initialOffset += addedPixel
         }
+    }
+    
+    func displayThisPlayerCard(thisCard : Card) {
+        
+        print("Display this Card \(thisCard.id)")
+        let numberOfCardsDisplayed = vCardView.subviews.count
+        
+        let widthOfCards = CARDWIDTHINHUMANAREA + numberOfCardsDisplayed * 80
+        let offsetOfThisCard = (Int(vCardView.frame.width) - widthOfCards)/2 + (numberOfCardsDisplayed * 80)
+        
+        let btnCard = createCardButton(for: thisCard)
+        btnCard.frame = CGRect(x: offsetOfThisCard, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+        btnCard.isHidden = false
+        
+        vCardView.addSubview(btnCard)
+        btnCard.frame.origin.x += 500
+        btnCard.alpha = 0
+        
+        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseIn, animations: {
+            btnCard.alpha = 1
+            btnCard.frame.origin.x -= 500
+            self.view.layoutIfNeeded()
+        }) { (finished) in
+            
+        }
+        
+//        for thisView in vCardView.subviews {
+//            UIView.animate(withDuration: 0.1) {
+//                thisView.frame.origin.x -= 20
+//                self.view.layoutIfNeeded()
+//            }
+//        }
     }
 
     func displayLastCardInTrick() {
@@ -410,7 +482,6 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
 
     func displayTrickBettingScreen() {
         print("displayTrickBettingScreen")
-//        pushHumanAreaUp()
         pushToggleHumanArea()
         
         for thisView in vCardView.subviews{
@@ -687,7 +758,13 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     
     
     // MARK: - UTILITY FUNCTIONS
-    
+    func resetColorButtons(){
+        var colorButtons = vBettingAreaColors.subviews as! [UIButton]
+        
+        for thisButton in colorButtons {
+            thisButton.setImage(UIImage(named: "btn"+thisButton.title(for: .selected)!), for: .normal)
+        }
+    }
     func backToMainMenu(){
         self.dismiss(animated: true, completion: nil)
     }
@@ -909,6 +986,34 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         return ivCard
     }
     
+    @IBAction func btnBetTrickAdjust(_ sender: UIButton) {
+        let trickValue = Int(lTricksBet.text!)
+        
+        if sender.tag == 0 {
+            if trickValue! > 0 {
+                lTricksBet.text = "\(trickValue! - 1)"
+            }
+        }
+        else if sender.tag == 1 {
+            if trickValue! < currentRoundNumber {
+                lTricksBet.text = String(trickValue! + 1)
+            }
+        }
+        else if sender.tag == 2 {
+            players[0].tricksPlanned = Int(lTricksBet.text!)!
+            print("playbutton pressed")
+            
+            displayTrumpCard()
+//            let viewToDiscard = sender.superview!
+//            viewToDiscard.removeFromSuperview()
+//            pushToggleHumanArea()
+            pushToggleBettingArea()
+            displayPlayerTrickLabels()
+            playTrick()
+        }
+    }
+    
+    
     @objc func btnAdjustTricks(sender: UIButton!) {
         print("btnAdjustTricks")
         
@@ -939,11 +1044,24 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         }
     }
     
+    @IBAction func btnTrumpColor(_ sender: UIButton) {
+        let btn = sender
+        print("btnTrumpColor: \(btn.title(for: .selected))")
+        let buttons = (sender.superview?.subviews)! as! [UIButton]
+        for thisButton in buttons {
+            thisButton.setImage(UIImage(named: "btn"+thisButton.title(for: .selected)!), for: .normal)
+        }
+        let image = "btn" + btn.title(for: .selected)! + "Active"
+        btn.setImage(UIImage(named: image), for: .normal)
+        trump = (btn.title(for: .selected)!)
+        floppedTrumpCard = Card(thisColor: trump, thisValue: 15)
+    }
+    
+    
     @objc func btnColor(sender: UIButton){
         let btn = sender
         let buttons = (sender.superview?.subviews)! as! [UIButton]
         for thisButton in buttons {
-
             thisButton.setImage(UIImage(named: "btn"+thisButton.title(for: .selected)!), for: .selected)
         }
         let image = "btn" + btn.title(for: .selected)! + "Active"

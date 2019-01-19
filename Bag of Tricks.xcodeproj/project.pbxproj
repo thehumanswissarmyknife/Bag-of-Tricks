@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F335F7CA21F388510031A414 /* BettingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F335F7C921F388510031A414 /* BettingScreenViewController.swift */; };
 		F37BED9121E8F0E70009FB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37BED9021E8F0E70009FB7C /* Assets.xcassets */; };
 		F388312C21EDB233004178B3 /* HighScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F388312B21EDB233004178B3 /* HighScoreViewController.swift */; };
 		F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866921DD0B5400B9A313 /* MainViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F335F7C921F388510031A414 /* BettingScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BettingScreenViewController.swift; sourceTree = "<group>"; };
 		F37BED9021E8F0E70009FB7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F388312B21EDB233004178B3 /* HighScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreViewController.swift; sourceTree = "<group>"; };
 		F3A9866921DD0B5400B9A313 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				F388312B21EDB233004178B3 /* HighScoreViewController.swift */,
 				F3AB6A3921F0D1B000AF7FA9 /* CustomAlertViewController.swift */,
 				F3AB6A3D21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift */,
+				F335F7C921F388510031A414 /* BettingScreenViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */,
 				F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */,
 				F3AB6A3E21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift in Sources */,
+				F335F7CA21F388510031A414 /* BettingScreenViewController.swift in Sources */,
 				F388312C21EDB233004178B3 /* HighScoreViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

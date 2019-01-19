@@ -106,6 +106,9 @@ class Player {
     // sort the cards right before the card needs to be played. Index 0 should be the best card to play. Need to know the trump and cards ahve been played.
     func sortCardsToPlay(thisTrump : String, cardsPlayed : [Card]) {
         print("- - player[\(name)].sortCardsToPlay")
+        
+        var cardsPlayedArray = cardsPlayed
+        var suit = ""
 
         // clear the playable cards
         playableCards.removeAll()
@@ -113,74 +116,114 @@ class Player {
             thisCard.canBePlayed = false
         }
         
-        sortCards()
-        
-        // check if there are any cards played - if not, you"re the first one
-        if cardsPlayed.count>0 {
+        // only if there are cards played
+        if cardsPlayedArray.count > 0 {
+            var winningCard = cardsPlayedArray.removeFirst()
             
-            // find teh suit to follow
-            suite = "none"
-            
-            // if a zero or a wizard is played
-            for thisCard in cardsPlayed {
-                if thisCard.value < 1 || thisCard.value > 15 {
-                    suite = thisCard.color
-                    break
-                }
-            }
-            
-            // identify al cards of suite and sort them into the playableCards array
-            for thisCard in cards {
-                if thisCard.color == suite {
-                    thisCard.canBePlayed = true
-                    playableCards.append(thisCard)
-                }
-            }
-            
-            // if the playableCards array is empty, it means we don't have to follow suite and all cards can be played!
-            if playableCards.count == 0 {
-                for thisCard in cards {
-                    thisCard.canBePlayed = true
-                    playableCards.append(thisCard)
-                }
-            }
-            else {
-                // add all black cards to the playableCards array
-                for thisCard in cards {
-                    if thisCard.color == "Black" {
-                        thisCard.canBePlayed = true
-                        playableCards.append(thisCard)
+            // find suit
+            if winningCard.color == "Black" {
+                for thisCard in cardsPlayedArray {
+                    if thisCard.color != "Black" {
+                        suit = thisCard.color
                     }
                 }
             }
-            
-        }
-        
-        // you are the first player
-        else{
-            
-            for thisCard in cards {
-                thisCard.canBePlayed = true
-                playableCards.append(thisCard)
+            else {
+                suit = winningCard.color
             }
-            // if the remaining tricks you need to win are bigger than the number of cards that you think will will tricks
-            if (tricksPlanned - tricksWon) < cardsThatShoudlWinTheTrick.count {
-                // sort the cards so that the least likely to get the trick is first
+            
+            if suit == "" {
+                playableCards.append(contentsOf: cards)
+            }
+            else {
+                playableCards.append(contentsOf: cards.filter{$0.color == suit})
                 
-                for thisCard in cards {
-                    thisCard.canBePlayed = true
-                    playableCards.append(thisCard)
+                if playableCards.count == 0 {
+                    playableCards.append(contentsOf: cards)
+                }
+                else {
+                    playableCards.append(contentsOf: cards.filter{$0.color == "Black"})
                 }
             }
         }
+        else {
+            playableCards.append(contentsOf: cards)
+        }
         
-        // check if any card is a wizard -> means your card had no effect and theere is no suit to follow
+        for thisCard in playableCards {
+            thisCard.canBePlayed = true
+        }
         
-        // check if the first card is a nerd, if so, check what the following card is to determine which suite to follow
         
-        // if there is a suite to follow, sort all cards of that suit to the front
         
-        // if you really need a
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//        sortCards()
+
+//        // check if there are any cards played - if not, you"re the first one
+//        if cardsPlayed.count>0 {
+//
+//            // find teh suit to follow
+//            suite = "none"
+//
+//            // if a zero or a wizard is played
+//            for thisCard in cardsPlayed {
+//                if thisCard.value > 0 && thisCard.value < 14 {
+//                    suite = thisCard.color
+//                    break
+//                }
+//            }
+//
+//            // identify al cards of suite and sort them into the playableCards array
+//            for thisCard in cards {
+//                if thisCard.color == suite {
+//                    thisCard.canBePlayed = true
+//                    playableCards.append(thisCard)
+//                }
+//            }
+//            // if the playableCards array is empty, it means we don't have to follow suite and all cards can be played!
+//            if playableCards.count == 0 {
+//                for thisCard in cards {
+//                    thisCard.canBePlayed = true
+//                    playableCards.append(thisCard)
+//                }
+//            }
+//            else {
+//                // add all black cards to the playableCards array
+//                for thisCard in cards {
+//                    if thisCard.color == "Black" {
+//                        thisCard.canBePlayed = true
+//                        playableCards.append(thisCard)
+//                    }
+//                }
+//            }
+//        }
+//
+//        // you are the first player
+//        else{
+//            for thisCard in cards {
+//                thisCard.canBePlayed = true
+//                playableCards.append(thisCard)
+//            }
+//            // if the remaining tricks you need to win are bigger than the number of cards that you think will will tricks
+//            if (tricksPlanned - tricksWon) < cardsThatShoudlWinTheTrick.count {
+//                // sort the cards so that the least likely to get the trick is first
+//                for thisCard in cards {
+//                    thisCard.canBePlayed = true
+//                    playableCards.append(thisCard)
+//                }
+//            }
+//        }
+        
         
     }
     
@@ -311,9 +354,11 @@ class Player {
         if allCardsInArrays.first?.first?.color == hightestQantifierColor {
             trumpColor = hightestQantifierColor
         }
-        else {
-            trumpColor = (allCardsInArrays[1].first?.color)!
-        }
+//        else {
+//            if allCardsInArrays.count>1 {
+//                trumpColor = (allCardsInArrays[1].first?.color)!
+//            }
+//        }
         
         return trumpColor
     }

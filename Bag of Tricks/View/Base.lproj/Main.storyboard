@@ -249,6 +249,34 @@
             </objects>
             <point key="canvasLocation" x="1519.5979899497488" y="-92.086330935251809"/>
         </scene>
+        <!--Betting Screen View Controller-->
+        <scene sceneID="lKj-1Z-s4h">
+            <objects>
+                <viewController id="ZeO-FS-0BY" customClass="BettingScreenViewController" customModule="Bag_of_Tricks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rx9-MH-wq0">
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DQP-nJ-SYy">
+                                <rect key="frame" x="0.0" y="0.0" width="1194" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="UF5-hn-NqJ"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="DQP-nJ-SYy" firstAttribute="trailing" secondItem="hqY-xm-JVC" secondAttribute="trailing" id="0AV-RB-P1g"/>
+                            <constraint firstItem="DQP-nJ-SYy" firstAttribute="top" secondItem="Rx9-MH-wq0" secondAttribute="top" id="aia-NS-zbM"/>
+                            <constraint firstItem="DQP-nJ-SYy" firstAttribute="leading" secondItem="hqY-xm-JVC" secondAttribute="leading" id="gFc-RA-xLi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hqY-xm-JVC"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jvg-Ny-rsv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1512.5628140703518" y="661.87050359712237"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -786,6 +814,130 @@
                                     <constraint firstAttribute="bottom" secondItem="TkI-UU-UnW" secondAttribute="bottom" constant="9" id="zTT-GZ-fes"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ImN-Ma-INP" userLabel="vBettingArea">
+                                <rect key="frame" x="0.0" y="834" width="1194" height="298"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bgBettingScreen" translatesAutoresizingMaskIntoConstraints="NO" id="ZhN-oo-xbA">
+                                        <rect key="frame" x="0.0" y="0.0" width="1194" height="298"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="njS-ZM-Dct" userLabel="vBetting">
+                                        <rect key="frame" x="512" y="20" width="170" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfi-L1-8CV">
+                                                <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="45" id="5lM-qh-lzn"/>
+                                                    <constraint firstAttribute="height" constant="45" id="fYZ-p0-XWC"/>
+                                                </constraints>
+                                                <state key="normal" image="btnMinus"/>
+                                                <connections>
+                                                    <action selector="btnBetTrickAdjust:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="QbX-2F-ctH"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYg-ah-ynN">
+                                                <rect key="frame" x="45" y="0.0" width="80" height="46"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="46" id="9Xn-6J-pKg"/>
+                                                    <constraint firstAttribute="width" constant="80" id="N4m-Va-wW8"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="MalayalamSangamMN-Bold" family="Malayalam Sangam MN" pointSize="38"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="du8-BI-ybg">
+                                                <rect key="frame" x="125" y="0.0" width="45" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="QwH-OI-jN0"/>
+                                                    <constraint firstAttribute="width" constant="45" id="Yu3-jb-w5q"/>
+                                                </constraints>
+                                                <state key="normal" image="btnPlus"/>
+                                                <connections>
+                                                    <action selector="btnBetTrickAdjust:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="ZzU-ha-qYt"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="du8-BI-ybg" secondAttribute="trailing" id="3Uf-ZH-ez2"/>
+                                            <constraint firstItem="PYg-ah-ynN" firstAttribute="leading" secondItem="nfi-L1-8CV" secondAttribute="trailing" id="3aG-Rb-Cce"/>
+                                            <constraint firstItem="du8-BI-ybg" firstAttribute="top" secondItem="njS-ZM-Dct" secondAttribute="top" id="3g0-3K-set"/>
+                                            <constraint firstItem="nfi-L1-8CV" firstAttribute="leading" secondItem="njS-ZM-Dct" secondAttribute="leading" id="SE2-jX-GDd"/>
+                                            <constraint firstAttribute="height" constant="45" id="SQI-eu-r7k"/>
+                                            <constraint firstAttribute="width" constant="170" id="UXV-ii-r2e"/>
+                                            <constraint firstItem="nfi-L1-8CV" firstAttribute="top" secondItem="njS-ZM-Dct" secondAttribute="top" id="pxf-ge-NMH"/>
+                                            <constraint firstItem="PYg-ah-ynN" firstAttribute="top" secondItem="njS-ZM-Dct" secondAttribute="top" id="qat-td-xcg"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VhA-Sg-WhU" userLabel="vColors">
+                                        <rect key="frame" x="477" y="65" width="240" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWW-wY-a0h">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Button" image="btnBlue"/>
+                                                <state key="selected" title="Blue" image="btnBlueActive"/>
+                                                <connections>
+                                                    <action selector="btnTrumpColor:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="t74-Bg-8PX"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vif-Bd-TKf">
+                                                <rect key="frame" x="66" y="0.0" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="btnYellow"/>
+                                                <state key="selected" title="Yellow" image="btnYellowActive"/>
+                                                <connections>
+                                                    <action selector="btnTrumpColor:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="FHa-jP-TOH"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LMX-RH-AOW">
+                                                <rect key="frame" x="133" y="0.0" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="btnRed"/>
+                                                <state key="selected" title="Red" image="btnRedActive"/>
+                                                <connections>
+                                                    <action selector="btnTrumpColor:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="x3Z-QJ-Sgv"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9s-Lr-hOY">
+                                                <rect key="frame" x="200" y="0.0" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="btnGreen"/>
+                                                <state key="selected" title="Green" image="btnGreenActive"/>
+                                                <connections>
+                                                    <action selector="btnTrumpColor:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="10t-aD-gke"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="KWb-OX-g4N"/>
+                                            <constraint firstAttribute="width" constant="240" id="SH7-KY-v92"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QJy-10-dtE">
+                                        <rect key="frame" x="501" y="115" width="192" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="C8r-to-G1Y"/>
+                                            <constraint firstAttribute="width" constant="192" id="pIZ-SG-jK3"/>
+                                        </constraints>
+                                        <state key="normal" image="btnPlay"/>
+                                        <connections>
+                                            <action selector="btnBetTrickAdjust:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="wUL-3Z-3GO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="njS-ZM-Dct" firstAttribute="top" secondItem="ImN-Ma-INP" secondAttribute="top" constant="20" id="Fvx-dP-OxC"/>
+                                    <constraint firstItem="QJy-10-dtE" firstAttribute="top" secondItem="njS-ZM-Dct" secondAttribute="bottom" constant="50" id="YCS-hW-bRC"/>
+                                    <constraint firstItem="QJy-10-dtE" firstAttribute="centerX" secondItem="ImN-Ma-INP" secondAttribute="centerX" id="bOY-sb-xOJ"/>
+                                    <constraint firstAttribute="height" constant="298" id="g1K-iN-7lz"/>
+                                    <constraint firstItem="VhA-Sg-WhU" firstAttribute="top" secondItem="njS-ZM-Dct" secondAttribute="bottom" id="psd-cz-xaR"/>
+                                    <constraint firstItem="VhA-Sg-WhU" firstAttribute="centerX" secondItem="ImN-Ma-INP" secondAttribute="centerX" id="vw0-hR-bCk"/>
+                                    <constraint firstItem="njS-ZM-Dct" firstAttribute="centerX" secondItem="ImN-Ma-INP" secondAttribute="centerX" id="wUC-Pk-EVE"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.38776627800000002" green="0.61524449479999999" blue="0.4985340419" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -794,12 +946,15 @@
                             <constraint firstAttribute="trailing" secondItem="fem-9C-3Wk" secondAttribute="trailing" constant="-344" id="6Ld-9f-srg"/>
                             <constraint firstItem="Sb7-Wa-Z5T" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="AHS-ue-7DF"/>
                             <constraint firstItem="fem-9C-3Wk" firstAttribute="top" secondItem="Lei-0D-IbG" secondAttribute="bottom" id="CK0-tJ-BYM"/>
+                            <constraint firstItem="ImN-Ma-INP" firstAttribute="leading" secondItem="CXl-mE-ZoZ" secondAttribute="leading" id="EPE-8V-rwQ"/>
                             <constraint firstItem="Sb7-Wa-Z5T" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="Iqf-sS-i2f"/>
                             <constraint firstItem="Lei-0D-IbG" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="N2m-mD-cuV"/>
                             <constraint firstItem="pll-UQ-YrW" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="Oc3-M6-BX0"/>
+                            <constraint firstAttribute="trailing" secondItem="ImN-Ma-INP" secondAttribute="trailing" id="TbG-P7-94y"/>
                             <constraint firstItem="Lei-0D-IbG" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="U8K-hT-MzK"/>
                             <constraint firstItem="Lei-0D-IbG" firstAttribute="top" secondItem="CXl-mE-ZoZ" secondAttribute="top" id="fAv-4f-9sI"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="trailing" secondItem="TjU-yO-tFX" secondAttribute="trailing" id="hAa-vv-arR"/>
+                            <constraint firstItem="ImN-Ma-INP" firstAttribute="top" secondItem="pll-UQ-YrW" secondAttribute="bottom" id="k16-ZV-Sa5"/>
                             <constraint firstAttribute="bottom" secondItem="pll-UQ-YrW" secondAttribute="bottom" id="pSs-vo-1eY"/>
                             <constraint firstItem="Sb7-Wa-Z5T" firstAttribute="top" secondItem="Lei-0D-IbG" secondAttribute="bottom" id="vyH-yt-y9t"/>
                             <constraint firstItem="KpK-VM-dfX" firstAttribute="leading" secondItem="TjU-yO-tFX" secondAttribute="leading" id="y4P-hQ-fVU"/>
@@ -809,12 +964,17 @@
                     </view>
                     <connections>
                         <outlet property="btnScoreBoard" destination="JnF-PK-x0P" id="aWe-wh-r9k"/>
+                        <outlet property="cBettingArea" destination="k16-ZV-Sa5" id="pKl-lp-okU"/>
+                        <outlet property="cBettingPlayButton" destination="YCS-hW-bRC" id="C4Y-LA-g9F"/>
                         <outlet property="cHumanAreaBottom" destination="1L9-iN-hdf" id="1rB-FP-T9c"/>
                         <outlet property="cLabelHumanArea" destination="XgH-g6-r4r" id="pu5-Ut-OT9"/>
                         <outlet property="cScoreBoardRight" destination="6Ld-9f-srg" id="goU-5z-78b"/>
                         <outlet property="lHumanArea" destination="BRS-Pu-Oiq" id="IXz-GN-CXR"/>
+                        <outlet property="lTricksBet" destination="PYg-ah-ynN" id="Ebp-BJ-eOe"/>
                         <outlet property="labelTricksPlayed" destination="TkI-UU-UnW" id="CpN-E7-vxb"/>
                         <outlet property="labelWinner" destination="XU0-QJ-Y1E" id="3Rv-G5-0df"/>
+                        <outlet property="vBettingAreaColors" destination="VhA-Sg-WhU" id="kh8-Hb-PNr"/>
+                        <outlet property="vBettingrea" destination="ImN-Ma-INP" id="REv-dh-Ygn"/>
                         <outlet property="vBtnScoreBoard" destination="fem-9C-3Wk" id="MgC-mf-Ulr"/>
                         <outlet property="vCardView" destination="OS1-CC-c6L" id="Ccm-ZK-2Qm"/>
                         <outlet property="vCardsInTrick" destination="v8b-Jm-9JS" id="31Y-Cg-Mbm"/>
@@ -834,15 +994,26 @@
         <image name="BagPlusCards" width="1262" height="983"/>
         <image name="TopGraphic" width="1366" height="71.5"/>
         <image name="YourCardArea" width="1366" height="733"/>
+        <image name="bgBettingScreen" width="2733" height="703"/>
         <image name="bgBlank_2" width="2734" height="2050"/>
         <image name="bgPlayArea" width="2734" height="2050"/>
         <image name="bgPlayAreaCards" width="402" height="352.5"/>
         <image name="bgScoreBoard" width="370" height="508.5"/>
         <image name="bgTrump" width="192.5" height="300.5"/>
         <image name="btnBack" width="487" height="116"/>
+        <image name="btnBlue" width="45" height="45.5"/>
+        <image name="btnBlueActive" width="40" height="40.5"/>
+        <image name="btnGreen" width="40" height="40.5"/>
+        <image name="btnGreenActive" width="40" height="40.5"/>
         <image name="btnHichscores" width="480" height="115"/>
+        <image name="btnMinus" width="40.5" height="40.5"/>
         <image name="btnPlay" width="486" height="115"/>
+        <image name="btnPlus" width="40.5" height="40.5"/>
+        <image name="btnRed" width="40" height="40.5"/>
+        <image name="btnRedActive" width="40" height="40.5"/>
         <image name="btnRules" width="486" height="115"/>
         <image name="btnSettings" width="486" height="115"/>
+        <image name="btnYellow" width="45" height="45.5"/>
+        <image name="btnYellowActive" width="40" height="40.5"/>
     </resources>
 </document>
