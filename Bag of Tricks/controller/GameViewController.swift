@@ -392,37 +392,24 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             thisCardView.removeFromSuperview()
         }
         
-        let widthOfCards = CARDWIDTHINHUMANAREA + ((theseCards.count-1) * 40)
-        var initialOffset : Int = (Int(vCardView.frame.width) - widthOfCards)/2
+//        let widthOfCards = CARDWIDTHINHUMANAREA + ((theseCards.count-1) * 40)
+        var initialOffset : Int = (Int(vCardView.frame.width) - (theseCards.count - 1) * 40 - CARDWIDTHINHUMANAREA)/2
         let addedPixel = 40
         
         for n in 0..<theseCards.count {
             let thisCard = theseCards[n]
-            
             displayThisPlayerCard(thisCard: thisCard)
-            
-//            let btnCard = createCardButton(for: thisCard)
-//            btnCard.frame = CGRect(x: initialOffset, y: 10, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-//            btnCard.isHidden = false
-//
-//            vCardView.addSubview(btnCard)
-//            btnCard.alpha = 0
-////            btnCard.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
-//            UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseIn, animations: {
-//                btnCard.alpha = 1
-//                self.view.layoutIfNeeded()
-//            })
-//            initialOffset += addedPixel
         }
+//        playerCardsUpdate()
     }
     
     func displayThisPlayerCard(thisCard : Card) {
         
         print("Display this Card \(thisCard.id)")
         let numberOfCardsDisplayed = vCardView.subviews.count
-        
-        let widthOfCards = CARDWIDTHINHUMANAREA + numberOfCardsDisplayed * 80
-        let offsetOfThisCard = (Int(vCardView.frame.width) - widthOfCards)/2 + (numberOfCardsDisplayed * 80)
+
+//        let widthOfCards = CARDWIDTHINHUMANAREA + numberOfCardsDisplayed * 80
+        let offsetOfThisCard = (Int(vCardView.frame.width) - CARDWIDTHINHUMANAREA)/2 + (numberOfCardsDisplayed * 40)
         
         let btnCard = createCardButton(for: thisCard)
         btnCard.frame = CGRect(x: offsetOfThisCard, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
@@ -431,21 +418,16 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         vCardView.addSubview(btnCard)
         btnCard.frame.origin.x += 500
         btnCard.alpha = 0
-        
-        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseIn, animations: {
-            btnCard.alpha = 1
-            btnCard.frame.origin.x -= 500
-            self.view.layoutIfNeeded()
-        }) { (finished) in
-            
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseIn, animations: {
+                btnCard.alpha = 1
+                btnCard.frame.origin.x -= 500
+                self.view.layoutIfNeeded()
+            }) { (finished) in
+                
+            }
         }
         
-//        for thisView in vCardView.subviews {
-//            UIView.animate(withDuration: 0.1) {
-//                thisView.frame.origin.x -= 20
-//                self.view.layoutIfNeeded()
-//            }
-//        }
     }
 
     func displayLastCardInTrick() {
@@ -479,83 +461,22 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         
 
     }
+    
+    func playerCardsUpdate(){
+        let theseViews = vCardView.subviews as! [UIButton]
+        var offsetX = (Int(vCardView.frame.width) - (theseViews.count - 1) * 40 - CARDWIDTHINHUMANAREA)/2
 
-    func displayTrickBettingScreen() {
-        print("displayTrickBettingScreen")
-        pushToggleHumanArea()
         
-        for thisView in vCardView.subviews{
-            thisView.removeFromSuperview()
-        }
-        players[0].sortCards()
-        var offset = (Int(vCardView.frame.width) - (players[0].cards.count * 40 + 192)) / 2
-        for thisCard in players[0].cards {
-            let ivCard = createCardImage(for: thisCard)
-            ivCard.frame = CGRect(x: offset, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            vCardView.addSubview(ivCard)
-            offset += 40
-        }
-        
-        let vBettingArea = UIView()
-        vBettingArea.tag = 72
-        vBettingArea.frame = CGRect(x: 10, y: CARDHEIGHTINHUMANAREA + 10, width: Int(vCardView.frame.width - 40), height: CARDHEIGHTINHUMANAREA + 20)
-        vHumanArea.addSubview(vBettingArea)
-        
-        let pxCenter = Int(vBettingArea.frame.width) / 2
-        
-        let btnMinus = UIButton()
-        btnMinus.setTitle("-", for: .selected)
-        btnMinus.setImage(UIImage(named: "btnMinus"), for: .normal)
-        btnMinus.frame = CGRect(x: pxCenter - 100, y: 0, width: 45, height: 45)
-        btnMinus.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
-        btnMinus.tag = 0
-        
-        let btnPlus = UIButton()
-        btnPlus.setTitle("+", for: .selected)
-        btnPlus.setImage(UIImage(named: "btnPlus"), for: .normal)
-        btnPlus.frame = CGRect(x: pxCenter + 55, y: 0, width: 45, height: 45)
-        btnPlus.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
-        btnPlus.tag = 1
-        
-        let labelNumber = UILabel()
-        labelNumber.text = "0"
-        labelNumber.font = UIFont(name: "Futura", size: 30)
-        labelNumber.textAlignment = NSTextAlignment(CTTextAlignment.center)
-        labelNumber.frame = CGRect(x: pxCenter - 22, y: 0, width: 44, height: 45)
-        labelNumber.tag = 74
-        
-        var yPosPlayButton = 40
-        if floppedTrumpCard?.value == 100 {
-            let vColors = UIView()
-            vColors.frame = CGRect(x: pxCenter-100, y: 30, width: 200, height: 50)
-            
-            let colors = ["Blue", "Green", "Red", "Yellow"]
-            
-            var thisOffset = 0
-            for thisColor in colors {
-                let btn = UIButton()
-                btn.setTitle(thisColor, for: .selected)
-                btn.setImage(UIImage(named: "btn\(thisColor)"), for: .normal)
-                btn.frame = CGRect(x: thisOffset, y: 0, width: 50, height: 50)
-                btn.addTarget(self, action: #selector(btnColor), for: .touchUpInside)
-                thisOffset += 50
-                vColors.addSubview(btn)
+        for thisView in theseViews {
+            print("offsetx: \(offsetX) for \(thisView.title(for: .selected))")
+            let cardID = thisView.title(for: .selected)
+            thisView.isEnabled = players[0].cards.filter{$0.id == cardID}[0].canBePlayed
+            UIView.animate(withDuration: 0.2) {
+                thisView.frame = CGRect(x: offsetX, y: 0, width: self.CARDWIDTHINHUMANAREA, height: self.CARDHEIGHTINHUMANAREA)
             }
-            yPosPlayButton = 90
-            vBettingArea.addSubview(vColors)
+            offsetX += 40
         }
         
-        let btnBet = UIButton()
-        btnBet.setTitle("play", for: .normal)
-        btnBet.frame = CGRect(x: pxCenter - 102, y: yPosPlayButton, width: 200, height: 50)
-        btnBet.setImage(UIImage(named: "btnBet"), for: .normal)
-        btnBet.addTarget(self, action: #selector(btnAdjustTricks), for: .touchUpInside)
-        btnBet.tag = 2
-        
-        vBettingArea.addSubview(btnMinus)
-        vBettingArea.addSubview(labelNumber)
-        vBettingArea.addSubview(btnPlus)
-        vBettingArea.addSubview(btnBet)
     }
     
     // display the trump card
@@ -912,9 +833,14 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         let cardId = sender.title(for: .selected)
         
         cardsInTrick.append(playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
-        disablePlayerCards()
+        
+//        disablePlayerCards()
         displayLastCardInTrick()
-        displayPlayerCards()
+        sender.removeFromSuperview()
+        playerCardsUpdate()
+        
+        // find a way to re-arrange the playerCards, maybe update the enable status
+//        displayPlayerCards()
         playersInOrderOfTrick.removeFirst()
         
         playTrick()
