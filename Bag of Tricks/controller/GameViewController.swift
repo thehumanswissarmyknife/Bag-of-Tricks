@@ -407,12 +407,14 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         
         print("Display this Card \(thisCard.id)")
         let numberOfCardsDisplayed = vCardView.subviews.count
+        let numberOfCardsTotal = players[0].cards.count
 
-//        let widthOfCards = CARDWIDTHINHUMANAREA + numberOfCardsDisplayed * 80
-        let offsetOfThisCard = (Int(vCardView.frame.width) - CARDWIDTHINHUMANAREA)/2 + (numberOfCardsDisplayed * 40)
-        
+        var offsetOfThisCard = (Int(vCardView.frame.width) - Int(CARDWIDTHINHUMANAREA))/2 + (numberOfCardsDisplayed - (numberOfCardsTotal)/2)*40
+        if numberOfCardsTotal % 2 == 0 {
+            offsetOfThisCard += 20
+        }
         let btnCard = createCardButton(for: thisCard)
-        btnCard.frame = CGRect(x: offsetOfThisCard, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+        btnCard.frame = CGRect(x: Int(offsetOfThisCard), y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
         btnCard.isHidden = false
         
         vCardView.addSubview(btnCard)
