@@ -438,30 +438,29 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         let offsetX = (vCardsInTrick.subviews.count * 60)
         
         if cardsInTrick.count > 0 {
-            
-            let vCardPlusName = UIView()
             let ivCard = createCardImage(for: cardsInTrick.last!)
+            
+            let playerPos = players.filter{$0.id == cardsInTrick.last!.playedByPlayer}.first?.position
 
-            ivCard.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            vCardPlusName.addSubview(ivCard)
-            vCardPlusName.alpha = 0
+            let posInView = CGRect(x: playerPos!, y: -CARDHEIGHTINHUMANAREA, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+            let posInVCardsInTrick = vRootView.convert(posInView, to: vCardsInTrick)
+            ivCard.frame = posInVCardsInTrick
             
             if cardsInTrick.last?.playedByPlayer != 0 {
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                    self.vCardsInTrick.addSubview(vCardPlusName)
-                    vCardPlusName.frame.origin.y = 0
-                    vCardPlusName.frame.origin.x = CGFloat(offsetX)
-                    vCardPlusName.alpha = 1
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                    self.vCardsInTrick.addSubview(ivCard)
+                    ivCard.frame.origin = CGPoint(x: offsetX, y: 0)
                     self.view.layoutIfNeeded()
-                }) { finished in
+                }) { (finished) in
+                
                 }
             }
             else {
                 
-                vCardPlusName.frame.origin.y = 0
-                vCardPlusName.frame.origin.x = CGFloat(offsetX)
-                vCardPlusName.alpha = 1
-                self.vCardsInTrick.addSubview(vCardPlusName)
+                ivCard.frame.origin.y = 0
+                ivCard.frame.origin.x = CGFloat(offsetX)
+                ivCard.alpha = 1
+                self.vCardsInTrick.addSubview(ivCard)
             }
             
             
@@ -923,11 +922,12 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     // creates a number of players with names taken at random from an array
     func createPlayers (n : Int) {
         print("createPlayers")
+        let spacing = (Int(view.frame.width) / (n+1))
         // some names, that are picked at random
         var playerNames = ["Peter", "Louise", "Claudia", "Roberto", "Michael", "Celine", "Paula", "Elvira", "Daniel", "Francesca"]
-        for _ in 1...n {
+        for p in 1...n {
             let random = Int.random(in: 0..<playerNames.count)
-            let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1)
+            let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1, thisPosition: (spacing * p)-(CARDWIDTHINHUMANAREA/2))
             players.append(aPlayer)
         }
     }

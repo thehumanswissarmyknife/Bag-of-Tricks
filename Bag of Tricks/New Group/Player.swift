@@ -41,6 +41,8 @@ class Player {
     var yellowCards = [Card]()
     var wizardCards = [Card]()
     
+    let position : Int
+    
     
     
     var cardsThatShoudlWinTheTrick = [Card]()
@@ -53,7 +55,7 @@ class Player {
     var tricksPlanned : Int = 0
     var tricksWon : Int = 0
     
-    init(thisName: String, thisLevel : String, thisID: Int) {
+    init(thisName: String, thisLevel : String, thisID: Int, thisPosition : Int?) {
         name = thisName
         level = thisLevel
         id = thisID
@@ -61,10 +63,18 @@ class Player {
         if let prefColorSorting = defaults.array(forKey: "colorSorting") as? [String]{
             colorSorting = prefColorSorting
         }
+        
+        if thisPosition != nil {
+            position = thisPosition!
+            print("\(name), position: \(position)")
+        }
+        else {
+            position = 0
+        }
     }
     
     convenience init (thisName : String, makeHuman : Bool) {
-        self.init(thisName: thisName, thisLevel: "generic", thisID: 0)
+        self.init(thisName: thisName, thisLevel: "generic", thisID: 0, thisPosition: 0)
         isHuman = makeHuman
         if !isHuman {
              id = Int.random(in: 1...999999)
@@ -153,78 +163,6 @@ class Player {
         for thisCard in playableCards {
             thisCard.canBePlayed = true
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        sortCards()
-
-//        // check if there are any cards played - if not, you"re the first one
-//        if cardsPlayed.count>0 {
-//
-//            // find teh suit to follow
-//            suite = "none"
-//
-//            // if a zero or a wizard is played
-//            for thisCard in cardsPlayed {
-//                if thisCard.value > 0 && thisCard.value < 14 {
-//                    suite = thisCard.color
-//                    break
-//                }
-//            }
-//
-//            // identify al cards of suite and sort them into the playableCards array
-//            for thisCard in cards {
-//                if thisCard.color == suite {
-//                    thisCard.canBePlayed = true
-//                    playableCards.append(thisCard)
-//                }
-//            }
-//            // if the playableCards array is empty, it means we don't have to follow suite and all cards can be played!
-//            if playableCards.count == 0 {
-//                for thisCard in cards {
-//                    thisCard.canBePlayed = true
-//                    playableCards.append(thisCard)
-//                }
-//            }
-//            else {
-//                // add all black cards to the playableCards array
-//                for thisCard in cards {
-//                    if thisCard.color == "Black" {
-//                        thisCard.canBePlayed = true
-//                        playableCards.append(thisCard)
-//                    }
-//                }
-//            }
-//        }
-//
-//        // you are the first player
-//        else{
-//            for thisCard in cards {
-//                thisCard.canBePlayed = true
-//                playableCards.append(thisCard)
-//            }
-//            // if the remaining tricks you need to win are bigger than the number of cards that you think will will tricks
-//            if (tricksPlanned - tricksWon) < cardsThatShoudlWinTheTrick.count {
-//                // sort the cards so that the least likely to get the trick is first
-//                for thisCard in cards {
-//                    thisCard.canBePlayed = true
-//                    playableCards.append(thisCard)
-//                }
-//            }
-//        }
-        
-        
     }
     
     // method called to play a card
