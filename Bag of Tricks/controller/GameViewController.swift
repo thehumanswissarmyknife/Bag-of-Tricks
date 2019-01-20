@@ -445,15 +445,25 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             ivCard.frame = CGRect(x: 0, y: 0, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
             vCardPlusName.addSubview(ivCard)
             vCardPlusName.alpha = 0
-
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                self.vCardsInTrick.addSubview(vCardPlusName)
+            
+            if cardsInTrick.last?.playedByPlayer != 0 {
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                    self.vCardsInTrick.addSubview(vCardPlusName)
+                    vCardPlusName.frame.origin.y = 0
+                    vCardPlusName.frame.origin.x = CGFloat(offsetX)
+                    vCardPlusName.alpha = 1
+                    self.view.layoutIfNeeded()
+                }) { finished in
+                }
+            }
+            else {
+                
                 vCardPlusName.frame.origin.y = 0
                 vCardPlusName.frame.origin.x = CGFloat(offsetX)
                 vCardPlusName.alpha = 1
-                self.view.layoutIfNeeded()
-            }) { finished in
+                self.vCardsInTrick.addSubview(vCardPlusName)
             }
+            
             
         }
         else {
@@ -833,7 +843,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
 
         let cardId = sender.title(for: .selected)
 
-        let finalDestination = vRootView.convert(CGPoint(x: vCardsInTrick.subviews.count * 40, y: 0), from: vCardsInTrick)
+        let finalDestination = vRootView.convert(CGPoint(x: vCardsInTrick.subviews.count * 60, y: 0), from: vCardsInTrick)
         
         print("coordinates in vCardView: \(sender.frame.origin)")
         let frame = vRootView.convert(sender.frame, from:vCardView)
@@ -842,11 +852,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         vRootView.addSubview(sender)
         sender.frame = frame
         
-//        UIView.animate(withDuration: 1) {
-//
-//            sender.frame = CGRect(origin: finalDestination, size: CGSize(width: sender.frame.width, height: sender.frame.height))
-//            self.view.layoutIfNeeded()
-//        }
+//        animatePlayingCard(thisCard: Card(thisColor: "Blue", thisValue: 12), from: sender.frame.origin, to: finalDestination)
+        
+//         bundle this ina afunction: playCardOfPlayer. generating the card at the origin of the player and move it to the cardsInTrickArea
         
         UIView.animate(withDuration: 0.3, animations: {
             sender.frame = CGRect(origin: finalDestination, size: CGSize(width: sender.frame.width, height: sender.frame.height))
@@ -857,20 +865,31 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             self.displayLastCardInTrick()
             self.playerCardsUpdate()
             self.playersInOrderOfTrick.removeFirst()
-            
+
             self.playTrick()
         }
         
-        // how many cards are in the vCardView
+    }
+    
+    func animatePlayingCard(thisCard: Card, from origin: CGPoint, to destination: CGPoint) {
+        let thisCardImage = createCardImage(for: thisCard)
+        let cardSize = CGSize(width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+        thisCardImage.frame = CGRect(origin: origin, size: cardSize)
         
-        // when animation is finished: removeFromSuperView and displayLastCardInTrick
-//        sender.removeFromSuperview()
+        let deltaX = origin.x - destination.x
+        let deltaY = origin.y - destination.y
         
+        let delta = atan(Double(-deltaX)/Double(deltaY))
         
-        // find a way to re-arrange the playerCards, maybe update the enable status
-//        displayPlayerCards()
-        
-        
+        UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
+            thisCardImage.frame = CGRect(origin: destination, size: cardSize)
+            thisCardImage.transform = CGAffineTransform(rotationAngle: CGFloat(delta))
+        }) { (finished) in
+            self.cardsInTrick.append(self.playersInOrderOfTrick[0].playThisCard(thisCardID: thisCard.id))
+            self.displayLastCardInTrick()
+            self.playerCardsUpdate()
+            self.playersInOrderOfTrick.removeFirst()
+        }
     }
     
     func disablePlayerCards(){
