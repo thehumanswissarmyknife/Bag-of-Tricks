@@ -429,7 +429,6 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
                 
             }
         }
-        
     }
 
     func displayLastCardInTrick() {
@@ -833,19 +832,44 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         print("pressedCard")
 
         let cardId = sender.title(for: .selected)
+
+        let finalDestination = vRootView.convert(CGPoint(x: vCardsInTrick.subviews.count * 40, y: 0), from: vCardsInTrick)
         
-        cardsInTrick.append(playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
+        print("coordinates in vCardView: \(sender.frame.origin)")
+        let frame = vRootView.convert(sender.frame, from:vCardView)
+        print("coordinates in RootView: \(frame.origin)")
         
-//        disablePlayerCards()
-        displayLastCardInTrick()
-        sender.removeFromSuperview()
-        playerCardsUpdate()
+        vRootView.addSubview(sender)
+        sender.frame = frame
+        
+//        UIView.animate(withDuration: 1) {
+//
+//            sender.frame = CGRect(origin: finalDestination, size: CGSize(width: sender.frame.width, height: sender.frame.height))
+//            self.view.layoutIfNeeded()
+//        }
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            sender.frame = CGRect(origin: finalDestination, size: CGSize(width: sender.frame.width, height: sender.frame.height))
+            self.view.layoutIfNeeded()
+        }) { (finished) in
+            sender.removeFromSuperview()
+            self.cardsInTrick.append(self.playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
+            self.displayLastCardInTrick()
+            self.playerCardsUpdate()
+            self.playersInOrderOfTrick.removeFirst()
+            
+            self.playTrick()
+        }
+        
+        // how many cards are in the vCardView
+        
+        // when animation is finished: removeFromSuperView and displayLastCardInTrick
+//        sender.removeFromSuperview()
+        
         
         // find a way to re-arrange the playerCards, maybe update the enable status
 //        displayPlayerCards()
-        playersInOrderOfTrick.removeFirst()
         
-        playTrick()
         
     }
     
