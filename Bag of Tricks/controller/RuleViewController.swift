@@ -11,8 +11,6 @@ import UIKit
 class RuleViewController: UIViewController {
     
     
-    @IBOutlet weak var labelRules: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         var rules = [String]()
@@ -33,7 +31,6 @@ class RuleViewController: UIViewController {
             }
         }
         
-        labelRules.text = rulesText
 
         // Do any additional setup after loading the view.
     }

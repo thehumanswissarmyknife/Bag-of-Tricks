@@ -39,6 +39,10 @@ class CustomAlertViewController: UIViewController {
         if let prefUserName = defaults.string(forKey: "userName") {
             tfName.text = prefUserName
         }
+        if let prefNumberOfPlayers = defaults.integer(forKey: "numberOfPlayers") as? Int {
+            lNumberOfPlayers.text = "\(prefNumberOfPlayers)"
+        }
+        
         // Do any additional setup after loading the view.
     }
     
@@ -88,6 +92,8 @@ class CustomAlertViewController: UIViewController {
         delegate?.myName = self.tfName.text!
         delegate?.numberOfPlayers = Int(self.lNumberOfPlayers.text!)!
         delegate?.startGame()
+        defaults.set(Int(self.lNumberOfPlayers.text!)!, forKey: "numberOfPlayers")
+        defaults.set(self.tfName.text!, forKey:"userName")
         self.dismiss(animated: true, completion: nil)
     }
     

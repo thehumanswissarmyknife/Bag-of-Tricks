@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameViewController: UIViewController, CustomAlertViewDelegate {
+class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDelegate {
     
     // MARK: - global variables
     let CARDHEIGHTINHUMANAREA = 300
@@ -172,6 +172,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
             // let the next player play his card
             
             if !playersInOrderOfTrick[0].isHuman && playersInOrderOfTrick[0].cards.count > 0{
+                playersInOrderOfTrick[0].calcGenProbForAllCards()
                 cardsInTrick.append(playersInOrderOfTrick[0].playCard(thisTrump: trump, theseCards: cardsInTrick))
                 displayLastCardInTrick()
                 
@@ -404,8 +405,6 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
     }
     
     func displayThisPlayerCard(thisCard : Card) {
-        
-        print("Display this Card \(thisCard.id)")
         let numberOfCardsDisplayed = vCardView.subviews.count
         let numberOfCardsTotal = players[0].cards.count
 
@@ -478,7 +477,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
 
         
         for thisView in theseViews {
-            print("offsetx: \(offsetX) for \(thisView.title(for: .selected))")
+//            print("offsetx: \(offsetX) for \(thisView.title(for: .selected))")
             let cardID = thisView.title(for: .selected)
             thisView.isEnabled = players[0].cards.filter{$0.id == cardID}[0].canBePlayed
             UIView.animate(withDuration: 0.2) {
@@ -844,9 +843,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
 
         let finalDestination = vRootView.convert(CGPoint(x: vCardsInTrick.subviews.count * 60, y: 0), from: vCardsInTrick)
         
-        print("coordinates in vCardView: \(sender.frame.origin)")
         let frame = vRootView.convert(sender.frame, from:vCardView)
-        print("coordinates in RootView: \(frame.origin)")
         
         vRootView.addSubview(sender)
         sender.frame = frame
@@ -928,6 +925,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate {
         for p in 1...n {
             let random = Int.random(in: 0..<playerNames.count)
             let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1, thisPosition: (spacing * p)-(CARDWIDTHINHUMANAREA/2))
+            aPlayer.delegate = self
             players.append(aPlayer)
         }
     }

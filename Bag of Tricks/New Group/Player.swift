@@ -8,13 +8,16 @@
 
 import Foundation
 
-protocol DisplayCardsDelegate {
+protocol PlayerDelegate {
     func displayPlayerCards()
+    var trump: String {get}
+    var cardsInTrick : [Card] {get}
+    var playersInOrderOfTrick : [Player] {get}
 }
 
 class Player {
     
-    var delegate : DisplayCardsDelegate?
+    var delegate : PlayerDelegate?
     let name : String
     let level : String
     var isHuman = false
@@ -42,6 +45,8 @@ class Player {
     var wizardCards = [Card]()
     
     let position : Int
+    
+    var allCardsMinusPlayedCards = DeckOfCards().shuffledCards
     
     
     
@@ -144,6 +149,7 @@ class Player {
             
             if suit == "" {
                 playableCards.append(contentsOf: cards)
+                
             }
             else {
                 playableCards.append(contentsOf: cards.filter{$0.color == suit})
@@ -155,6 +161,7 @@ class Player {
                     playableCards.append(contentsOf: cards.filter{$0.color == "Black"})
                 }
             }
+            calcSpecificProbability(suit: suit, winningCard: winningCard)
         }
         else {
             playableCards.append(contentsOf: cards)
@@ -163,6 +170,8 @@ class Player {
         for thisCard in playableCards {
             thisCard.canBePlayed = true
         }
+        
+        
     }
     
     // method called to play a card
@@ -176,14 +185,15 @@ class Player {
         // play card = return the card and take it out of both
         
         sortCardsToPlay(thisTrump: thisTrump, cardsPlayed: theseCards)
+        
 
-        let playThisCard = playableCards.randomElement()
-        print("player[\(name)].playCard(\(playThisCard!.id))")
-        playThisCard!.playedByPlayer = id
+        let cardToPlay = playableCards.randomElement()
+        print("player[\(name)].playCard(\(cardToPlay!.id))")
+        cardToPlay!.playedByPlayer = id
         
-        cards = cards.filter{$0 !== playThisCard}
+        cards = cards.filter{$0 !== cardToPlay}
         
-        return playThisCard!
+        return cardToPlay!
         
     }
     
@@ -258,6 +268,103 @@ class Player {
         return tricksPlanned
     }
     
+    func calcGenProbForAllCards() {
+        removeCardsInTrickFromInternalDeck()
+
+        for thisCard in cards {
+            thisCard.genProbability = probabilityForCard(thisCard: thisCard)
+        }
+        print("genprob calculated")
+    }
+    
+    func probabilityForCard(thisCard : Card) -> Float{
+        let thisTrump = delegate?.trump
+        let sameColorHigherValue : Float = Float(allCardsMinusPlayedCards.filter{$0.color == thisCard.color && $0.value > thisCard.value}.count - cards.filter{$0.color == thisCard.color && $0.value > thisCard.value}.count)
+        let higherTrumpCards : Float = Float(allCardsMinusPlayedCards.filter{$0.color == thisTrump}.count - cards.filter{$0.color == thisTrump}.count)
+        let starCards : Float = Float(allCardsMinusPlayedCards.filter{$0.value == 100}.count - cards.filter{$0.value == 100}.count)
+        let cardsLeftToPlay : Float = Float(allCardsMinusPlayedCards.count - cards.count)
+        
+        var probability : Float = 0
+        
+        if thisCard.value == 0 {
+            thisCard.genProbability = 0
+        }
+        else if thisCard.color != thisTrump {
+            probability = 1 - ((higherTrumpCards + sameColorHigherValue + starCards)/cardsLeftToPlay)
+        }
+        else if thisCard.value == 100 {
+            probability = Float(1 - (starCards/cardsLeftToPlay))
+        }
+            // TODO: angleichung formel
+        else if thisCard.color == thisTrump {
+            probability = Float(1 - ((higherTrumpCards + starCards)/cardsLeftToPlay))
+        }
+        return probability
+    }
+    
+    func calcSpecificProbability(suit: String, winningCard: Card) {
+        
+        if winningCard.value == 100 {
+            for thisCard in playableCards {
+                thisCard.specificProbability = 0
+            }
+        }
+        else {
+            for thisCard in playableCards {
+                
+                // playing a wizard
+                if thisCard.value == 100 {
+                    print("case0")
+                    thisCard.specificProbability = 1
+                    continue
+                }
+                    // playing a card not the color of the suit or trump
+                else if (thisCard.color != suit && thisCard.color != delegate?.trump && thisCard.color != "Black" && winningCard.value != 0) {
+                    thisCard.specificProbability = 0
+                    print("case1")
+                }
+                    // this card is trump and the winningCard is not
+                else if thisCard.color == (delegate?.trump)! && winningCard.color != (delegate?.trump)! {
+                    thisCard.specificProbability = probabilityForCard(thisCard: thisCard) / Float((delegate?.playersInOrderOfTrick.count)!)
+                    print("case2")
+                }
+                    // only suit cards played
+                else if (thisCard.color == suit && thisCard.value < winningCard.value && winningCard.color == suit) {
+                    thisCard.specificProbability = 0
+                    print("case3")
+                }
+                    // zero card
+                else if thisCard.value == 0 {
+                    thisCard.specificProbability = 0
+                    print("case4")
+                }
+                    // playing a trump among suit cards
+                else if winningCard.color == suit && thisCard.color == delegate?.trump {
+                    thisCard.specificProbability = probabilityForCard(thisCard: thisCard)
+                    print("case5")
+                    // TODO: see if the players left have the suit color or if there are even any suit cards left
+                }
+                else if winningCard.value == 0 && thisCard.value != 0 {
+                    if (delegate?.playersInOrderOfTrick.count)! == 1 {
+                        thisCard.specificProbability = 1
+                    } else {
+                        thisCard.specificProbability = probabilityForCard(thisCard: thisCard) / Float((delegate?.playersInOrderOfTrick.count)!)
+                    }
+                    print("case6")
+                }
+                
+                else if thisCard.color == winningCard.color && thisCard.value > winningCard.value {
+                    thisCard.specificProbability = probabilityForCard(thisCard: thisCard) / Float((delegate?.playersInOrderOfTrick.count)!)
+                    print("case7")
+                }
+            }
+        }
+    
+        for thisCard in playableCards {
+            print("##### specProb: \(thisCard.id) = \(thisCard.specificProbability), genProb: \(thisCard.genProbability)")
+        }
+    }
+    
     func calculateBestTrumpColor() -> String {
         var trumpColor = ""
         
@@ -291,13 +398,15 @@ class Player {
         
         if allCardsInArrays.first?.first?.color == hightestQantifierColor {
             trumpColor = hightestQantifierColor
-        }
-//        else {
-//            if allCardsInArrays.count>1 {
-//                trumpColor = (allCardsInArrays[1].first?.color)!
-//            }
-//        }
-        
+        }  
         return trumpColor
+    }
+    
+    func removeCardsInTrickFromInternalDeck(){
+        if let playedCards = delegate?.cardsInTrick {
+            for thisCard in playedCards {
+                allCardsMinusPlayedCards = allCardsMinusPlayedCards.filter{$0.id != thisCard.id}
+            }
+        }
     }
 }

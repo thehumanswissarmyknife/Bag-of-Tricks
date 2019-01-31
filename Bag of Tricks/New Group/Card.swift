@@ -13,6 +13,8 @@ class Card {
     var color : String = ""
     var value : Int = 0
     var id : String = ""
+    var genProbability : Float = 0
+    var specificProbability : Float = 0
     
     // this variable can only be changed when the card is held by a player and the trick with the leading card and trump are seen
     var canBePlayed = true
