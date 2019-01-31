@@ -181,6 +181,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
             else {
                 // human player! break from the loop
                 // TODO: disply that the player should play a card
+                displayOneLineCustomAlert(for: "Your turn \(players.first!.name)")
                 players[0].sortCards()
                 break
             }
@@ -648,7 +649,10 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         oneLiner.definesPresentationContext = true
         oneLiner.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         oneLiner.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.present(oneLiner, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(oneLiner, animated: true, completion: nil)
+        }
+        
     }
     
     // MARK: - PRINTING FUNCTIONS

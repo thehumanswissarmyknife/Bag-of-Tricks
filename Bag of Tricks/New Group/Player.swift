@@ -280,9 +280,12 @@ class Player {
     func probabilityForCard(thisCard : Card) -> Float{
         let thisTrump = delegate?.trump
         let sameColorHigherValue : Float = Float(allCardsMinusPlayedCards.filter{$0.color == thisCard.color && $0.value > thisCard.value}.count - cards.filter{$0.color == thisCard.color && $0.value > thisCard.value}.count)
-        let higherTrumpCards : Float = Float(allCardsMinusPlayedCards.filter{$0.color == thisTrump}.count - cards.filter{$0.color == thisTrump}.count)
+        let remainingColorCard = Float(allCardsMinusPlayedCards.filter{$0.color == thisCard.color}.count + cards.filter{$0.color == thisCard.color}.count)
+        let trumpCards : Float = Float(allCardsMinusPlayedCards.filter{$0.color == thisTrump}.count - cards.filter{$0.color == thisTrump}.count)
+        let higherTrumpCards : Float = Float(allCardsMinusPlayedCards.filter{$0.color == thisTrump && $0.value > thisCard.value}.count - cards.filter{$0.color == thisTrump && $0.value > thisCard.value}.count)
         let starCards : Float = Float(allCardsMinusPlayedCards.filter{$0.value == 100}.count - cards.filter{$0.value == 100}.count)
         let cardsLeftToPlay : Float = Float(allCardsMinusPlayedCards.count - cards.count)
+        let probabilityForPlayerToHaveColorCard = 1 - (remainingColorCard/cardsLeftToPlay - Float(cards.filter{$0.color == thisCard.color}.count))
         
         var probability : Float = 0
         
@@ -290,7 +293,7 @@ class Player {
             thisCard.genProbability = 0
         }
         else if thisCard.color != thisTrump {
-            probability = 1 - ((higherTrumpCards + sameColorHigherValue + starCards)/cardsLeftToPlay)
+            probability = 1 - ((trumpCards * probabilityForPlayerToHaveColorCard + sameColorHigherValue + starCards)/cardsLeftToPlay)
         }
         else if thisCard.value == 100 {
             probability = Float(1 - (starCards/cardsLeftToPlay))
