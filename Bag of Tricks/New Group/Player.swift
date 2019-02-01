@@ -13,6 +13,7 @@ protocol PlayerDelegate {
     var trump: String {get}
     var cardsInTrick : [Card] {get}
     var playersInOrderOfTrick : [Player] {get}
+    var floppedTrumpCard : Card {get}
 }
 
 class Player {
@@ -271,6 +272,19 @@ class Player {
     }
     
     func calcGenProbForAllCards() {
+        if delegate?.floppedTrumpCard.value != 15 {
+            allCardsMinusPlayedCards = allCardsMinusPlayedCards.filter{$0 !== delegate?.floppedTrumpCard}
+        }
+        else {
+            for n in 0..<allCardsMinusPlayedCards.count {
+                let thisCard = allCardsMinusPlayedCards[n]
+                if thisCard.value == 100 {
+                    allCardsMinusPlayedCards.remove(at: n)
+                    break
+                }
+            }
+        }
+        
         removeCardsInTrickFromInternalDeck()
 
         for thisCard in cards {

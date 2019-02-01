@@ -149,11 +149,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         // if the flopped card is a wizard, the first player has to choose the trump color
         if floppedTrumpCard!.value == 100 {
             if !playersInOrderOfTrick[0].isHuman{
-                // for the moment pick a random color
-                let colors = ["Blue", "Green", "Red", "Yellow"]
-                playersInOrderOfTrick.first?.calculateBestTrumpColor()
-                floppedTrumpCard = Card(thisColor: colors[Int.random(in: 0...3)], thisValue: 15)
-                
+                floppedTrumpCard = Card(thisColor: playersInOrderOfTrick[0].calculateBestTrumpColor(), thisValue: 15)
                 trump = (floppedTrumpCard?.color)!
                 displayTrumpCard()
             }
@@ -165,7 +161,6 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
                 let tricksEstimated = thisPlayer.calculateTricksToWin(thisTrump: trump)
             }
             else {
-//                displayTrickBettingScreen()
                 displayPlayerCards()
                 pushToggleBettingArea()
                 
@@ -1083,6 +1078,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func btnPreferences(_ sender: UIButton) {
+        performSegue(withIdentifier: "goFromGameToPreferences", sender: self)
+    }
     // MARK: SOUNDS
     func playSound(thisSound: String){
         guard let url = Bundle.main.url(forResource: thisSound, withExtension: "mp3") else { return }
@@ -1101,6 +1099,14 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
             
         } catch let error {
             print(error.localizedDescription)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goFromGameToPreferences" {
+            print("going to preferences")
+            
+            let destination = segue.destination as! PreferenceViewController
         }
     }
 }

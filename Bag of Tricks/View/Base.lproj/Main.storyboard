@@ -770,6 +770,13 @@
                                             <constraint firstAttribute="height" constant="350" id="tKp-bd-h30"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVx-c3-fee">
+                                        <rect key="frame" x="976" y="380" width="22" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="btnPreferences:" destination="fc7-Kb-hQI" eventType="touchUpInside" id="kqp-cd-ps9"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -1077,6 +1084,7 @@
                         <outlet property="vPlayerTrickLabelArea" destination="C6m-go-RDJ" id="LXh-Ho-yNt"/>
                         <outlet property="vRootView" destination="CXl-mE-ZoZ" id="aKS-bb-3Cj"/>
                         <outlet property="vTrumpCard" destination="9Oe-U4-ddV" id="aEy-pk-0bo"/>
+                        <segue destination="2qW-ne-NyF" kind="show" identifier="goFromGameToPreferences" id="pXo-2R-XP3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DpY-fD-3YL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1113,4 +1121,7 @@
         <image name="lBagOfTricks" width="1885" height="359"/>
         <image name="ruleText" width="2115" height="1321"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="pXo-2R-XP3"/>
+    </inferredMetricsTieBreakers>
 </document>
