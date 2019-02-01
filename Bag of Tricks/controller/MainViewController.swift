@@ -7,10 +7,25 @@
 //
 
 import UIKit
+import AVFoundation
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController{
     
+    var musicVolume : Float = 0.6
+    
+    var bgMusic : AVAudioPlayer? {
+        get {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            return appDelegate.bgMusic
+        }
+        set {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.bgMusic = newValue
+        }
+    }
+   
     var defaults = UserDefaults.standard
+    var musicOn = true
     
     func updateSettings(theseSettings: Settings) {
         var settings = theseSettings
@@ -19,8 +34,46 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadUserDefaults()
+        if musicOn {
+            playMusic()
+        }
+        
         // Do any additional setup after loading the view.
 
+    }
+    
+    func loadUserDefaults(){
+        
+        if let prefMusicOn = defaults.bool(forKey: "musicOn") as? Bool {
+            musicOn = prefMusicOn
+        }
+        if let prefMusicVolume = defaults.float(forKey: "musicVolume") as? Float {
+            musicVolume = prefMusicVolume
+        }
+    }
+    
+    func playMusic() {
+        print("playing music")
+        guard let url = Bundle.main.url(forResource: "bgMusic", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            bgMusic = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            bgMusic?.numberOfLoops = -1
+            
+            guard let myPlayer = bgMusic else { return }
+            
+            myPlayer.volume = musicVolume
+            
+            myPlayer.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
 
@@ -33,8 +86,6 @@ class MainViewController: UIViewController {
             print("going to preferences")
             
             let destination = segue.destination as! PreferenceViewController
-            
-//            destination.delegate = self
         }
         
         else if segue.identifier == "goToRules" {

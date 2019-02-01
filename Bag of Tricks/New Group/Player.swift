@@ -28,7 +28,7 @@ class Player {
     var suite = ""
     
     var defaults = UserDefaults.standard
-    var sortingOrder : Bool = true
+    var sortingOrderAscending : Bool = true
     
     var sortBlueValue : Int = 4
     var sortRedValue : Int = 3
@@ -48,9 +48,7 @@ class Player {
     
     var allCardsMinusPlayedCards = DeckOfCards().shuffledCards
     
-    
-    
-    var cardsThatShoudlWinTheTrick = [Card]()
+    var cardsThatShouldWinTheTrick = [Card]()
     
     // id: 0 < id < 10 for human players, id > 10 for computer players
     var id : Int
@@ -67,6 +65,10 @@ class Player {
 
         if let prefColorSorting = defaults.array(forKey: "colorSorting") as? [String]{
             colorSorting = prefColorSorting
+        }
+        
+        if let prefSortingOrderAscending = defaults.bool(forKey: "sortingOrder") as? Bool{
+            sortingOrderAscending = prefSortingOrderAscending
         }
         
         if thisPosition != nil {
@@ -88,7 +90,7 @@ class Player {
     
     // MARK: - utility functions
     func sortCards() {
-        if sortingOrder {
+        if sortingOrderAscending {
             cards = cards.sorted { (a, b) -> Bool in
 
                 let aColor : Int = colorSorting.firstIndex(of: a.color)!

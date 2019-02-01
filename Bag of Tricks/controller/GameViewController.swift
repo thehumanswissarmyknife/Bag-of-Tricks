@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import AVFoundation
 
 class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDelegate {
     
     // MARK: - global variables
     let CARDHEIGHTINHUMANAREA = 300
     let CARDWIDTHINHUMANAREA = 191
+    let CARDOFFSET = 40
+    
+    var audioPlayer: AVAudioPlayer!
     
     // MARK: - COLORS
     let colorBlue = UIColor(rgb: 0x2980b9)
@@ -59,11 +63,15 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     var myName = ""
     var dictHighScore: [String: Int] = [:]
     var roundsInTotal : Int = 0
-    var currentRoundNumber : Int = 1    // correspondts to the number of cards dealt
+    var currentRoundNumber : Int = 15    // correspondts to the number of cards dealt
     var tricksPlayedInRound : Int = 0      // how many of the tricks of the round have been played
     var playerIndexWhoStartsTheRound = 0
     
     var numberOfPlayers : Int = 3
+    var musicOn : Bool = true
+    var soundOn : Bool = true
+    var musicVolume : Float = 0.5
+    var soundVolume : Float = 0.5
     var players = [Player]()        // array holding the players. 0 is always the human in front of the device
     var playersInOrderOfTrick = [Player]() // this array gets shifted after each round
     var winningCard : Card = Card(thisColor: "blurp", thisValue: -1)
@@ -97,10 +105,12 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     // MARK: - GAME FUNCTIONS
     func startGame() {
         print(".startGame")
-        
+
+
         // create players
         // human player has id 0
         players.append(Player(thisName: myName, makeHuman: true))
+        players[0].delegate = self
         createPlayers(n: numberOfPlayers - 1)
         
         // add all players to the players in order array
@@ -122,6 +132,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         
         cardDeck = DeckOfCards()
         clearCardsInTrick()
+        if soundOn {
+            playSound(thisSound: "cardShuffle")
+        }
         updateScores()
         dealCards(howManyCards: currentRoundNumber)
 
@@ -131,7 +144,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         shiftPlayers(thisWinningPlayer: players[playerIndexWhoStartsTheRound])
         
         highlightDealerName()
-        playersInOrderOfTrick.first?.calculateBestTrumpColor()
+//        playersInOrderOfTrick.first?.calculateBestTrumpColor()
         
         // if the flopped card is a wizard, the first player has to choose the trump color
         if floppedTrumpCard!.value == 100 {
@@ -395,8 +408,8 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         }
         
 //        let widthOfCards = CARDWIDTHINHUMANAREA + ((theseCards.count-1) * 40)
-        var initialOffset : Int = (Int(vCardView.frame.width) - (theseCards.count - 1) * 40 - CARDWIDTHINHUMANAREA)/2
-        let addedPixel = 40
+        var initialOffset : Int = (Int(vCardView.frame.width) - (theseCards.count - 1) * CARDOFFSET - CARDWIDTHINHUMANAREA)/2
+        let addedPixel = CARDOFFSET
         
         for n in 0..<theseCards.count {
             let thisCard = theseCards[n]
@@ -409,7 +422,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         let numberOfCardsDisplayed = vCardView.subviews.count
         let numberOfCardsTotal = players[0].cards.count
 
-        var offsetOfThisCard = (Int(vCardView.frame.width) - Int(CARDWIDTHINHUMANAREA))/2 + (numberOfCardsDisplayed - (numberOfCardsTotal)/2)*40
+        var offsetOfThisCard = (Int(vCardView.frame.width) - Int(CARDWIDTHINHUMANAREA))/2 + (numberOfCardsDisplayed - (numberOfCardsTotal)/2)*CARDOFFSET
         if numberOfCardsTotal % 2 == 0 {
             offsetOfThisCard += 20
         }
@@ -435,7 +448,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         print("diplayLastCardInTrick")
         
         // for each card already on the table, the offset is 40
-        let offsetX = (vCardsInTrick.subviews.count * 60)
+        let offsetX = (vCardsInTrick.subviews.count * CARDOFFSET)
         
         if cardsInTrick.count > 0 {
             let ivCard = createCardImage(for: cardsInTrick.last!)
@@ -474,7 +487,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     
     func playerCardsUpdate(){
         let theseViews = vCardView.subviews as! [UIButton]
-        var offsetX = (Int(vCardView.frame.width) - (theseViews.count - 1) * 40 - CARDWIDTHINHUMANAREA)/2
+        var offsetX = (Int(vCardView.frame.width) - (theseViews.count - 1) * CARDOFFSET - CARDWIDTHINHUMANAREA)/2
 
         
         for thisView in theseViews {
@@ -484,7 +497,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
             UIView.animate(withDuration: 0.2) {
                 thisView.frame = CGRect(x: offsetX, y: 0, width: self.CARDWIDTHINHUMANAREA, height: self.CARDHEIGHTINHUMANAREA)
             }
-            offsetX += 40
+            offsetX += CARDOFFSET
         }
         
     }
@@ -706,12 +719,23 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         if let prefHighScore = defaults.dictionary(forKey: "highScore") as? [String:Int]{
             dictHighScore = prefHighScore
         }
-        
         if let prefUserName = defaults.string(forKey: "userName") {
             myName = prefUserName
         }
-        if let prefNumberOfPlayers = defaults.integer(forKey: "numberOfPlayers") as? Int {
+        if let prefNumberOfPlayers = defaults.integer(forKey: "numberOfPlayers") as? Int{
             numberOfPlayers = prefNumberOfPlayers
+        }
+        if let prefMusicOn = defaults.bool(forKey: "musicOn") as? Bool {
+            musicOn = prefMusicOn
+        }
+        if let prefMusicVolume = defaults.float(forKey: "musicVolume") as? Float {
+            musicVolume = prefMusicVolume
+        }
+        if let prefSoundOn = defaults.bool(forKey: "soundOn") as? Bool {
+            soundOn = prefSoundOn
+        }
+        if let prefSoundVolume = defaults.float(forKey: "soundVolume") as? Float {
+            soundVolume = prefSoundVolume
         }
     }
     
@@ -845,7 +869,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
 
         let cardId = sender.title(for: .selected)
 
-        let finalDestination = vRootView.convert(CGPoint(x: vCardsInTrick.subviews.count * 60, y: 0), from: vCardsInTrick)
+        let finalDestination = vRootView.convert(CGPoint(x: vCardsInTrick.subviews.count * CARDOFFSET, y: 0), from: vCardsInTrick)
         
         let frame = vRootView.convert(sender.frame, from:vCardView)
         
@@ -1057,6 +1081,27 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         
         // TODO: add alert with question
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: SOUNDS
+    func playSound(thisSound: String){
+        guard let url = Bundle.main.url(forResource: thisSound, withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            audioPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            guard let myPlayer = audioPlayer else { return }
+            myPlayer.volume = soundVolume
+            
+            myPlayer.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
 

@@ -13,40 +13,11 @@ class RuleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var rules = [String]()
-        
-        rules.append("1. The game is played in rounds")
-        rules.append("2. The number of cards is increased by one each round")
-        rules.append("3. The cards have 4 colors and are numbered 1 thru 13, additionally there are 4 jokers and 4 nils")
-        rules.append("4. In each trick in a round, the player with the highest card wins")
-        
-        var rulesText = ""
-        
-        for thisRule in rules {
-            if rulesText == "" {
-                rulesText = "\(rules[0])\n"
-            }
-            else {
-                rulesText = "\(rulesText)\n\(thisRule)"
-            }
-        }
         
 
         // Do any additional setup after loading the view.
     }
-    
-    
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         
