@@ -10,6 +10,10 @@
 		F335F7CA21F388510031A414 /* BettingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F335F7C921F388510031A414 /* BettingScreenViewController.swift */; };
 		F36B698F220363FC00137DAC /* bgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B698E220363FC00137DAC /* bgMusic.mp3 */; };
 		F36B6991220465FB00137DAC /* cardShuffle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B6990220465FB00137DAC /* cardShuffle.mp3 */; };
+		F36B69992204C6FC00137DAC /* cardPlay_03.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69952204C6FC00137DAC /* cardPlay_03.mp3 */; };
+		F36B699A2204C6FC00137DAC /* cardPlay_04.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69962204C6FC00137DAC /* cardPlay_04.mp3 */; };
+		F36B699B2204C6FC00137DAC /* cardPlay_02.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69972204C6FC00137DAC /* cardPlay_02.mp3 */; };
+		F36B699C2204C6FC00137DAC /* cardPlay_01.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69982204C6FC00137DAC /* cardPlay_01.mp3 */; };
 		F37BED9121E8F0E70009FB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37BED9021E8F0E70009FB7C /* Assets.xcassets */; };
 		F388312C21EDB233004178B3 /* HighScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F388312B21EDB233004178B3 /* HighScoreViewController.swift */; };
 		F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866921DD0B5400B9A313 /* MainViewController.swift */; };
@@ -33,6 +37,10 @@
 		F335F7C921F388510031A414 /* BettingScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BettingScreenViewController.swift; sourceTree = "<group>"; };
 		F36B698E220363FC00137DAC /* bgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgMusic.mp3; sourceTree = "<group>"; };
 		F36B6990220465FB00137DAC /* cardShuffle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardShuffle.mp3; sourceTree = "<group>"; };
+		F36B69952204C6FC00137DAC /* cardPlay_03.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_03.mp3; sourceTree = "<group>"; };
+		F36B69962204C6FC00137DAC /* cardPlay_04.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_04.mp3; sourceTree = "<group>"; };
+		F36B69972204C6FC00137DAC /* cardPlay_02.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_02.mp3; sourceTree = "<group>"; };
+		F36B69982204C6FC00137DAC /* cardPlay_01.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_01.mp3; sourceTree = "<group>"; };
 		F37BED9021E8F0E70009FB7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F388312B21EDB233004178B3 /* HighScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreViewController.swift; sourceTree = "<group>"; };
 		F3A9866921DD0B5400B9A313 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +76,10 @@
 		F36B69922204660C00137DAC /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				F36B69982204C6FC00137DAC /* cardPlay_01.mp3 */,
+				F36B69972204C6FC00137DAC /* cardPlay_02.mp3 */,
+				F36B69952204C6FC00137DAC /* cardPlay_03.mp3 */,
+				F36B69962204C6FC00137DAC /* cardPlay_04.mp3 */,
 				F36B698E220363FC00137DAC /* bgMusic.mp3 */,
 				F36B6990220465FB00137DAC /* cardShuffle.mp3 */,
 			);
@@ -201,9 +213,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F36B6991220465FB00137DAC /* cardShuffle.mp3 in Resources */,
+				F36B699C2204C6FC00137DAC /* cardPlay_01.mp3 in Resources */,
+				F36B699A2204C6FC00137DAC /* cardPlay_04.mp3 in Resources */,
+				F36B69992204C6FC00137DAC /* cardPlay_03.mp3 in Resources */,
 				F3E0509121DD03360087C1F7 /* LaunchScreen.storyboard in Resources */,
 				F37BED9121E8F0E70009FB7C /* Assets.xcassets in Resources */,
 				F3E0508C21DD03350087C1F7 /* Main.storyboard in Resources */,
+				F36B699B2204C6FC00137DAC /* cardPlay_02.mp3 in Resources */,
 				F36B698F220363FC00137DAC /* bgMusic.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

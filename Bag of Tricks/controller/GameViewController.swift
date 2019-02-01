@@ -11,12 +11,16 @@ import AVFoundation
 
 class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDelegate {
     
+    
+    
     // MARK: - global variables
     let CARDHEIGHTINHUMANAREA = 300
     let CARDWIDTHINHUMANAREA = 191
     let CARDOFFSET = 40
     
+    // MARK: Soundrelated
     var audioPlayer: AVAudioPlayer!
+    let soundArray = ["cardPlay_01","cardPlay_02","cardPlay_03","cardPlay_04"]
     
     // MARK: - COLORS
     let colorBlue = UIColor(rgb: 0x2980b9)
@@ -77,7 +81,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     var winningCard : Card = Card(thisColor: "blurp", thisValue: -1)
     var winningPlayer : Player = Player(thisName: "hansens", makeHuman: false)
     var trump : String = ""         // string with the trump color for the round
-    var floppedTrumpCard : Card?    // the flopped card determining the trump
+    var floppedTrumpCard: Card?    // the flopped card determining the trump
     var cardDeck = DeckOfCards()    // the card deck
     var cardsInTrick = [Card]()
     
@@ -182,6 +186,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
             if !playersInOrderOfTrick[0].isHuman && playersInOrderOfTrick[0].cards.count > 0{
                 playersInOrderOfTrick[0].calcGenProbForAllCards()
                 cardsInTrick.append(playersInOrderOfTrick[0].playCard(thisTrump: trump, theseCards: cardsInTrick))
+                playSound(thisSound: soundArray.randomElement()!)
                 displayLastCardInTrick()
                 
                 playersInOrderOfTrick.removeFirst()
@@ -876,6 +881,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
 //         bundle this ina afunction: playCardOfPlayer. generating the card at the origin of the player and move it to the cardsInTrickArea
         
         UIView.animate(withDuration: 0.3, animations: {
+            self.playSound(thisSound: self.soundArray.randomElement()!)
             sender.frame = CGRect(origin: finalDestination, size: CGSize(width: sender.frame.width, height: sender.frame.height))
             self.view.layoutIfNeeded()
         }) { (finished) in
@@ -1081,6 +1087,8 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     @IBAction func btnPreferences(_ sender: UIButton) {
         performSegue(withIdentifier: "goFromGameToPreferences", sender: self)
     }
+    
+
     // MARK: SOUNDS
     func playSound(thisSound: String){
         guard let url = Bundle.main.url(forResource: thisSound, withExtension: "mp3") else { return }

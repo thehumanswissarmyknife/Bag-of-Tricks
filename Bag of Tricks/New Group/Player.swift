@@ -13,7 +13,7 @@ protocol PlayerDelegate {
     var trump: String {get}
     var cardsInTrick : [Card] {get}
     var playersInOrderOfTrick : [Player] {get}
-    var floppedTrumpCard : Card {get}
+    var floppedTrumpCard : Card? {get}
 }
 
 class Player {
@@ -272,7 +272,7 @@ class Player {
     }
     
     func calcGenProbForAllCards() {
-        if delegate?.floppedTrumpCard.value != 15 {
+        if delegate?.floppedTrumpCard?.value != 15 {
             allCardsMinusPlayedCards = allCardsMinusPlayedCards.filter{$0 !== delegate?.floppedTrumpCard}
         }
         else {
