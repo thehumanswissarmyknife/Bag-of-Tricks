@@ -89,6 +89,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     var humanAreaIsUp = false
     var scoreBoardIsVisible = false
     var bettingAreaIsVisible = false
+    var hPlayer : HumanPlayer?
 
     // MARK: - view functions
     override func viewDidLoad() {
@@ -113,8 +114,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
 
         // create players
         // human player has id 0
-        players.append(Player(thisName: myName, makeHuman: true))
+        players.append(HumanPlayer(thisName: myName))
         players[0].delegate = self
+        hPlayer = players[0] as! HumanPlayer
         createPlayers(n: numberOfPlayers - 1)
         
         // add all players to the players in order array
@@ -152,8 +154,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         
         // if the flopped card is a wizard, the first player has to choose the trump color
         if floppedTrumpCard!.value == 100 {
-            if !playersInOrderOfTrick[0].isHuman{
-                floppedTrumpCard = Card(thisColor: playersInOrderOfTrick[0].calculateBestTrumpColor(), thisValue: 15)
+            if type(of: playersInOrderOfTrick[0]) == ArtificialPlayer.self{
+                let aPlayer = playersInOrderOfTrick[0] as! ArtificialPlayer
+                floppedTrumpCard = Card(thisColor: aPlayer.calculateBestTrumpColor(), thisValue: 15)
                 trump = (floppedTrumpCard?.color)!
                 displayTrumpCard()
             }
@@ -161,8 +164,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         
         for thisPlayer in playersInOrderOfTrick {
             thisPlayer.tricksWon = 0
-            if thisPlayer.isHuman == false {
-                let tricksEstimated = thisPlayer.calculateTricksToWin(thisTrump: trump)
+            if type(of: playersInOrderOfTrick[0]) == ArtificialPlayer.self{
+                let aPlayer = playersInOrderOfTrick[0] as! ArtificialPlayer
+                aPlayer.calculateTricksToWin(thisTrump: trump)
             }
             else {
                 displayPlayerCards()
@@ -182,20 +186,21 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         while tricksPlayedInRound < currentRoundNumber && playersInOrderOfTrick.count > 0 {
             // continuing playing the trick:
             // let the next player play his card
-            
-            if !playersInOrderOfTrick[0].isHuman && playersInOrderOfTrick[0].cards.count > 0{
-                playersInOrderOfTrick[0].calcGenProbForAllCards()
-                cardsInTrick.append(playersInOrderOfTrick[0].playCard(thisTrump: trump, theseCards: cardsInTrick))
+            if type(of: playersInOrderOfTrick[0]) == ArtificialPlayer.self && playersInOrderOfTrick[0].cards.count > 0{
+                let aPlayer = playersInOrderOfTrick[0] as! ArtificialPlayer
+                aPlayer.calcGenProbForAllCards()
+                cardsInTrick.append(aPlayer.playCard(thisTrump: trump, theseCards: cardsInTrick))
                 playSound(thisSound: soundArray.randomElement()!)
                 displayLastCardInTrick()
                 
                 playersInOrderOfTrick.removeFirst()
             }
             else {
+                let hPlayer = playersInOrderOfTrick[0] as! HumanPlayer
                 // human player! break from the loop
                 // TODO: disply that the player should play a card
-                displayOneLineCustomAlert(for: "Your turn \(players.first!.name)")
-                players[0].sortCards()
+                displayOneLineCustomAlert(for: "Your turn \(hPlayer.name)")
+                hPlayer.sortCards()
                 break
             }
         }
@@ -400,8 +405,9 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         print("displayPlayerCards")
         // human player is always the first in the players array
         
-        players[0].sortCards()
-        let theseCards = players[0].cards
+        let hPlayer = players[0] as! HumanPlayer
+        hPlayer.sortCards()
+        let theseCards = hPlayer.cards
 
         for thisCardView in vCardView.subviews {
             thisCardView.removeFromSuperview()
@@ -453,19 +459,21 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         if cardsInTrick.count > 0 {
             let ivCard = createCardImage(for: cardsInTrick.last!)
             
-            let playerPos = players.filter{$0.id == cardsInTrick.last!.playedByPlayer}.first?.position
-
-            let posInView = CGRect(x: playerPos!, y: -CARDHEIGHTINHUMANAREA, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-            let posInVCardsInTrick = vRootView.convert(posInView, to: vCardsInTrick)
-            ivCard.frame = posInVCardsInTrick
-            
-            if cardsInTrick.last?.playedByPlayer != 0 {
+            let thisPlayer = players.filter{$0.id == cardsInTrick.last!.playedByPlayer}.first
+            if type(of: thisPlayer) == ArtificialPlayer.self{
+                let aPlayer = thisPlayer as! ArtificialPlayer
+                let playerPos = aPlayer.position
+                
+                let posInView = CGRect(x: playerPos, y: -CARDHEIGHTINHUMANAREA, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+                let posInVCardsInTrick = vRootView.convert(posInView, to: vCardsInTrick)
+                ivCard.frame = posInVCardsInTrick
+                
                 UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                     self.vCardsInTrick.addSubview(ivCard)
                     ivCard.frame.origin = CGPoint(x: offsetX, y: 0)
                     self.view.layoutIfNeeded()
                 }) { (finished) in
-                
+                    
                 }
             }
             else {
@@ -886,7 +894,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
             self.view.layoutIfNeeded()
         }) { (finished) in
             sender.removeFromSuperview()
-            self.cardsInTrick.append(self.playersInOrderOfTrick[0].playThisCard(thisCardID: cardId!))
+            self.cardsInTrick.append(self.hPlayer!.playThisCard(thisCardID: cardId!))
             self.displayLastCardInTrick()
             self.playerCardsUpdate()
             self.playersInOrderOfTrick.removeFirst()
@@ -896,26 +904,26 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         
     }
     
-    func animatePlayingCard(thisCard: Card, from origin: CGPoint, to destination: CGPoint) {
-        let thisCardImage = createCardImage(for: thisCard)
-        let cardSize = CGSize(width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-        thisCardImage.frame = CGRect(origin: origin, size: cardSize)
-        
-        let deltaX = origin.x - destination.x
-        let deltaY = origin.y - destination.y
-        
-        let delta = atan(Double(-deltaX)/Double(deltaY))
-        
-        UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
-            thisCardImage.frame = CGRect(origin: destination, size: cardSize)
-            thisCardImage.transform = CGAffineTransform(rotationAngle: CGFloat(delta))
-        }) { (finished) in
-            self.cardsInTrick.append(self.playersInOrderOfTrick[0].playThisCard(thisCardID: thisCard.id))
-            self.displayLastCardInTrick()
-            self.playerCardsUpdate()
-            self.playersInOrderOfTrick.removeFirst()
-        }
-    }
+//    func animatePlayingCard(thisCard: Card, from origin: CGPoint, to destination: CGPoint) {
+//        let thisCardImage = createCardImage(for: thisCard)
+//        let cardSize = CGSize(width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+//        thisCardImage.frame = CGRect(origin: origin, size: cardSize)
+//        
+//        let deltaX = origin.x - destination.x
+//        let deltaY = origin.y - destination.y
+//        
+//        let delta = atan(Double(-deltaX)/Double(deltaY))
+//        
+//        UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
+//            thisCardImage.frame = CGRect(origin: destination, size: cardSize)
+//            thisCardImage.transform = CGAffineTransform(rotationAngle: CGFloat(delta))
+//        }) { (finished) in
+//            self.cardsInTrick.append(self.playersInOrderOfTrick[0].playThisCard(thisCardID: thisCard.id))
+//            self.displayLastCardInTrick()
+//            self.playerCardsUpdate()
+//            self.playersInOrderOfTrick.removeFirst()
+//        }
+//    }
     
     func disablePlayerCards(){
         for thisCardbutton in vCardView.subviews {
@@ -953,7 +961,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         var playerNames = ["Peter", "Louise", "Claudia", "Roberto", "Michael", "Celine", "Paula", "Elvira", "Daniel", "Francesca"]
         for p in 1...n {
             let random = Int.random(in: 0..<playerNames.count)
-            let aPlayer = Player(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1, thisPosition: (spacing * p)-(CARDWIDTHINHUMANAREA/2))
+            let aPlayer = ArtificialPlayer(thisName: playerNames.remove(at: random), thisLevel: "easy", thisID: random+1, thisPosition: (spacing * p)-(CARDWIDTHINHUMANAREA/2))
             aPlayer.delegate = self
             players.append(aPlayer)
         }

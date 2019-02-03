@@ -14,6 +14,8 @@
 		F36B699A2204C6FC00137DAC /* cardPlay_04.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69962204C6FC00137DAC /* cardPlay_04.mp3 */; };
 		F36B699B2204C6FC00137DAC /* cardPlay_02.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69972204C6FC00137DAC /* cardPlay_02.mp3 */; };
 		F36B699C2204C6FC00137DAC /* cardPlay_01.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F36B69982204C6FC00137DAC /* cardPlay_01.mp3 */; };
+		F36B699E2207970800137DAC /* HumanPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B699D2207970800137DAC /* HumanPlayer.swift */; };
+		F36B69A02207972A00137DAC /* ArtificialPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B699F2207972A00137DAC /* ArtificialPlayer.swift */; };
 		F37BED9121E8F0E70009FB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37BED9021E8F0E70009FB7C /* Assets.xcassets */; };
 		F388312C21EDB233004178B3 /* HighScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F388312B21EDB233004178B3 /* HighScoreViewController.swift */; };
 		F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A9866921DD0B5400B9A313 /* MainViewController.swift */; };
@@ -41,6 +43,8 @@
 		F36B69962204C6FC00137DAC /* cardPlay_04.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_04.mp3; sourceTree = "<group>"; };
 		F36B69972204C6FC00137DAC /* cardPlay_02.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_02.mp3; sourceTree = "<group>"; };
 		F36B69982204C6FC00137DAC /* cardPlay_01.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardPlay_01.mp3; sourceTree = "<group>"; };
+		F36B699D2207970800137DAC /* HumanPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanPlayer.swift; sourceTree = "<group>"; };
+		F36B699F2207972A00137DAC /* ArtificialPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtificialPlayer.swift; sourceTree = "<group>"; };
 		F37BED9021E8F0E70009FB7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F388312B21EDB233004178B3 /* HighScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreViewController.swift; sourceTree = "<group>"; };
 		F3A9866921DD0B5400B9A313 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 				F3E0509E21DD03B30087C1F7 /* Opponent.swift */,
 				F3E050A221DD03B30087C1F7 /* Player.swift */,
 				F3A9866D21DD10F900B9A313 /* Settings.swift */,
+				F36B699D2207970800137DAC /* HumanPlayer.swift */,
+				F36B699F2207972A00137DAC /* ArtificialPlayer.swift */,
 			);
 			name = Model;
 			path = "New Group";
@@ -233,6 +239,7 @@
 			files = (
 				F3E050A421DD03B30087C1F7 /* Opponent.swift in Sources */,
 				F3E0508921DD03350087C1F7 /* ViewController.swift in Sources */,
+				F36B699E2207970800137DAC /* HumanPlayer.swift in Sources */,
 				F3B2B5FF21DD2A8500CE003F /* RuleViewController.swift in Sources */,
 				F3E050A721DD03B30087C1F7 /* DeckOfCards.swift in Sources */,
 				F3B2B60121DD61A900CE003F /* GameViewController.swift in Sources */,
@@ -243,6 +250,7 @@
 				F3A9866A21DD0B5400B9A313 /* MainViewController.swift in Sources */,
 				F3E0508721DD03350087C1F7 /* AppDelegate.swift in Sources */,
 				F3A9866E21DD10F900B9A313 /* Settings.swift in Sources */,
+				F36B69A02207972A00137DAC /* ArtificialPlayer.swift in Sources */,
 				F3AB6A3E21F0FE3B00AF7FA9 /* OneLineOverlayViewController.swift in Sources */,
 				F335F7CA21F388510031A414 /* BettingScreenViewController.swift in Sources */,
 				F388312C21EDB233004178B3 /* HighScoreViewController.swift in Sources */,
