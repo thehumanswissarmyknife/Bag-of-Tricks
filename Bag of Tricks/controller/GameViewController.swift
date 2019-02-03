@@ -458,22 +458,23 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
         
         if cardsInTrick.count > 0 {
             let ivCard = createCardImage(for: cardsInTrick.last!)
+            var playerPos = 0
+            if type(of: players.filter{$0.id == cardsInTrick.last!.playedByPlayer}.first) == ArtificialPlayer.self {
+                let aPlayer = players.filter{$0.id == cardsInTrick.last!.playedByPlayer}.first as! ArtificialPlayer
+                playerPos = aPlayer.position
+            }
+
+            let posInView = CGRect(x: playerPos, y: -CARDHEIGHTINHUMANAREA, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
+            let posInVCardsInTrick = vRootView.convert(posInView, to: vCardsInTrick)
+            ivCard.frame = posInVCardsInTrick
             
-            let thisPlayer = players.filter{$0.id == cardsInTrick.last!.playedByPlayer}.first
-            if type(of: thisPlayer) == ArtificialPlayer.self{
-                let aPlayer = thisPlayer as! ArtificialPlayer
-                let playerPos = aPlayer.position
-                
-                let posInView = CGRect(x: playerPos, y: -CARDHEIGHTINHUMANAREA, width: CARDWIDTHINHUMANAREA, height: CARDHEIGHTINHUMANAREA)
-                let posInVCardsInTrick = vRootView.convert(posInView, to: vCardsInTrick)
-                ivCard.frame = posInVCardsInTrick
-                
+            if cardsInTrick.last?.playedByPlayer != 0 {
                 UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                     self.vCardsInTrick.addSubview(ivCard)
                     ivCard.frame.origin = CGPoint(x: offsetX, y: 0)
                     self.view.layoutIfNeeded()
                 }) { (finished) in
-                    
+                
                 }
             }
             else {
