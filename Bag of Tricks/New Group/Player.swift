@@ -10,9 +10,10 @@ import Foundation
 
 protocol PlayerDelegate {
     func displayPlayerCards()
+    func displayLastCardInTrick()
     var trump: String {get}
-    var cardsInTrick : [Card] {get}
-    var playersInOrderOfTrick : [Player] {get}
+    var cardsInTrick : [Card] {get set}
+    var playersInOrderOfTrick : [Player] {get set}
     var floppedTrumpCard : Card? {get}
 }
 

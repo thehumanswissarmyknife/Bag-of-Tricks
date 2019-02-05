@@ -180,31 +180,7 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
     
     func playTrick(){
         labelWinner.isHidden = true
-
         
-        // this loop will go on till the number of tricks played is equal to the tricks in the round
-        while tricksPlayedInRound < currentRoundNumber && playersInOrderOfTrick.count > 0 {
-            // continuing playing the trick:
-            // let the next player play his card
-            if type(of: playersInOrderOfTrick[0]) == ArtificialPlayer.self && playersInOrderOfTrick[0].cards.count > 0{
-                let aPlayer = playersInOrderOfTrick[0] as! ArtificialPlayer
-                aPlayer.calcGenProbForAllCards()
-                cardsInTrick.append(aPlayer.playCard(thisTrump: trump, theseCards: cardsInTrick))
-                playSound(thisSound: soundArray.randomElement()!)
-                displayLastCardInTrick()
-                
-                playersInOrderOfTrick.removeFirst()
-            }
-            else {
-                let hPlayer = playersInOrderOfTrick[0] as! HumanPlayer
-                // human player! break from the loop
-                // TODO: disply that the player should play a card
-                displayOneLineCustomAlert(for: "Your turn \(hPlayer.name)")
-                hPlayer.sortCards()
-                break
-            }
-        }
-
         // if all cards have been played
         if playersInOrderOfTrick.count == 0 {
             // evaluate trick -> sets winningCard and winningPlayer
@@ -227,7 +203,35 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
                 
             }
             cardsInTrick.removeAll()
+            clearCardsInTrick()
         }
+
+        
+        // this loop will go on till the number of tricks played is equal to the tricks in the round
+        if tricksPlayedInRound < currentRoundNumber && playersInOrderOfTrick.count > 0 {
+            // continuing playing the trick:
+            // let the next player play his card
+            if type(of: playersInOrderOfTrick[0]) == ArtificialPlayer.self && playersInOrderOfTrick[0].cards.count > 0{
+                let aPlayer = playersInOrderOfTrick[0] as! ArtificialPlayer
+//                aPlayer.calcGenProbForAllCards()
+//                cardsInTrick.append(aPlayer.playCard(thisTrump: trump, theseCards: cardsInTrick))
+                aPlayer.playCard(thisTrump: trump, theseCards: cardsInTrick)
+                playSound(thisSound: soundArray.randomElement()!)
+//                displayLastCardInTrick()
+                
+//                playersInOrderOfTrick.removeFirst()
+            }
+            else {
+                let hPlayer = playersInOrderOfTrick[0] as! HumanPlayer
+                // human player! break from the loop
+                // TODO: disply that the player should play a card
+                displayOneLineCustomAlert(for: "Your turn \(hPlayer.name)")
+                hPlayer.sortCards()
+//                break
+            }
+        }
+
+
         
         // if all tricks of the round have been played
         if tricksPlayedInRound == currentRoundNumber && currentRoundNumber < roundsInTotal {
@@ -474,7 +478,8 @@ class GameViewController: UIViewController, CustomAlertViewDelegate, PlayerDeleg
                     ivCard.frame.origin = CGPoint(x: offsetX, y: 0)
                     self.view.layoutIfNeeded()
                 }) { (finished) in
-                
+                    // after the animation is done, let the next player play
+                    self.playTrick()
                 }
             }
             else {

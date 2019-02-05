@@ -23,6 +23,7 @@ class ArtificialPlayer : Player {
     var yellowCards = [Card]()
     var wizardCards = [Card]()
     
+    // MARK: - functions
     init(thisName: String, thisLevel : String, thisID: Int, thisPosition : Int?) {
         super.init(thisName: thisName, makeHuman: false)
         level = thisLevel
@@ -100,11 +101,45 @@ class ArtificialPlayer : Player {
         // play card = return the card and take it out of both
         
         sortCardsToPlay(thisTrump: thisTrump, cardsPlayed: theseCards)
+//      calculate general probability for all playable cards
+        calcGenProbForAllCards()
         
+//      calculate specific probability for all playable cards
+        
+        
+//      calculate how many tricks the player still neds to get
+        let remainingTricksToWin = tricksPlanned - tricksWon
+        
+//      calculate how many likely winningCards the player has
+        let likelyWinningCards = cards.filter{$0.genProbability > 0.7}
+        
+//      compare how many likely trickwinning cards the player has vs. tricks to win
+        if remainingTricksToWin > likelyWinningCards.count {
+            // means we have to play aggressive
+        }
+        else if remainingTricksToWin == likelyWinningCards.count {
+            // we need to make every card count
+        }
+        else if remainingTricksToWin < likelyWinningCards.count {
+//          means we need to shed some hig value cards!
+        }
+//      5. if genProb > specProb, chose a different card - remove this card from the playable cards - unless it's the last one!
+        
+
+        
+
         
         let cardToPlay = playableCards.randomElement()
         print("player[\(name)].playCard(\(cardToPlay!.id))")
         cardToPlay!.playedByPlayer = id
+        
+        
+//      append the cardToPlay to the delegate cardsInTrick Array
+        delegate?.cardsInTrick.append(cardToPlay!)
+        delegate?.playersInOrderOfTrick.removeFirst()
+        
+ //     trigger the displayLastCardInTrick function of the delegate
+        delegate?.displayLastCardInTrick()
         
         cards = cards.filter{$0 !== cardToPlay}
         
@@ -175,20 +210,8 @@ class ArtificialPlayer : Player {
         return tricksPlanned
     }
     
+    // MARK: - Probabilities
     func calcGenProbForAllCards() {
-        if delegate?.floppedTrumpCard?.value != 15 {
-            allCardsMinusPlayedCards = allCardsMinusPlayedCards.filter{$0 !== delegate?.floppedTrumpCard}
-        }
-        else {
-            for n in 0..<allCardsMinusPlayedCards.count {
-                let thisCard = allCardsMinusPlayedCards[n]
-                if thisCard.value == 100 {
-                    allCardsMinusPlayedCards.remove(at: n)
-                    break
-                }
-            }
-        }
-        
         removeCardsInTrickFromInternalDeck()
         
         for thisCard in cards {
@@ -330,6 +353,20 @@ class ArtificialPlayer : Player {
         if let playedCards = delegate?.cardsInTrick {
             for thisCard in playedCards {
                 allCardsMinusPlayedCards = allCardsMinusPlayedCards.filter{$0.id != thisCard.id}
+            }
+        }
+        
+        // trump card
+        if delegate?.floppedTrumpCard?.value != 15 {
+            allCardsMinusPlayedCards = allCardsMinusPlayedCards.filter{$0 !== delegate?.floppedTrumpCard}
+        }
+        else {
+            for n in 0..<allCardsMinusPlayedCards.count {
+                let thisCard = allCardsMinusPlayedCards[n]
+                if thisCard.value == 100 {
+                    allCardsMinusPlayedCards.remove(at: n)
+                    break
+                }
             }
         }
     }
